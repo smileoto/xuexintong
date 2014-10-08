@@ -24,7 +24,7 @@ class SessionController extends ControllerBase
     private function _registerSession($user)
     {
         $this->session->set('auth', array(
-            'id'        => $user->id,
+            'user_id'   => $user->id,
             'agency_id' => $user->agency_id,
             'username'  => $user->username,
             'realname'  => $user->realname
