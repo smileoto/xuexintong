@@ -1,0 +1,113 @@
+CREATE TABLE admins
+(
+	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	username  VARCHAR(100) NOT NULL DEFAULT '',
+	password  VARCHAR(100) NOT NULL DEFAULT '',
+	status    INT NOT NULL DEFAULT 0,
+	nickname  VARCHAR(100) NOT NULL DEFAULT '',
+	realname  VARCHAR(100) NOT NULL DEFAULT '',
+	mobile    VARCHAR(20)  NOT NULL DEFAULT '',
+	mail      VARCHAR(50)  NOT NULL DEFAULT '',
+	created_at  DATETIME NOT NULL DEFAULT 0,
+	modified_at DATETIME NOT NULL DEFAULT 0,
+	UNIQUE username(username)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE users
+(
+	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	agency_id VARCHAR(100) NOT NULL DEFAULT '',
+	status    INT NOT NULL DEFAULT 0,
+	created_at  DATETIME NOT NULL DEFAULT 0,
+	modified_at DATETIME NOT NULL DEFAULT 0,
+	username  VARCHAR(100) NOT NULL DEFAULT '',
+	password  VARCHAR(100) NOT NULL DEFAULT '',
+	weixin    VARCHAR(100) NOT NULL DEFAULT '',
+	nickname  VARCHAR(100) NOT NULL DEFAULT '',
+	realname  VARCHAR(100) NOT NULL DEFAULT '',
+	mobile    VARCHAR(20)  NOT NULL DEFAULT '',
+	mail      VARCHAR(50)  NOT NULL DEFAULT '',
+	wx_appid  VARCHAR(100) NOT NULL DEFAULT '',
+	wx_openid VARCHAR(100) NOT NULL DEFAULT '',
+	remark    VARCHAR(255) NOT NULL DEFAULT '',
+	KEY weixin(weixin)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE students
+(
+	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	entity_id INT NOT NULL DEFAULT 0,
+	status    INT NOT NULL DEFAULT 0,
+	school_id INT NOT NULL DEFAULT 0,
+	grade_id  INT NOT NULL DEFAULT 0,
+	signup_by INT NOT NULL DEFAULT 0,
+	sex       INT NOT NULL DEFAULT 0,
+	province  INT NOT NULL DEFAULT 0,
+	city      INT NOT NULL DEFAULT 0,
+	area	  INT NOT NULL DEFAULT 0,
+	created_at  DATETIME NOT NULL DEFAULT 0,
+	modified_at DATETIME NOT NULL DEFAULT 0,
+	realname  VARCHAR(50)  NOT NULL DEFAULT '',
+	birthday  VARCHAR(50)  NOT NULL DEFAULT '',
+	mobile    VARCHAR(20)  NOT NULL DEFAULT '',
+	mail      VARCHAR(50)  NOT NULL DEFAULT '',
+	QQ        VARCHAR(30)  NOT NULL DEFAULT '',
+	father_name   VARCHAR(50)  NOT NULL DEFAULT '',
+	father_mobile VARCHAR(20)  NOT NULL DEFAULT '',
+	mother_name   VARCHAR(50)  NOT NULL DEFAULT '',
+	mother_mobile VARCHAR(20)  NOT NULL DEFAULT '',
+	wx_openid VARCHAR(100) NOT NULL DEFAULT '',
+	addr      VARCHAR(255) NOT NULL DEFAULT '',
+	remark    VARCHAR(255)  NOT NULL DEFAULT '',
+	KEY entity_id(entity_id),
+	KEY wx_openid(wx_openid)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE guests
+(
+	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	agency_id  INT NOT NULL DEFAULT 0,
+	entity_id  INT NOT NULL DEFAULT 0,
+	student_id INT NOT NULL DEFAULT 0,
+	status     INT NOT NULL DEFAULT 0,
+	signup_by  INT NOT NULL DEFAULT 0,
+	sex        INT NOT NULL DEFAULT 0,
+	school_id  INT NOT NULL DEFAULT 0,
+	grade_id   INT NOT NULL DEFAULT 0,
+	province   INT NOT NULL DEFAULT 0,
+	city       INT NOT NULL DEFAULT 0,
+	area	   INT NOT NULL DEFAULT 0,
+	created_at  DATETIME NOT NULL DEFAULT 0,
+	modified_at DATETIME NOT NULL DEFAULT 0,
+	wx_openid  VARCHAR(100) NOT NULL DEFAULT '',
+	realname   VARCHAR(50)  NOT NULL DEFAULT '',
+	birthday   VARCHAR(50)  NOT NULL DEFAULT '',
+	mobile     VARCHAR(20)  NOT NULL DEFAULT '',
+	mail       VARCHAR(50)  NOT NULL DEFAULT '',
+	QQ         VARCHAR(30)  NOT NULL DEFAULT '',
+	father_name   VARCHAR(50)  NOT NULL DEFAULT '',
+	father_mobile VARCHAR(20)  NOT NULL DEFAULT '',
+	mother_name   VARCHAR(50)  NOT NULL DEFAULT '',
+	mother_mobile VARCHAR(20)  NOT NULL DEFAULT '',
+	addr       VARCHAR(255) NOT NULL DEFAULT '',
+	remark     VARCHAR(255)  NOT NULL DEFAULT '',
+	KEY agency_id(agency_id),
+	KEY wx_openid(wx_openid)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE wx_users
+(
+	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	student_id INT NOT NULL DEFAULT 0,
+	sex        INT NOT NULL DEFAULT 0,
+	openid     VARCHAR(100) NOT NULL DEFAULT '',
+	nickname   VARCHAR(255) NOT NULL DEFAULT '',
+	province   VARCHAR(100) NOT NULL DEFAULT '',
+	city       VARCHAR(100) NOT NULL DEFAULT '',
+	country    VARCHAR(100) NOT NULL DEFAULT '',
+	headimgurl VARCHAR(255) NOT NULL DEFAULT '',
+	privilege  TEXT,
+	KEY student_id(student_id),
+	KEY wx_openid(openid)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
