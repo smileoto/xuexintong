@@ -1,0 +1,78 @@
+CREATE TABLE tasks
+(
+	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	status      INT NOT NULL DEFAULT 0,
+	agency_id   INT NOT NULL DEFAULT 0,
+	entity_id   INT NOT NULL DEFAULT 0,
+	school_id   INT NOT NULL DEFAULT 0,
+	grade_id    INT NOT NULL DEFAULT 0,
+	class_id    INT NOT NULL DEFAULT 0,
+	course_id   INT NOT NULL DEFAULT 0,
+	student_id  INT NOT NULL DEFAULT 0,
+	date_t      INT NOT NULL DEFAULT 0,
+	created_by  INT NOT NULL DEFAULT 0,
+	modified_by INT NOT NULL DEFAULT 0,
+	created_at  DATETIME NOT NULL DEFAULT 0,
+	modified_at DATETIME NOT NULL DEFAULT 0,
+	title       VARCHAR(255) NOT NULL DEFAULT '',
+	content text,
+	KEY agency_id(agency_id)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE reports
+(
+	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	status      INT NOT NULL DEFAULT 0,
+	agency_id   INT NOT NULL DEFAULT 0,
+	student_id  INT NOT NULL DEFAULT 0,
+	created_by  INT NOT NULL DEFAULT 0,
+	modified_by INT NOT NULL DEFAULT 0,
+	created_at  DATETIME NOT NULL DEFAULT 0,
+	modified_at DATETIME NOT NULL DEFAULT 0,
+	begin_at    DATETIME NOT NULL DEFAULT 0,
+	end_at      DATETIME NOT NULL DEFAULT 0,
+	content    TEXT,
+	KEY entity_id(entity_id)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE works
+(
+	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	status      INT NOT NULL DEFAULT 0,
+	agency_id   INT NOT NULL DEFAULT 0,
+	student_id  INT NOT NULL DEFAULT 0,
+	created_by  INT NOT NULL DEFAULT 0,
+	modified_by INT NOT NULL DEFAULT 0,
+	created_at  DATETIME NOT NULL DEFAULT 0,
+	modified_at DATETIME NOT NULL DEFAULT 0,
+	title       VARCHAR(255) NOT NULL DEFAULT '',
+	remark      VARCHAR(255) NOT NULL DEFAULT '',
+	img         VARCHAR(255) NOT NULL DEFAULT '',
+	content     TEXT,
+	KEY agency_id(agency_id) 
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE tops
+(
+	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	entity_id   INT NOT NULL DEFAULT 0,
+	status      INT NOT NULL DEFAULT 0,
+	created_by  INT NOT NULL DEFAULT 0,
+	modified_by INT NOT NULL DEFAULT 0,
+	created_at  DATETIME NOT NULL DEFAULT 0,
+	modified_at DATETIME NOT NULL DEFAULT 0,
+	begin_at    DATETIME NOT NULL DEFAULT 0,
+	end_at      DATETIME NOT NULL DEFAULT 0,
+	title       VARCHAR(255) NOT NULL DEFAULT '',
+	content     text,
+	KEY agency_id(agency_id)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE tops_students
+(
+	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	top_id     INT NOT NULL DEFAULT 0,
+	student_id INT NOT NULL DEFAULT 0,
+	avatar     VARCHAR(255) NOT NULL DEFAULT '',
+	reason     VARCHAR(255) NOT NULL DEFAULT ''
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;

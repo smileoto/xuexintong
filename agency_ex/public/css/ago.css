@@ -1,0 +1,335 @@
+.navbar-top {
+	display: block;
+	width: 100%;
+	height: 40px;
+	border-bottom: 2px solid #ccc;
+}
+.navbar-top a {
+	display: block;
+	width: 100px;
+	height: 40px;
+	line-height: 40px;
+	text-align: center;
+	float: left;
+	font-weight: bold;
+}
+.navbar-top a.active {
+	background: #0088CC;
+	color: #fff;
+}
+.content-inner {
+	margin: 0 auto;
+	width: 94%;
+	padding: 3%;
+}
+.xheditor-mini {
+	width: 100%;
+	height: 400px;
+}
+.btn-box {
+	width: 100%;
+	height: 30px;
+	margin-top: 30px;
+}
+.btn-box button {
+	display: block;
+	width: 150px;
+	height: 30px;
+	line-height: 30px;
+	margin-top: 30px;
+	text-align: center;
+	margin-left: 45%;
+}
+.content-inner ul li {
+	width: 100%;
+	float: left;
+	min-height: 30px;
+	margin-top: 20px;
+}
+.content-inner ul li .con-name {
+	display: block;
+	min-width: 79px;
+	height: 30px;
+	line-height: 30px;
+	float: left;
+}
+.content-inner ul li .con-info .scan-box {
+	width: 30px;
+	height: 30px;
+	position: relative;
+	width: 70px;
+	overflow: hidden;
+}
+.content-inner ul li p {
+	width: 100px;
+	margin-top: 10px;
+}
+.content-inner ul li .con-info input {
+	width: 300px;
+	float: left;
+	height: 27px;
+	line-height: 27px;
+	margin-right: 10px;
+}
+.content-inner ul li .con-info .scan-box input {
+	width: 70px;
+	position: absolute;
+	left: 0;
+	top: 0;
+	height: 30px;
+	line-height: 30px;
+	opacity: 0;
+	margin-left: -4px;
+}
+.content-inner ul li .con-info .scan-box button {
+	display: block;
+	width: 66px;
+	height: 30px;
+	position: absolute;
+	left: 0;
+	top: 0;
+	font-size: 16px;
+}
+.input-box {
+	width: 100%;
+	height: 35px;
+	margin-top: 20px;
+}
+.input-box input {
+	width: 295px;
+	height: 35px;
+	line-height: 35px;
+	padding-left: 5px;
+}
+.input-box button {
+	width: 60px;
+	height: 37px;
+	margin-left: 10px;
+}
+.table-cell {
+	margin: 0 auto;
+	width: 100%;
+	margin-bottom: 20px;
+	padding-top: 20px;
+}
+.table-cell table {
+	width: 100%;
+	border-color: #e8eff0;
+}
+.table-cell table th {
+	height: 35px;
+	line-height: 35px;
+	text-align: center;
+}
+.table-cell table tr {
+	cursor: pointer;
+}
+.table-cell table td {
+	height: 30px;
+	line-height: 30px;
+	text-align: center;
+}
+.table-cell table td a {
+	margin-left: 10px;
+}
+.pagenav {
+	width: 100%;
+	height: 35px;
+	line-height: 35px;
+	text-align: right;
+}
+.pagenav a {
+	color: #2B7DBC;
+	margin-left: 10px;
+}
+.pagenav input {
+	width: 20px;
+	margin-left: 10px;
+}
+/*班别*/
+
+.class-box {
+	width: 100%;
+	float: left;
+}
+.classinner{
+	float: left;
+	width: 16.3%;
+	background: #05ABE0;
+	margin-left: 3%;
+	margin-top: 50px;
+	position: relative;
+}
+.class-box a {
+	display: block;
+	width: 100%;
+	height: 90px;
+	line-height: 60px;
+	text-align: center;
+	color: #fff;
+}
+/*学生查询*/
+
+.accountSettings-title {
+	margin: 0 auto;
+	width: 100%;
+	background: #ccc;
+	height: 35px;
+	line-height: 35px;
+	text-align: center;
+	margin-top: 20px;
+	font-weight: bold;
+}
+.content-inner .accountSettings-box {
+	margin-top: 20px;
+}
+.content-inner .accountSettings-box li {
+	margin: 0 auto;
+	width: 300px;
+	padding: 0;
+	margin-top: 10px;
+	float: left;
+}
+.tishi {
+	color: #ff0000;
+	margin-left: 15px;
+}
+.content-inner .accountSettings-box li .m-name {
+	display: block;
+	width: 90px;
+	height: 35px;
+	line-height: 35px;
+	float: left;
+	background: #B3DCE2;
+	border: 1px solid #B3DCE2;
+	text-align: right;
+	margin-left: 10px;
+}
+
+.content-inner .accountSettings-box li .m-content {
+	display: block;
+	width: 90px;
+	height: 35px;
+	line-height: 35px;
+	float: left;
+	text-align: left;
+	margin-left: 10px;
+	font-weight:bold;
+	color:#F00;
+}
+.content-inner .accountSettings-box li .caption-name {
+	display: block;
+	width: 90px;
+	height: 15px;
+	line-height: 15px;
+	float: left;
+	text-align: right;
+	margin-left: 10px;
+	color:#848382;
+	font-size::9pt;
+}
+.content-inner .accountSettings-box li .caption-content {
+	display: block;
+	width: 90px;
+	height: 15px;
+	line-height: 15px;
+	float: left;
+	text-align: left;
+	margin-left: 10px;
+	color:#848382;
+}
+.content-inner .accountSettings-box li input {
+	float: left;
+	width: 178px;
+	padding: 0 5px;
+	height: 35px;
+	line-height: 35px;
+	border: 1px solid #e8eff0;
+	border-left: 0;
+}
+.content-inner .accountSettings-box li select {
+	float: left;
+	width: 188px;
+	height: 37px;
+	line-height: 37px;
+	border: 1px solid #e8eff0;
+	border-left: 0;
+}
+.content-inner .accountSettings-box li textarea {
+	border: 1px solid #e8eff0;
+	resize: none;
+	padding: 5px;
+}
+.content-inner .accountSettings-box li input.checkbox {
+	width: 35px;
+	height: 37px;
+	line-height: 37px;
+	margin-left: 30px;
+}
+.search {
+	width: 24%;
+	float: left;
+	margin-left: 2%;
+	border: 1px solid #ccc;
+	margin-top: 20px;
+	padding: 3%;
+}
+.search h3 {
+	color: #333;
+}
+.search span {
+	color: #333;
+	display: block;
+	width: 70px;
+	height: 30px;
+	line-height: 30px;
+	float: left;
+}
+.search input {
+	color: #333;
+	width: 170px;
+	height: 30px;
+	line-height: 30px;
+	float: left;
+}
+.search select {
+	color: #333;
+	width: 170px;
+	height: 30px;
+	line-height: 30px;
+	float: left;
+}
+.search button {
+	margin: 0 auto;
+	color: #333;
+	width: 170px;
+	height: 30px;
+	margin-top: 20px;
+}
+/*添加榜单*/
+
+.elite-left {
+	width: 67%;
+	float: left;
+}
+.elite-left .input-box-title {
+	height: 100px;
+}
+.elite-left .input-box span {
+	color: #333;
+}
+.elite-left .title-elite {
+	width: 500px;
+	height: 100px;
+}
+.elite-left .btn-box {
+	float: left;
+	margin-top: 30px;
+	height: 50px;
+}
+
+/*其他*/
+.textarea-box {
+	margin-top: 20px;
+	height:200px	
+}
