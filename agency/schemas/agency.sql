@@ -1,18 +1,18 @@
 CREATE TABLE agencies
 (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	add_t     DATETIME NOT NULL DEFAULT 0,
-	modify_t  DATETIME NOT NULL DEFAULT 0,
-	status    INT NOT NULL DEFAULT 0,
-	sub_limit INT NOT NULL DEFAULT 0,
+	status    		INT NOT NULL DEFAULT 0,
+	entity_num      INT NOT NULL DEFAULT 0,
 	pay_type_id     INT NOT NULL DEFAULT 0,
 	service_days    INT NOT NULL DEFAULT 0,
 	agency_type_id  INT NOT NULL DEFAULT 0,
 	client_type_id  INT NOT NULL DEFAULT 0,
-	province  INT NOT NULL DEFAULT 0,
-	city      INT NOT NULL DEFAULT 0,
-	area      INT NOT NULL DEFAULT 0,
-	care_num  INT NOT NULL DEFAULT 0,
+	province  		INT NOT NULL DEFAULT 0,
+	city      		INT NOT NULL DEFAULT 0,
+	area      		INT NOT NULL DEFAULT 0,
+	care_num  		INT NOT NULL DEFAULT 0,
+	created_at		DATETIME NOT NULL DEFAULT 0,
+	modified_at		DATETIME NOT NULL DEFAULT 0,
 	addr      VARCHAR(255) NOT NULL DEFAULT '',
 	contact   VARCHAR(255) NOT NULL DEFAULT '',
 	mobile    VARCHAR(20)  NOT NULL DEFAULT '',
@@ -37,8 +37,8 @@ CREATE TABLE entities
 	province  INT NOT NULL DEFAULT 0,
 	city      INT NOT NULL DEFAULT 0,
 	area      INT NOT NULL DEFAULT 0,
-	add_t     DATETIME NOT NULL DEFAULT 0,
-	modify_t  DATETIME NOT NULL DEFAULT 0,
+	created_at     DATETIME NOT NULL DEFAULT 0,
+	modified_at  DATETIME NOT NULL DEFAULT 0,
 	realname  VARCHAR(100) NOT NULL DEFAULT '' comment '机构名称',
 	addr      VARCHAR(255) NOT NULL DEFAULT '',
 	contact   VARCHAR(255) NOT NULL DEFAULT '',
@@ -95,3 +95,6 @@ CREATE TABLE grades
 	name   VARCHAR(255) NOT NULL DEFAULT '',
 	KEY agency_id(agency_id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO agencies(entity_num,viewname,realname,username) VALUES(5,'弘翰教育', '弘翰文化教育机构','tester');
+INSERT INTO users(agency_id,username,password) VALUES(1, 'admin', '7c4a8d09ca3762af61e59520943dc26494f8941b');

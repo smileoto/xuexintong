@@ -21,13 +21,14 @@ class SessionController extends ControllerBase
      *
      * @param Users $user
      */
-    private function _registerSession($user)
+    private function _registerSession($user, $agency)
     {
         $this->session->set('auth', array(
             'user_id'   => $user->id,
             'agency_id' => $user->agency_id,
             'username'  => $user->username,
-            'realname'  => $user->realname
+            'realname'  => $user->realname,
+            'agency_name' => $agency->realname
         ));
     }
 
@@ -52,7 +53,7 @@ class SessionController extends ControllerBase
 
             $user = Users::findFirst("username='$username' AND password='$password' AND status=0");
             if ($user != false) {
-                $this->_registerSession($user);
+                $this->_registerSession($user, $agency);
                 $this->flash->success('Welcome ' . $user->username);
                 return $this->forward('agency/index');
             }
@@ -71,7 +72,7 @@ class SessionController extends ControllerBase
     public function endAction()
     {
         $this->session->remove('auth');
-        $this->flash->success('Goodbye!');
-        return $this->forward('index/index');
+        $this->flash->success('再见!');
+        return $this->forward('session/index');
     }
 }

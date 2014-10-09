@@ -10,18 +10,18 @@ class AgencyController extends ControllerBase
 
     public function indexAction()
     {
-		$agency = Agencies::findFirst('id='.$this->auth['agency_id'].' AND status=0');
+		$agency = Agencies::findFirst('id='.$this->persistent->auth['agency_id'].' AND status=0');
 		if ( !$agency ) {
 			$this->flash->error('机构不存在或已停用');
 			return $this->forward('session/index');
 		}
 		
-		echo '<pre>';print_r($agency);echo '</pre>';exit;
+		echo '<pre>';print_r($agency->viewname);echo '</pre>';exit;
     }
 	
 	public function saveAction()
 	{
-		$agency = Agencies::findFirst('id='.$this->auth['agency_id'].' AND status=0');
+		$agency = Agencies::findFirst('id='.$this->persistent->auth['agency_id'].' AND status=0');
 		if ( !$agency ) {
 			$this->flash->error('机构不存在或已停用');
 			return $this->forward('session/index');
@@ -33,7 +33,7 @@ class AgencyController extends ControllerBase
 		$agency->addr = $this->request->getPost('area', array('string', 'striptags'));
 		$agency->contact = $this->request->getPost('contact', array('string', 'striptags'));
 		$agency->mobile  = $this->request->getPost('mobile',  array('string', 'striptags'));
-		$agency->email   = $this->request->getPost('email',   'email'));
+		$agency->email   = $this->request->getPost('email',   'email');
 		
 		if ($agency->save() == false) {
 			foreach ($agency->getMessages() as $message) {
@@ -42,5 +42,7 @@ class AgencyController extends ControllerBase
 		} else {
 			$this->flash->success('机构信息修改成功');
 		}
+		
+		return $this->forward('session/index');
 	}
 }

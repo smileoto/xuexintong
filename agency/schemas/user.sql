@@ -30,7 +30,7 @@ CREATE TABLE users
 	wx_appid  VARCHAR(100) NOT NULL DEFAULT '',
 	wx_openid VARCHAR(100) NOT NULL DEFAULT '',
 	remark    VARCHAR(255) NOT NULL DEFAULT '',
-	KEY weixin(weixin)
+	KEY wx_openid(wx_openid)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE students

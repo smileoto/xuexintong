@@ -86,7 +86,7 @@ class Security extends Plugin
 	 */
 	public function beforeDispatch(Event $event, Dispatcher $dispatcher)
 	{
-
+		return;
 		$auth = $this->session->get('auth');
 		if (!$auth){
 			$role = 'Guests';

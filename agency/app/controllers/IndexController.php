@@ -14,5 +14,6 @@ class IndexController extends ControllerBase
             $this->flash->notice('This is a sample application of the Phalcon Framework.
                 Please don\'t provide us any personal information. Thanks');
         }
+		echo sha1('123456');
     }
 }
