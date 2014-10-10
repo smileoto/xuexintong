@@ -39,46 +39,46 @@
 									<span class="m-name">
 										学员姓名：
 									</span>
-									<input type="text" class="data-field" id="realname" />
+									<input type="text" name="realname" id="realname" />
 								</li><li>
 									<span class="m-name">
 										性别：
 									</span>
-									<select>
-									  <option value="">请选择</option>
-									  <option>男</option>
-									  <option>女</option>
+									<select name="sex">
+									  <option value="2">请选择</option>
+									  <option value="1">男</option>
+									  <option value="0">女</option>
 									</select>
 								</li>
 								<li>
 									<span class="m-name">
 										出生年月：
 									</span>
-									<input type="date" class="data-field" id="birthday" />
+									<input type="date" name="birthday" id="birthday" />
 								</li>
 								<li>
 									<span class="m-name">
 										手机号码：
 									</span>
-									<input type="text" class="data-field" id="mobile" />
+									<input type="text" name="mobile" id="mobile" />
 								</li>
                                 <li>
 									<span class="m-name">
 										QQ号码：
 									</span>
-									<input type="text" class="data-field" id="QQ"  />
+									<input type="text" name="QQ" id="QQ"  />
 								</li>
                                 <li>
 									<span class="m-name">
 										电子邮箱：
 									</span>
-									<input type="text" class="data-field" id="mail"  />
+									<input type="text" name="email" id="email"  />
 								</li>
 								<li>
 									<span class="m-name">
 										所在机构：
 									</span>
-									<select class="data-field" id="school">
+									<select name="entity_id" id="entity">
 										<option value=""></option>
 										<?php foreach ( $agencies as $v ) : ?>
 										<option value="<?php echo $v['id']?>" 
@@ -105,15 +105,15 @@
 									<select class="select" id="s3">
 										<option value="">请选择地区</option>
 									</select>
-									<input type="hidden" class="data-field" id="province" value="0" />
-									<input type="hidden" class="data-field" id="city" value="0" />
-									<input type="hidden" class="data-field" id="area" value="0" />
+									<input type="hidden" name="province" id="province" value="0" />
+									<input type="hidden" name="city" id="city" value="0" />
+									<input type="hidden" name="area" id="area" value="0" />
 								</li>
                                 <li style="width: 100%;">
 									<span class="m-name">
 										联系地址：
 									</span>
-									<input style="width: 477px;" type="text" class="data-field" id="addr" />
+									<input style="width: 477px;" type="text" name="addr" id="addr" />
 								</li>
 								<li style="width: 100%;">
 									<span class="m-name">
@@ -133,7 +133,7 @@
 									<span class="m-name">
 										特别说明：
 									</span>
-									<textarea name="" rows="9" style="width: 477px;" class="data-field" id="remark"></textarea>
+									<textarea rows="9" style="width: 477px;" name="remark" id="remark"></textarea>
 								</li>
 							</ul>
 						</div>
@@ -163,7 +163,7 @@
 $(function(){
 	setup();preselect_ex(0,0,0);
 	
-	$('#btnAddStudent').click(function(){
+	$('#btnSubmit').click(function(){
 		$('#area').val($('#s3').get(0).selectedIndex);
 		
 		var courses = [];
@@ -177,26 +177,7 @@ $(function(){
 			return false;
 		}
 		
-		// todo: check params
-		var url = window.location.href;
-		var jsonObj = {};
-		jsonObj['class'] = courses.join(',');
-		$('.data-field').each(function(){
-			var key = $(this).attr('id');
-			var val  = $(this).val();
-			jsonObj[key] = val;
-		});
-		
-		$.post(url, jsonObj, function(jsonStr){
-			var obj = jQuery.parseJSON(jsonStr);
-			if ( obj.ret != 0 ) {
-				alert(obj.msg);
-				return false;
-			}
-			
-			window.location.href = '<?php echo URL::base(NULL, TRUE)?>student/list/?status=1';
-		});
-		
+		$('#data-form').submit();		
 	});
 });
 </script>

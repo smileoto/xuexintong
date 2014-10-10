@@ -109,10 +109,10 @@ class Controller_task extends Controller_Base {
 		$data = array();
 		$data['date_t']    = intval($this->request->post('date'));
 		$data['title']     = $this->request->post('title');
-		$data['entity_id'] = intval($this->request->post('entity'));
-		$data['school_id'] = intval($this->request->post('school'));
-		$data['grade_id']  = intval($this->request->post('grade'));
-		$data['course_id'] = intval($this->request->post('class'));
+		$data['entity_id'] = intval($this->request->post('entity_id'));
+		$data['school_id'] = intval($this->request->post('school_id'));
+		$data['grade_id']  = intval($this->request->post('grade_id'));
+		$data['course_id'] = intval($this->request->post('course_id'));
 		
 		$data['content']   = Arr::get($_POST, 'content', '');
 		

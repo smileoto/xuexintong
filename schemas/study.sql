@@ -34,7 +34,7 @@ CREATE TABLE reports
 	begin_str   VARCHAR(50) NOT NULL DEFAULT 0,
 	end_str     VARCHAR(50) NOT NULL DEFAULT 0,
 	content    TEXT,
-	KEY entity_id(entity_id)
+	KEY agency_id(agency_id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE works
@@ -57,8 +57,9 @@ CREATE TABLE works
 CREATE TABLE tops
 (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	entity_id   INT NOT NULL DEFAULT 0,
 	status      INT NOT NULL DEFAULT 0,
+	agency_id   INT NOT NULL DEFAULT 0,
+	entity_id   INT NOT NULL DEFAULT 0,
 	created_by  INT NOT NULL DEFAULT 0,
 	modified_by INT NOT NULL DEFAULT 0,
 	created_at  DATETIME NOT NULL DEFAULT 0,

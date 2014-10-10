@@ -1,16 +1,15 @@
 CREATE TABLE feedbacks
 (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	category   INT NOT NULL DEFAULT 0,
-	agency_id  INT NOT NULL DEFAULT 0,
-	status     INT NOT NULL DEFAULT 0,
-	reply      INT NOT NULL DEFAULT 0,
+	agency_id   INT NOT NULL DEFAULT 0,
+	status      INT NOT NULL DEFAULT 0,
+	reply       INT NOT NULL DEFAULT 0,
 	created_by  INT NOT NULL DEFAULT 0,
 	modified_by INT NOT NULL DEFAULT 0,
 	created_at  DATETIME NOT NULL DEFAULT 0,
 	modified_at DATETIME NOT NULL DEFAULT 0,
-	title      VARCHAR(255) NOT NULL DEFAULT '',
-	content    TEXT,
+	title       VARCHAR(255) NOT NULL DEFAULT '',
+	content     TEXT,
 	KEY agency_id(agency_id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -30,15 +29,14 @@ CREATE TABLE feedback_reply
 CREATE TABLE comments
 (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	category   INT NOT NULL DEFAULT 0,
-	agency_id  INT NOT NULL DEFAULT 0,
-	status     INT NOT NULL DEFAULT 0,
-	reply      INT NOT NULL DEFAULT 0,
+	agency_id   INT NOT NULL DEFAULT 0,
+	status     	INT NOT NULL DEFAULT 0,
+	reply      	INT NOT NULL DEFAULT 0,
 	created_by  INT NOT NULL DEFAULT 0,
 	modified_by INT NOT NULL DEFAULT 0,
 	created_at  DATETIME NOT NULL DEFAULT 0,
 	modified_at DATETIME NOT NULL DEFAULT 0,
-	title      VARCHAR(255) NOT NULL DEFAULT '',
-	content    TEXT,
+	title       VARCHAR(255) NOT NULL DEFAULT '',
+	content     TEXT,
 	KEY agency_id(agency_id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;

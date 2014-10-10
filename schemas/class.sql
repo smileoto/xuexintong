@@ -29,7 +29,6 @@ CREATE TABLE courses
 	name        VARCHAR(100) NOT NULL DEFAULT '',
 	content     VARCHAR(255) NOT NULL DEFAULT '',
 	time        VARCHAR(100) NOT NULL DEFAULT '',
-	detail  TEXT,
 	KEY agency_id(agency_id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

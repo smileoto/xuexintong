@@ -180,11 +180,13 @@ class Controller_Student extends Controller_Base {
 		$data['father_mobile']  = strval($this->request->post('father_mobile'));
 		$data['mother_name']    = strval($this->request->post('mother_name'));
 		$data['mother_mobile']  = strval($this->request->post('mother_mobile'));
-		$data['school_id']      = intval($this->request->post('school'));
-		$data['grade_id']       = intval($this->request->post('grade'));
+		
+		$data['entity_id']      = intval($this->request->post('entity_id'));
+		$data['school_id']      = intval($this->request->post('school_id'));
+		$data['grade_id']       = intval($this->request->post('grade_id'));
 
-		$data['mail'] = strval($this->request->post('mail'));
-		$data['QQ']   = strval($this->request->post('QQ'));
+		$data['email'] = strval($this->request->post('email'));
+		$data['QQ']    = strval($this->request->post('QQ'));
 		
 		$data['modified_at'] = NULL;
 		$data['modified_by'] = $this->auth->user_id;

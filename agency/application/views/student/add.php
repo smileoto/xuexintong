@@ -48,9 +48,9 @@
 											性别：
 										</span>
 										<select name="sex" id="sex">
-											<option value="0">请选择</option>
+											<option value="2">请选择</option>
 											<option value="1">男</option>
-											<option value="2">女</option>
+											<option value="0">女</option>
 										</select>
 									</li>
 									<li>
@@ -162,21 +162,20 @@
 										<span class="m-name">
 											特别说明：
 										</span>
-										<textarea name="" rows="9" style="width: 477px;" name="remark" id="remark"></textarea>
+										<textarea rows="9" style="width: 477px;" name="remark" id="remark"></textarea>
 									</li>
 								</ul>
 							</div>
 							<div class="btn-box" style="float: left;margin-top: 0px;height: 50px;"  >
 								<button id="btnSubmit" style="margin-left: 105px;margin-top: 10px;">确定添加</button>
-								</div>
-							</div>
-							<div class="btn-box" style="float: left;margin-top: 30px;height: 50px;margin-left: 105px;"  >
-								注：添加后不能删除，只能停用。
 							</div>
 						</div>
 						</form>
 						
-					</div>
+						<div class="btn-box" style="float: left;margin-top: 30px;height: 50px;margin-left: 105px;"  >
+								注：添加后不能删除，只能停用。
+						</div>
+					</div>						
 				</div>
 			</div>
 		</div>
@@ -205,8 +204,18 @@ $(function(){
 	$('#btnSubmit').click(function(){
 		$('#area').val($('#s3').get(0).selectedIndex);
 		
-		$('#data-form').submit();
+		var courses = [];
+		$('input[name=course]').each(function () {
+			if ( $(this).attr('checked') ) {
+				courses.push($(this).val());
+			}
+		});
+		if ( courses.length == 0 ) {
+			alert('请选择班别');
+			return false;
+		}
 		
+		$('#data-form').submit();		
 	});
 });
 </script>

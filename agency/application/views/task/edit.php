@@ -40,10 +40,10 @@
 								<a href="#" class="active">编辑作业</a>
 							</div>
 							<div style="margin-top: 20px;">
-								<span>日期：</span><input type="date" class="data-field" id="date" value="<?php echo $item['date_t']?>" />
+								<span>日期：</span><input type="date" name="" id="date" value="<?php echo $item['date_t']?>" />
 																
 								<span>分机构：</span>
-								<select name="entity_id" id="class">
+								<select name="entity_id" id="entity">
 									<option value=""></option>
 									<?php foreach ( $entities as $v ) : ?>
 										<option value="<?php echo $v['id']?>" 
@@ -54,7 +54,7 @@
 								</select>
 								
 								<span>机构班别：</span>
-								<select class="data-field" id="class">
+								<select name="course_id" id="course">
 									<option value=""></option>
 									<?php foreach ( $courses as $v ) : ?>
 										<option value="<?php echo $v['id']?>" 
@@ -65,7 +65,7 @@
 								</select>
 								
 								<span>所在学校：</span>
-								<select class="data-field" id="school">
+								<select name="school_id" id="school">
 									<option value=""></option>
 									<?php foreach ( $schools as $v ) : ?>
 									<option value="<?php echo $v['id']?>" 
@@ -76,7 +76,7 @@
 								</select>
 								
 								<span>所在班级：</span>
-								<select class="data-field" id="grade">
+								<select name="grade_id" id="grade">
 									<option value=""></option>
 									<?php foreach ( $grades as $v ) : ?>
 									<option value="<?php echo $v['id']?>" 
@@ -87,9 +87,9 @@
 								</select>
 							</div>
 							<br />
-							<span>标题：</span><input type="text" class="data-field" id="title" value="<?php echo $item['title']?>" />
+							<span>标题：</span><input type="text" name="title" id="title" value="<?php echo $item['title']?>" />
 							<div class="table-cell">
-								<textarea name="content"  class="<?php echo $xheditor_config?>" id="content"><?php echo $item['content']?></textarea>
+								<textarea class="<?php echo $xheditor_config?>" name="content" id="content"><?php echo $item['content']?></textarea>
 							</div>
 							<div class="btn-box">
 								<button id="btnSubmit">确定发布</button>
