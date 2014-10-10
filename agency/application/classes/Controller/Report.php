@@ -6,6 +6,7 @@ class Controller_Report extends Controller_Base {
 	{
 		$realname = strval($this->request->query('realname'));
 		
+		$entity = intval($this->request->query('entity'));
 		$school = intval($this->request->query('school'));
 		$grade  = intval($this->request->query('grade'));
 		$class  = intval($this->request->query('class'));
@@ -16,20 +17,34 @@ class Controller_Report extends Controller_Base {
 				->from('reports')
 				->join('students')
 				->on('reports.student_id', '=', 'students.id')
+				->join('entities', 'LEFT')
+				->on('students.entity_id', '=', 'entities.id')
+				->join('schools', 'LEFT')
+				->on('students.school_id', '=', 'schools.id')
+				->join('grades', 'LEFT')
+				->on('students.grade_id', '=', 'grades.id')
+				->join('students_courses', 'LEFT')
+				->on('students.id', '=', 'students_courses.student_id')
+				->join('courses', 'LEFT')
+				->on('students_courses.course_id', '=', 'courses.id')
+				->join('classes', 'LEFT')
+				->on('courses.class_id', '=', 'classes.id')
 				->where('reports.agency_id', '=', $this->auth->agency_id)
 				->where('reports.status', '=', STATUS_NORMAL);
 			$queyrList  = DB::select('reports.id','reports.modified_at','students.realname',array('schools.name', 'school'),array('grades.name', 'grade'),array('courses.name', 'course'),array('classes.name', 'class'))
-				->from('student_score')
+				->from('reports')
 				->join('students')
-				->on('student_score.student_id', '=', 'students.id')
+				->on('reports.student_id', '=', 'students.id')
+				->join('entities', 'LEFT')
+				->on('students.entity_id', '=', 'entities.id')
 				->join('schools', 'LEFT')
-				->on('students.school_id', '=', 'agency_schools.id')
+				->on('students.school_id', '=', 'schools.id')
 				->join('grades', 'LEFT')
-				->on('students.grade_id', '=', 'agency_grades.id')
-				->join('courses', 'LEFT')
+				->on('students.grade_id', '=', 'grades.id')
+				->join('students_courses', 'LEFT')
 				->on('students.id', '=', 'students_courses.student_id')
 				->join('courses', 'LEFT')
-				->on('courses.course_id', '=', 'courses.id')
+				->on('students_courses.course_id', '=', 'courses.id')
 				->join('classes', 'LEFT')
 				->on('courses.class_id', '=', 'classes.id')
 				->where('reports.agency_id', '=', $this->auth->agency_id)
@@ -38,6 +53,10 @@ class Controller_Report extends Controller_Base {
 			if ( $realname ) {
 				$queryCount->where('students.realname', 'like', '%'.$realname.'%');
 				$queyrList->where('students.realname',  'like', '%'.$realname.'%');
+			}
+			if ( $entity ) {
+				$queryCount->where('students.entity_id', '=', $entity);
+				$queyrList->where('students.entity_id',  '=', $entity);
 			}
 			if ( $school ) {
 				$queryCount->where('students.school_id', '=', $school);
@@ -62,13 +81,14 @@ class Controller_Report extends Controller_Base {
 			
 			$page = View::factory('report/list')
 				->set('items',   $items)
-				->set('schools', $this->schools())
-				->set('grades',  $this->grades())
-				->set('courses', $this->courses());
+				->set('entities', $this->entities())
+				->set('schools',  $this->schools())
+				->set('grades',   $this->grades())
+				->set('courses',  $this->courses());
 			$page->html_pagenav_content = View::factory('pagenav')
 				->set('total', $total)
 				->set('page',  $this->pagenav->page)
-				->set('size',  $this->pagenav->size);	
+				->set('size',  $this->pagenav->size);
 			$this->output($page, 'score');
 				
 		} catch (Database_Exception $e) {
@@ -128,32 +148,28 @@ class Controller_Report extends Controller_Base {
 		$data['modified_at'] = NULL;
 		
 		$id = intval($this->request->query('id'));
-		if ( $id ) {
-			try {
+		try {
+			if ( $id ) {
 				DB::update('reports')
 					->set($data)
 					->where('agency_id', '=', $this->auth->agency_id)
 					->where('id', '=', $works_id)
 					->execute();
-			} catch (Database_Exception $e) {
-				$this->ajax_result['ret'] = ERR_DB_UPDATE;
-				$this->ajax_result['msg'] = $e->getMessage();
-			}
-		} else {
-			$data['created_at'] = NULL;
-			$data['created_by'] = $this->auth->user_id;
-			$data['agency_id']  = $this->auth->agency_id;
-			try {
+			} else {
+				$data['created_at'] = NULL;
+				$data['created_by'] = $this->auth->user_id;
+				$data['agency_id']  = $this->auth->agency_id;
+			
 				DB::insert('reports', array_keys($data))
 					->values($data)
 					->execute();
-			} catch (Database_Exception $e) {
-				$this->ajax_result['ret'] = ERR_DB_INSERT;
-				$this->ajax_result['msg'] = $e->getMessage();
 			}
-		}
-		
-		$this->response->body( json_encode($this->ajax_result) );
+			
+			HTTP::redirect('/report/list/');
+			
+		} catch (Database_Exception $e) {
+			$this->response->body( $e->getMessage() );
+		}		
 	}
 	
 	public function action_del()

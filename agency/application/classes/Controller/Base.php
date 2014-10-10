@@ -123,7 +123,7 @@ class Controller_Base extends Controller {
 	{
 		$entities = array();
 		
-		$items = DB::select('id', 'realname')
+		$items = DB::select('id', 'name')
 			->from('entities')
 			->where('agency_id', '=', $this->auth->agency_id)
 			->where('status', '=', STATUS_NORMAL)

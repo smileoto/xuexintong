@@ -31,6 +31,8 @@ CREATE TABLE reports
 	modified_at DATETIME NOT NULL DEFAULT 0,
 	begin_at    DATETIME NOT NULL DEFAULT 0,
 	end_at      DATETIME NOT NULL DEFAULT 0,
+	begin_str   VARCHAR(50) NOT NULL DEFAULT 0,
+	end_str     VARCHAR(50) NOT NULL DEFAULT 0,
 	content    TEXT,
 	KEY entity_id(entity_id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -63,8 +65,8 @@ CREATE TABLE tops
 	modified_at DATETIME NOT NULL DEFAULT 0,
 	begin_at    DATETIME NOT NULL DEFAULT 0,
 	end_at      DATETIME NOT NULL DEFAULT 0,
-	begin_s     VARCHAR(255) NOT NULL DEFAULT 0,
-	end_s       VARCHAR(255) NOT NULL DEFAULT 0,
+	begin_str   VARCHAR(50)  NOT NULL DEFAULT 0,
+	end_sst     VARCHAR(50)  NOT NULL DEFAULT 0,
 	title       VARCHAR(255) NOT NULL DEFAULT '',
 	content     text,
 	KEY agency_id(agency_id)

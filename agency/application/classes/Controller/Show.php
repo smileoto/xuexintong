@@ -38,12 +38,10 @@ class Controller_Show extends Controller_Base {
 				->values($data)
 				->execute();
 			}
+			HTTP::redirect('/show/index/');
 		} catch (Database_Exception $e) {
-			$this->ajax_result['ret'] = ERR_DB_UPDATE;
-			$this->ajax_result['msg'] = $e->getMessage();
+			$this->response->body( $e->getMessage() );
 		}
-		
-		$this->response->body( json_encode($this->ajax_result) );
 	}
 	
 }

@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class Controller_Homework extends Controller_Base {
+class Controller_task extends Controller_Base {
 	
 	public function action_list()
 	{
@@ -59,7 +59,7 @@ class Controller_Homework extends Controller_Base {
 				->set('total', $total)
 				->set('page',  $this->pagenav->page)
 				->set('size',  $this->pagenav->size);		
-			$this->output($page, 'homework' );
+			$this->output($page, 'task' );
 				
 		} catch (Database_Exception $e) {
 			$this->response->body($e->getMessage());
@@ -75,7 +75,7 @@ class Controller_Homework extends Controller_Base {
 			->set('classes',  $this->classes())
 			->set('courses',  $this->courses());
 			
-		$this->output($page, 'homework' );
+		$this->output($page, 'task' );
 	}
 	
 	public function action_edit()
@@ -101,7 +101,7 @@ class Controller_Homework extends Controller_Base {
 			->set('classes',  $this->classes())
 			->set('courses',  $this->courses());
 			
-		$this->output($page, 'homework' );
+		$this->output($page, 'task' );
 	}
 	
 	public function action_save()
@@ -122,32 +122,27 @@ class Controller_Homework extends Controller_Base {
 		$content = $this->request->post('content');
 		
 		$id = intval($this->request->query('id'));
-		if ( $id ) {
-			try {
+		try {
+			if ( $id ) {
 				DB::update('tasks')
 					->set($data)
 					->where('agency_id', '=', $this->auth->agency_id)
 					->where('id', '=', $id)
 					->execute();
-			} catch (Database_Exception $e) {
-				$this->ajax_result['ret'] = ERR_DB_UPDATE;
-				$this->ajax_result['msg'] = $e->getMessage();
-			}
-		} else {
-			$data['created_at'] = NULL;
-			$data['created_by'] = $this->auth->user_id;
-			$data['agency_id']  = $this->auth->agency_id;
-			try {
+			} else {
+				$data['created_at'] = NULL;
+				$data['created_by'] = $this->auth->user_id;
+				$data['agency_id']  = $this->auth->agency_id;
 				DB::insert('tasks', array_keys($data))
 					->values($data)
 					->execute();
-			} catch (Database_Exception $e) {
-				$this->ajax_result['ret'] = ERR_DB_UPDATE;
-				$this->ajax_result['msg'] = $e->getMessage();
 			}
+			
+			HTTP::redirect('/task/list/');
+			
+		} catch (Database_Exception $e) {
+			$this->response->body( $e->getMessage() );
 		}
-		
-		$this->response->body( json_encode($this->ajax_result) );
 	}
 		
 	public function action_del()

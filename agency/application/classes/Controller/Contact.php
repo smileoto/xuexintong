@@ -38,12 +38,10 @@ class Controller_Contact extends Controller_Base {
 				->values($data)
 				->execute();
 			}
+			HTTP::redirect('/contact/index/');
 		} catch (Database_Exception $e) {
-			$this->ajax_result['ret'] = ERR_DB_UPDATE;
-			$this->ajax_result['msg'] = $e->getMessage();
+			$this->response->body( $e->getMessage() );
 		}
-		
-		$this->response->body( json_encode($this->ajax_result) );
 	}
 	
 }

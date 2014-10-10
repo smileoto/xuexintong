@@ -14,7 +14,15 @@ class Controller_Classes extends Controller_Base {
 				$groups_classes[$v['entity_id']][] = $v;
 			}
 			
+			$items = DB::select('id', 'name')
+				->from('classes')
+				->where('agency_id', '=', $this->auth->agency_id)
+				->where('status', '=', STATUS_NORMAL)
+				->execute()
+				->as_array();
+			
 			$page = View::factory('class/list')
+				->set('items', $items)
 				->set('groups_classes', $groups_classes)
 				->set('entities', $this->entities());
 				
@@ -28,8 +36,7 @@ class Controller_Classes extends Controller_Base {
 	public function action_add()
 	{
 		$page = View::factory('class/add')
-			->set('entities', $this->entities())
-			->set('agency_id', $agency_id);
+			->set('entities', $this->entities());
 		$this->output($page, 'classes');
 	}
 	
@@ -71,37 +78,52 @@ class Controller_Classes extends Controller_Base {
 		$data['entity_id'] = intval(Arr::get($_POST, 'entity_id', 0));
 		
 		$data['modified_at'] = NULL;
+		$data['modified_by'] = $this->auth->user_id;
 		
 		$id = intval(Arr::get($_POST, 'id', 0));
-		
-		if ( $id ) {
-			try {
+		try {
+			if ( $id ) {
 				DB::update('classes')
 					->set($data)
+					->where('agency_id', '=', $this->auth->agency_id)
 					->where('id', '=', $id)
 					->execute();
-				DB::update('class_detail')
-					->set(array('content' => Arr::get($_POST, 'content', '')))
-					->where('class_id', '=', $id)
-					->execute();
-			} catch (Database_Exception $e) {
-				$this->ajax_result['ret'] = ERR_DB_UPDATE;
-				$this->ajax_result['msg'] = $e->getMessage();
-			}
-		} else {
-			$data['agency_id']   = $this->auth->agency_id;
-			$data['created_at']  = NULL;
-			try {
+			} else {
+				$data['created_at']  = NULL;
+				$data['created_by']  = $this->auth->user_id;
+				$data['agency_id']   = $this->auth->agency_id;
 				DB::insert('classes', array_keys($data))
 					->values($data)
 					->execute();
-			} catch (Database_Exception $e) {
-				$this->ajax_result['ret'] = ERR_DB_UPDATE;
-				$this->ajax_result['msg'] = $e->getMessage();
 			}
+			HTTP::redirect('/class/list/');
+		} catch (Database_Exception $e) {
+			$this->response->body( $e->getMessage() );
+		}
+	}
+	
+	public function action_save_detail()
+	{
+		$id = intval(Arr::get($_POST, 'id', 0));
+		if ( !$id ) {
+			$this->response->body();
+			return;
 		}
 		
-		$this->response->body( json_encode($this->ajax_result) );
+		$data = array();
+		$data['detail'] = Arr::get($_POST, 'detail', '');
+		$data['modified_at'] = NULL;
+		$data['modified_by'] = $this->auth->user_id;
+		try {
+			DB::update('classes')
+				->set($data)
+				->where('agency_id', '=', $this->auth->agency_id)
+				->where('id', '=', $id)
+				->execute();
+			HTTP::redirect('/class/list/');
+		} catch (Database_Exception $e) {
+			$this->response->body( $e->getMessage() );
+		}
 	}
 	
 	public function action_del()

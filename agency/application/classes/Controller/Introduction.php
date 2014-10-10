@@ -16,7 +16,7 @@ class Controller_Introduction extends Controller_Base {
 		}
 		
 							
-		$page = View::factory('contact/index')
+		$page = View::factory('introduction/index')
 			->set('item', $items[0]);
 
 		$this->output($page, 'agency');
@@ -38,12 +38,10 @@ class Controller_Introduction extends Controller_Base {
 				->values($data)
 				->execute();
 			}
+			HTTP::redirect('/introduction/index/');
 		} catch (Database_Exception $e) {
-			$this->ajax_result['ret'] = ERR_DB_UPDATE;
-			$this->ajax_result['msg'] = $e->getMessage();
+			$this->response->body( $e->getMessage() );
 		}
-		
-		$this->response->body( json_encode($this->ajax_result) );
 	}
 	
 }

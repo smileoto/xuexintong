@@ -27,7 +27,7 @@ class Controller_Course extends Controller_Base {
 				->execute();
 			$total = $cnt->count() ? $cnt[0]['COUNT(0)'] : 0;
 			
-			$courses = DB::select('id', 'class_id', 'hours', 'num', 'tuition', 'name', 'modified_at')
+			$items = DB::select('id', 'class_id', 'hours', 'num', 'tuition', 'name', 'modified_at')
 				->from('courses')
 				->where('agency_id', '=', $this->auth->agency_id)
 				->where('class_id', '=', $class_id)
@@ -38,7 +38,7 @@ class Controller_Course extends Controller_Base {
 				->as_array();
 			
 			$page = View::factory('course/list')
-				->set('courses', $courses)
+				->set('items', $items)
 				->set('class', $classes[0]);
 			$page->html_pagenav_content = View::factory('pagenav')
 				->set('total', $total)
@@ -78,6 +78,42 @@ class Controller_Course extends Controller_Base {
 		$page = View::factory('course/edit')
 			->set('item', $items[0]);				
 		$this->output($page, 'classes');
+	}
+	
+	public function action_save()
+	{
+		$data = array();
+		$data['class_id']  = $this->request->post('class_id');
+		$data['name']      = $this->request->post('name');
+		$data['content']   = $this->request->post('content');
+		$data['tuition']   = $this->request->post('tuition');
+		$data['time']      = $this->request->post('time');
+		$data['hours']     = $this->request->post('hours');
+		$data['num']       = $this->request->post('num');
+		
+		$data['modified_at'] = NULL;
+		$data['modified_by'] = $this->auth->user_id;
+		
+		$id = intval($this->request->post('id'));
+		try {
+			if ( $id ) {
+				DB::update('courses')
+					->set($data)
+					->where('agency_id', '=', $this->auth->agency_id)
+					->where('id', '=', $id)
+					->execute();
+			} else {
+				$data['created_at'] = NULL;
+				$data['created_by'] = $this->auth->user_id;
+				$data['agency_id']  = $this->auth->agency_id;
+				DB::insert('courses', array_keys($data))
+					->values($data)
+					->execute();
+			}
+			HTTP::redirect('/course/list/');
+		} catch (Database_Exception $e) {
+			$this->response->body( $e->getMessage() );
+		}
 	}
 	
 	public function action_del()

@@ -57,33 +57,28 @@ class Controller_Entity extends Controller_Base {
 		$data['area']      = intval($this->request->post('area'));
 		
 		$data['modified_at'] = NULL;
+		$data['modified_by'] = $this->auth->user_id;
 		
 		$id = intval( $this->request->post('id') );
-		if ( $id ) {
-			try {		
+		try {
+			if ( $id ) {					
 				DB::update('entities')
 					->set($data)
 					->where('agency_id', '=', $this->auth->agency_id)
 					->where('id', '=', $id)
 					->execute();		
-			} catch (Database_Exception $e) {
-				$this->ajax_result['ret'] = ERR_DB_UPDATE;
-				$this->ajax_result['msg'] = $e->getMessage();
-			}
-		} else {
-			$data['agency_id']   = $this->auth->agency_id;
-			$data['created_at']  = NULL;
-			try {
+			} else {
+				$data['created_at'] = NULL;
+				$data['created_by'] = $this->auth->user_id;
+				$data['agency_id']  = $this->auth->agency_id;
 				DB::insert('entities', array_keys($data))
 					->values($data)
-					->execute();				
-			} catch (Database_Exception $e) {
-				$this->ajax_result['ret'] = ERR_DB_INSERT;
-				$this->ajax_result['msg'] = $e->getMessage();
+					->execute();
 			}
+			HTTP::redirect('/entity/list/');
+		} catch (Database_Exception $e) {
+			$this->response->body( $e->getMessage() );
 		}
-		
-		$this->response->body( json_encode($this->ajax_result) );
 	}
 		
 	public function action_del()

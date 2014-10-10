@@ -22,7 +22,7 @@ class Controller_Agency extends Controller_Base {
 		$this->output($page, 'agencies');
 	}
 		
-	public function action_edit()
+	public function action_save()
 	{		
 		$data = array();
 		
@@ -42,12 +42,10 @@ class Controller_Agency extends Controller_Base {
 				->set($data)
 				->where('id', '=', $this->auth->agency_id)
 				->execute();
+			HTTP::redirect('/agency/index/');
 		} catch (Database_Exception $e) {
-			$this->ajax_result['ret'] = ERR_DB_UPDATE;
-			$this->ajax_result['msg'] = $e->getMessage();
+			$this->response->body( $e->getMessage() );
 		}
-		
-		$this->response->body( json_encode($this->ajax_result) );
 	}
 	
 }

@@ -41,7 +41,7 @@ CREATE TABLE entities
 	modified_by INT NOT NULL DEFAULT 0,
 	created_at  DATETIME NOT NULL DEFAULT 0,
 	modified_at DATETIME NOT NULL DEFAULT 0,
-	realname  VARCHAR(100) NOT NULL DEFAULT '' comment '字更兆各',
+	name      VARCHAR(100) NOT NULL DEFAULT '' comment '字更兆各',
 	addr      VARCHAR(255) NOT NULL DEFAULT '',
 	contact   VARCHAR(255) NOT NULL DEFAULT '',
 	mobile    VARCHAR(20)  NOT NULL DEFAULT '',
@@ -82,19 +82,29 @@ CREATE TABLE service_days
 CREATE TABLE schools
 (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	agency_id INT NOT NULL DEFAULT 0,
-	status INT NOT NULL DEFAULT 0,
-	name   VARCHAR(255) NOT NULL DEFAULT '',
-	addr   VARCHAR(255) NOT NULL DEFAULT '',
+	agency_id   INT NOT NULL DEFAULT 0,
+	status      INT NOT NULL DEFAULT 0,
+	created_by  INT NOT NULL DEFAULT 0,
+	modified_by INT NOT NULL DEFAULT 0,
+	created_at  DATETIME NOT NULL DEFAULT 0,
+	modified_at DATETIME NOT NULL DEFAULT 0,
+	name        VARCHAR(255) NOT NULL DEFAULT '',
+	addr        VARCHAR(255) NOT NULL DEFAULT '',
+	contact     VARCHAR(255) NOT NULL DEFAULT '',
+	mobile      VARCHAR(20)  NOT NULL DEFAULT '',
 	KEY agency_id(agency_id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE grades
 (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	agency_id INT NOT NULL DEFAULT 0,
-	status INT NOT NULL DEFAULT 0,
-	name   VARCHAR(255) NOT NULL DEFAULT '',
+	agency_id   INT NOT NULL DEFAULT 0,
+	status      INT NOT NULL DEFAULT 0,
+	created_by  INT NOT NULL DEFAULT 0,
+	modified_by INT NOT NULL DEFAULT 0,
+	created_at  DATETIME NOT NULL DEFAULT 0,
+	modified_at DATETIME NOT NULL DEFAULT 0,
+	name        VARCHAR(255) NOT NULL DEFAULT '',
 	KEY agency_id(agency_id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

@@ -31,12 +31,12 @@ class Controller_Works extends Controller_Base {
 				->where('works.agency_id', '=', $this->auth->agency_id)
 				->where('works.status', '=', STATUS_NORMAL);
 			if ( $realname ) {
-				$queryCount->where('students.realname', 'like', $realname);
-				$query->where('students.realname', 'like', $realname);
+				$queryCount->where('students.realname', 'like', '%'.$realname.'%');
+				$query->where('students.realname', 'like', '%'.$realname.'%');
 			}
 			if ( $title ) {
-				$queryCount->where('works.title', 'like', $title);
-				$query->where('works.title', 'like', $title);
+				$queryCount->where('works.title', 'like', '%'.$title.'%');
+				$query->where('works.title', 'like', '%'.$title.'%');
 			}
 			if ( $entity ) {
 				$queryCount->where('students.entity_id', '=', $entity);
@@ -94,13 +94,6 @@ class Controller_Works extends Controller_Base {
 			HTTP::redirect('/works/list/');
 		}
 		
-		$students = DB::select('realname', 'birthday')
-			->from('students')
-			->where('agency_id', '=', $this->auth->agency_id)
-			->where('id', '=', $items[0]['student_id'])
-			->execute()
-			->as_array();
-		
 		$page = View::factory('works/edit')
 			->set('item', $works[0])
 			->set('student', $students[0]['realname']);			
@@ -122,32 +115,27 @@ class Controller_Works extends Controller_Base {
 		$data['modified_by']  = $this->auth->user_id;
 		
 		$id = intval($this->request->query('id'));
-		if ( $id ) {
-			try {
+		try {
+			if ( $id ) {
 				DB::update('works')
 					->set($data)
 					->where('agency_id', '=', $this->auth->agency_id)
 					->where('id', '=', $works_id)
 					->execute();
-			} catch (Database_Exception $e) {
-				$this->ajax_result['ret'] = ERR_DB_UPDATE;
-				$this->ajax_result['msg'] = $e->getMessage();
-			}
-		} else {
-			$data['created_at'] = NULL;
-			$data['created_by'] = $this->auth->user_id;
-			$data['agency_id']  = $this->auth->agency_id;
-			try {
+			} else {
+				$data['created_at'] = NULL;
+				$data['created_by'] = $this->auth->user_id;
+				$data['agency_id']  = $this->auth->agency_id;
 				DB::insert('works', array_keys($data))
 					->values($data)
 					->execute();
-			} catch (Database_Exception $e) {
-				$this->ajax_result['ret'] = ERR_DB_INSERT;
-				$this->ajax_result['msg'] = $e->getMessage();
 			}
+			
+			HTTP::redirect('/works/list/');
+			
+		} catch (Database_Exception $e) {
+			$this->response->body( $e->getMessage() );
 		}
-		
-		$this->response->body( json_encode($this->ajax_result) );
 	}
 	
 	public function action_del()

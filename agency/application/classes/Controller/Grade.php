@@ -60,61 +60,61 @@ class Controller_Grade extends Controller_Base {
 	
 	public function action_save()
 	{
-		$name = $this->request->post('name');
+		$data = array();
+		$data['name']    = $this->request->post('name');
+		
+		$data['modified_at'] = NULL;
+		$data['modified_by'] = $this->auth->user_id;
 		
 		$id = intval( $addr = $this->request->post('id') );
-		
-		if ( $id ) {
-			$grades = DB::select('name')
-				->from('grades')
-				->where('agency_id', '=', $this->auth->agency_id)
-				->where('name', '=', $name)
-				->where('id', '<>', $id)
-				->limit(1)
-				->execute();
-			
-			if ( $grades->count() ) {
-				$this->ajax_result['ret'] = ERR_DB_UPDATE;
-				$this->ajax_result['msg'] = '年级名字重复';
-				$this->response->body( json_encode($this->ajax_result) );
-				return;
-			}
-			
-			try {
-				$rows = DB::update('agency_Grades')
-					->set(array('name'=>$name))
+		try {
+			if ( $id ) {
+				$grades = DB::select('name')
+					->from('grades')
+					->where('agency_id', '=', $this->auth->agency_id)
+					->where('name', '=', $name)
+					->where('id', '<>', $id)
+					->limit(1)
 					->execute();
-				$this->ajax_result['msg'] = $rows;
-			} catch (Database_Exception $e) {
-				$this->ajax_result['ret'] = ERR_DB_UPDATE;
-				$this->ajax_result['msg'] = $e->getMessage();
-			}
-		} else {
-			$grades = DB::select('name')
-				->from('agency_Grades')
-				->where('agency_id', '=', $this->auth->agency_id)
-				->where('name', '=', $name)
-				->limit(1)
-				->execute();
-			
-			if ( $grades->count() ) {
-				$this->ajax_result['ret'] = ERR_DB_INSERT;
-				$this->ajax_result['msg'] = '年级名字重复';
-				$this->response->body( json_encode($this->ajax_result) );
-				return;
-			}
-			
-			try {
-				DB::insert('Grades', array('agency_id', 'name'))
-					->values(array('agency_id'=>$this->auth->agency_id, 'name'=>$name))
+				
+				if ( $grades->count() ) {
+					$this->ajax_result['ret'] = ERR_DB_UPDATE;
+					$this->ajax_result['msg'] = '年级名字重复';
+					$this->response->body( json_encode($this->ajax_result) );
+					return;
+				}
+				
+				DB::update('grades')
+					->set($data)
 					->execute();
-			} catch (Database_Exception $e) {
-				$this->ajax_result['ret'] = ERR_DB_INSERT;
-				$this->ajax_result['msg'] = $e->getMessage();
+			} else {
+				$grades = DB::select('name')
+					->from('grades')
+					->where('agency_id', '=', $this->auth->agency_id)
+					->where('name', '=', $name)
+					->limit(1)
+					->execute();
+				
+				if ( $grades->count() ) {
+					$this->ajax_result['ret'] = ERR_DB_INSERT;
+					$this->ajax_result['msg'] = '年级名字重复';
+					$this->response->body( json_encode($this->ajax_result) );
+					return;
+				}
+				
+				$data['created_at'] = NULL;
+				$data['created_by'] = $this->auth->user_id;
+				$data['agency_id']  = $this->auth->agency_id;
+				DB::insert('grades', array_keys($data))
+					->values($data)
+					->execute();
 			}
+			
+			HTTP::redirect('/grade/list/');
+			
+		} catch (Database_Exception $e) {
+			$this->response->body( $e->getMessage() );
 		}
-		
-		$this->response->body( json_encode($this->ajax_result) );
 	}
 	
 	public function action_del()

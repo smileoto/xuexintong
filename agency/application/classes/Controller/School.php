@@ -62,62 +62,64 @@ class Controller_School extends Controller_Base {
 	
 	public function action_save()
 	{
-		$name = $this->request->post('name');
-		$addr = $this->request->post('addr');
+		$data = array();
+		$data['name']    = $this->request->post('name');
+		$data['addr']    = $this->request->post('addr');
+		$data['mobile']  = $this->request->post('mobile');
+		$data['contact'] = $this->request->post('contact');
+		
+		$data['modified_at'] = NULL;
+		$data['modified_by'] = $this->auth->user_id;
 		
 		$id = intval( $addr = $this->request->post('id') );
-		
-		if ( $id ) {
-			$schools = DB::select('name')
-				->from('schools')
-				->where('agency_id', '=', $this->auth->agency_id)
-				->where('name', '=', $name)
-				->where('id', '<>', $id)
-				->limit(1)
-				->execute();
-			
-			if ( $schools->count() ) {
-				$this->ajax_result['ret'] = ERR_DB_UPDATE;
-				$this->ajax_result['msg'] = '学校名字重复';
-				$this->response->body( json_encode($this->ajax_result) );
-				return;
-			}
-			
-			try {
-				$rows = DB::update('agency_schools')
-					->set(array('name'=>$name, 'addr'=>$addr))
+		try {
+			if ( $id ) {
+				$schools = DB::select('name')
+					->from('schools')
+					->where('agency_id', '=', $this->auth->agency_id)
+					->where('name', '=', $name)
+					->where('id', '<>', $id)
+					->limit(1)
 					->execute();
-				$this->ajax_result['msg'] = $rows;
-			} catch (Database_Exception $e) {
-				$this->ajax_result['ret'] = ERR_DB_UPDATE;
-				$this->ajax_result['msg'] = $e->getMessage();
-			}
-		} else {
-			$schools = DB::select('name')
-				->from('agency_schools')
-				->where('agency_id', '=', $this->auth->agency_id)
-				->where('name', '=', $name)
-				->limit(1)
-				->execute();
-			
-			if ( $schools->count() ) {
-				$this->ajax_result['ret'] = ERR_DB_INSERT;
-				$this->ajax_result['msg'] = '学校名字重复';
-				$this->response->body( json_encode($this->ajax_result) );
-				return;
-			}
-			
-			try {
-				DB::insert('schools', array('agency_id', 'name', 'addr'))
-					->values(array('agency_id'=>$this->auth->agency_id, 'name'=>$name, 'addr'=>$addr))
+				
+				if ( $schools->count() ) {
+					$this->ajax_result['ret'] = ERR_DB_UPDATE;
+					$this->ajax_result['msg'] = '学校名字重复';
+					$this->response->body( json_encode($this->ajax_result) );
+					return;
+				}
+				
+				$rows = DB::update('schools')
+					->set($data)
 					->execute();
-			} catch (Database_Exception $e) {
-				$this->ajax_result['ret'] = ERR_DB_INSERT;
-				$this->ajax_result['msg'] = $e->getMessage();
+			} else {
+				$schools = DB::select('name')
+					->from('schools')
+					->where('agency_id', '=', $this->auth->agency_id)
+					->where('name', '=', $name)
+					->limit(1)
+					->execute();
+				
+				if ( $schools->count() ) {
+					$this->ajax_result['ret'] = ERR_DB_INSERT;
+					$this->ajax_result['msg'] = '学校名字重复';
+					$this->response->body( json_encode($this->ajax_result) );
+					return;
+				}
+				
+				$data['created_at'] = NULL;
+				$data['created_by'] = $this->auth->user_id;
+				$data['agency_id']  = $this->auth->agency_id;
+				DB::insert('schools', array_keys($data))
+					->values($data)
+					->execute();
 			}
+			
+			HTTP::redirect('/school/list/');
+			
+		} catch (Database_Exception $e) {
+			$this->response->body( $e->getMessage() );
 		}
-		
-		$this->response->body( json_encode($this->ajax_result) );
 	}
 	
 	public function action_del()
