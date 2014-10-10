@@ -37,6 +37,8 @@ CREATE TABLE entities
 	province  INT NOT NULL DEFAULT 0,
 	city      INT NOT NULL DEFAULT 0,
 	area      INT NOT NULL DEFAULT 0,
+	created_by  INT NOT NULL DEFAULT 0,
+	modified_by INT NOT NULL DEFAULT 0,
 	created_at  DATETIME NOT NULL DEFAULT 0,
 	modified_at DATETIME NOT NULL DEFAULT 0,
 	realname  VARCHAR(100) NOT NULL DEFAULT '' comment '»ú¹¹Ãû³Æ',

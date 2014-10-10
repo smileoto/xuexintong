@@ -79,28 +79,16 @@ CREATE TABLE teachers
 CREATE TABLE agency_images
 (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	agency_id   INT NOT NULL DEFAULT 0,
-	status      INT NOT NULL DEFAULT 0,
-	filesize    INT NOT NULL DEFAULT 0,
-	created_at  DATETIME NOT NULL DEFAULT 0,
-	modified_at DATETIME NOT NULL DEFAULT 0,
-	title       VARCHAR(255) NOT NULL DEFAULT '',
-	filename    VARCHAR(255) NOT NULL DEFAULT '',
-	realpath    VARCHAR(255) NOT NULL DEFAULT '',
+	agency_id INT NOT NULL DEFAULT 0,
+	url       VARCHAR(255) NOT NULL DEFAULT '',
 	KEY agency_id(agency_id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE news_images
 (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	agency_id   INT NOT NULL DEFAULT 0,
-	status      INT NOT NULL DEFAULT 0,
-	filesize    INT NOT NULL DEFAULT 0,
-	created_at  DATETIME NOT NULL DEFAULT 0,
-	modified_at DATETIME NOT NULL DEFAULT 0,
-	title       VARCHAR(255) NOT NULL DEFAULT '',
-	filename    VARCHAR(255) NOT NULL DEFAULT '',
-	realpath    VARCHAR(255) NOT NULL DEFAULT '',
+	agency_id INT NOT NULL DEFAULT 0,
+	url       VARCHAR(255) NOT NULL DEFAULT '',
 	KEY agency_id(agency_id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
