@@ -32,13 +32,13 @@
 					<div class="content-box">
 						<div class="content-inner">
 							<div class="navbar-top">
-								<a href="<?php echo URL::base(NULL, TRUE)?>introduction/index/">简介</a>
-								<a href="<?php echo URL::base(NULL, TRUE)?>show/list/">展示</a>
-								<a class="active" href="#">联系</a>
+								<a class="active">简介</a>
+								<a href="<?php echo URL::base(NULL, TRUE)?>show">展示</a>
+								<a href="<?php echo URL::base(NULL, TRUE)?>contact">联系</a>
 							</div>
 							<br /><br />
 							
-							<form method="post" id="data-form" action="<?php echo URL::base(NULL, true)?>show/save/">
+							<form method="post" id="data-form" action="<?php echo URL::base(NULL, true)?>introduction/save/">
 							<textarea name="content"  class="<?php echo $xheditor_config?>" name="content" id="content"><?php echo $item['content']?></textarea>
 							</form>
 							

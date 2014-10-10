@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<title>客户管理</title>
+		<title>机构管理</title>
 		<link rel="stylesheet" type="text/css" href="<?php echo URL::base()?>css/base.css" />
 		<link rel="stylesheet" type="text/css" href="<?php echo URL::base()?>css/index.css" />
 		<!--[if gte IE 9]>
@@ -75,7 +75,7 @@
 							申请邮箱：
 						</div>
 						<div class="con-info">
-							<?php echo $agency['mail']?>
+							<?php echo $agency['email']?>
 						</div>
 					</li>
 					<li>
@@ -128,7 +128,7 @@
 							联系人：
 						</div>
 						<div class="con-info">
-							<input type="text" name="contacts" id="contacts" value="<?php echo $agency['contacts']?>" />
+							<input type="text" name="contact" id="contact" value="<?php echo $agency['contact']?>" />
 						</div>
 					</li>
 					<li>
@@ -144,7 +144,7 @@
 							邮箱：
 						</div>
 						<div class="con-info">
-							<input type="text" name="mail" id="mail" value="<?php echo $agency['mail']?>" />
+							<input type="text" name="email" id="email" value="<?php echo $agency['email']?>" />
 						</div>
 					</li>
 				</ul>

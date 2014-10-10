@@ -37,8 +37,16 @@ class Controller_Base extends Controller {
 		$this->auth->agency_name = strval( Session::instance()->get('agency_name') );
 		
 		$this->ajax_result = array('ret' => 0, 'msg' => 'success');
+		
+		$this->pagenav = new Pagenav;
+		$this->pagenav->page = intval($this->request->query('page'));
+		$this->pagenav->size = intval($this->request->query('size'));
+				
+		$this->pagenav->page   = ($this->pagenav->page < 1)  ? 1  : $this->pagenav->page;
+		$this->pagenav->size   = ($this->pagenav->size < 1 ) ? 10 : $this->pagenav->size;
+		$this->pagenav->offset = ($this->pagenav->page - 1) * $this->pagenav->size;
 
-		if ( $this->auth->role_id == AGENCY_ADMIN or $this->request->controller() == 'Login' ) {
+		if ( $this->auth->role_id == AGENCY_ADMIN or $this->request->controller() == 'Session' ) {
 			return true;
 		}
 
@@ -50,20 +58,12 @@ class Controller_Base extends Controller {
 		} else {
 			// redirect
 			if ( $this->auth->user_id == 0 ) {
-				HTTP::redirect('/login/index/');
+				HTTP::redirect('/session/index/');
 			} else {
 				// HTTP::redirect('/login/out/');
 				echo 'permission deny';exit;
 			}
 		}
-		
-		$this->pagenav = new Pagenav;
-		$this->pagenav->page = intval($this->request->query('page'));
-		$this->pagenav->size = intval($this->request->query('size'));
-				
-		$this->pagenav->page   = ($this->pagenav->page < 1)  ? 1  : $this->pagenav->page;
-		$this->pagenav->size   = ($this->pagenav->size < 1 ) ? 10 : $this->pagenav->size;
-		$this->pagenav->offset = ($this->pagenav->page - 1) * $this->pagenav->size;
 	}
 	
 	public function generate_left_menu()
@@ -85,8 +85,7 @@ class Controller_Base extends Controller {
 			->set('agency_name', $this->auth->agency_name)
 			->set('username', $this->auth->username);
 		$page->html_left_content = View::factory('left')
-			->set('active', $menu)
-			->set('allowed_menu_items', $this->allowed_menu_items);
+			->set('active', $menu);
 		if ( isset($page->html_pagenav_content) ) {
 			$base_url = URL::base(NULL, TRUE).$this->request->controller().'/'.$this->request->action().'/';
 			$page->html_pagenav_content->set('base_url', $base_url);
@@ -131,6 +130,10 @@ class Controller_Base extends Controller {
 			->as_array();
 		foreach ( $items as $v ) {
 			$entities[$v['id']] = $v;
+		}
+		
+		if ( count($entities) == 0 ) {
+			$entities[] = array('id' => 0, 'name' => '总部');
 		}
 		
 		return $entities;
@@ -187,7 +190,7 @@ class Controller_Base extends Controller {
 		return $classes;
 	}
 	
-	public function get_courses()
+	public function courses()
 	{
 		$courses = array();
 		

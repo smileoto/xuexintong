@@ -16,8 +16,9 @@ CREATE TABLE admins
 CREATE TABLE users
 (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	agency_id   VARCHAR(100) NOT NULL DEFAULT '',
 	status      INT NOT NULL DEFAULT 0,
+	agency_id   VARCHAR(100) NOT NULL DEFAULT '',
+	role_id     VARCHAR(100) NOT NULL DEFAULT '',
 	created_by  INT NOT NULL DEFAULT 0,
 	modified_by INT NOT NULL DEFAULT 0,
 	created_at  DATETIME NOT NULL DEFAULT 0,
@@ -38,8 +39,9 @@ CREATE TABLE users
 CREATE TABLE students
 (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	entity_id INT NOT NULL DEFAULT 0,
 	status    INT NOT NULL DEFAULT 0,
+	agency_id   VARCHAR(100) NOT NULL DEFAULT '',
+	entity_id INT NOT NULL DEFAULT 0,
 	school_id INT NOT NULL DEFAULT 0,
 	grade_id  INT NOT NULL DEFAULT 0,
 	signup_by INT NOT NULL DEFAULT 0,
@@ -70,10 +72,10 @@ CREATE TABLE students
 CREATE TABLE guests
 (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	status      INT NOT NULL DEFAULT 0,
 	agency_id   INT NOT NULL DEFAULT 0,
 	entity_id   INT NOT NULL DEFAULT 0,
 	student_id  INT NOT NULL DEFAULT 0,
-	status      INT NOT NULL DEFAULT 0,
 	signup_by   INT NOT NULL DEFAULT 0,
 	sex         INT NOT NULL DEFAULT 0,
 	school_id   INT NOT NULL DEFAULT 0,
@@ -118,3 +120,5 @@ CREATE TABLE wx_users
 	KEY student_id(student_id),
 	KEY wx_openid(openid)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO users(agency_id,role_id,username,password) VALUES(1, 4, 'admin', 'e10adc3949ba59abbe56e057f20f883e');

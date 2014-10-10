@@ -4,7 +4,7 @@
 
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<title>简介</title>
+		<title>师资力量</title>
 		<link rel="stylesheet" type="text/css" href="<?PHP echo URL::base()?>css/base.css" />
 		<link rel="stylesheet" type="text/css" href="<?PHP echo URL::base()?>css/ago.css" />
 		<!--[if gte IE 9]>
@@ -30,22 +30,19 @@
 						<?php echo $html_left_content?>
 					</div>
 					<div class="content-box">
+						<div class="content-title">
+							<h2>师资力量</h2>
+						</div>
+						
+						<form method="post" id="data-form" action="<?php echo URL::base(NULL, true)?>teachers/save/">
 						<div class="content-inner">
-							<div class="navbar-top">
-								<a href="<?php echo URL::base(NULL, TRUE)?>introduction">简介</a>
-								<a class="active" href="#">展示</a>
-								<a href="<?php echo URL::base(NULL, TRUE)?>contact">联系</a>
-							</div>
-							<br /><br />
-							
-							<form method="post" id="data-form" action="<?php echo URL::base(NULL, true)?>show/save/">
-							<textarea name="content"  class="<?php echo $xheditor_config?>" name="content" id="content"><?php echo $item['content']?></textarea>
-							</form>
-							
+							<textarea class="<?php echo $xheditor_config?>" name="content" id="content"><?php echo $item['content']?></textarea>
 							<div class="btn-box">
 								<button id="btnSubmit">确定提交</button>
 							</div>
 						</div>
+						</form>
+						
 					</div>
 				</div>
 			</div>

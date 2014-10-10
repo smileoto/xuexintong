@@ -45,7 +45,7 @@
 										<select name="entity_id" id="agency">
 										<?php foreach ( $entities as $v ) : ?>
 										<option value="<?php echo $v['id']?>" >
-											<?php echo $v['realname']?>
+											<?php echo $v['name']?>
 										</option>
 										<?php endforeach?>
 										</select>
@@ -61,9 +61,9 @@
 								</li>
 								<li>
 									<div class="con-name">说明：
-								  </div>
+									</div>
 									<div class="con-info">
-										<textarea name="content" id="content" style="width: 302px;resize: none;" class="<?php echo $xheditor_config?>"></textarea>
+										<textarea name="detail" id="content" style="width: 302px;resize: none;" class="<?php echo $xheditor_config?>"></textarea>
 									</div>
 								</li>
 							</ul>

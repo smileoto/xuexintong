@@ -33,7 +33,7 @@
 					<a href="#" id="btnLogin">登录</a>
 				</div>
 			</div>
-			<div class="footer">Copyright&copy;2006-2014 学信通</div>
+			<div class="footer" align="center">Copyright&copy;2006-2014 学信通</div>
 		</div>
 	</body>
 </html>
@@ -54,7 +54,7 @@ $(function(){
 		var password   = $('#password').val();
 		
 		password = $.md5(password);
-		var url = '<?php echo URL::base(NULL, TRUE)?>login/check';
+		var url = '<?php echo URL::base(NULL, TRUE)?>session/start/';
 		$.post(url, {agency_sid:agency_sid,username:username, password:password}, function(data){
 			var json = eval( '(' + data + ')' );
 			if ( json.ret != 0 ) {

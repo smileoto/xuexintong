@@ -11,13 +11,15 @@ class Controller_Contact extends Controller_Base {
 			->execute()
 			->as_array();
 		
+		$item = null;
 		if ( empty($items) ) {
-			HTTP::redirect('/login/index');
+			$item = array('content' => '');
+		} else {
+			$item = $items[0];
 		}
-		
 							
 		$page = View::factory('contact/index')
-			->set('item', $items[0]);
+			->set('item', $item);
 
 		$this->output($page, 'agency');
 	}

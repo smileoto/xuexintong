@@ -35,7 +35,7 @@
 							<div class="navbar-top">
 								<a class="active">课程类别</a>
 								<span style="width:200px; height:40px; line-height:40px; margin-left:5px; margin-top:5px; font-weight:bold;">
-								（<?php echo $entities[$entity_id]?>）
+								（<?php echo $entities[$entity_id]['name']?>）
 								</span>
 							</div>
 							<div class="class-box">
@@ -51,7 +51,7 @@
 								</div>
 								<?php endforeach;?>
 								<div class="classinner">
-								<a href="<?php echo URL::base(NULL, TRUE)?>class/add/?aid=<?php echo $agency_id?>" style="line-height: 90px;">+添加</a>
+								<a href="<?php echo URL::base(NULL, TRUE)?>class/add/?aid=<?php echo $v['entity_id']?>" style="line-height: 90px;">+添加</a>
 								</div>
 							</div>
 						</div>

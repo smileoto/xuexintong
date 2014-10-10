@@ -12,7 +12,7 @@ class Controller_Agency extends Controller_Base {
 			->as_array();
 		
 		if ( empty($agencies) ) {
-			HTTP::redirect('/login/index');
+			HTTP::redirect('/session/index');
 		}
 		
 							
@@ -28,14 +28,14 @@ class Controller_Agency extends Controller_Base {
 		
 		$data['addr']     = $this->request->post('addr');
 		$data['mobile']   = $this->request->post('mobile');
-		$data['contacts'] = $this->request->post('contacts');
-		$data['mail']     = $this->request->post('mail');
+		$data['contact']  = $this->request->post('contact');
+		$data['email']    = $this->request->post('email');
 		$data['province'] = intval($this->request->post('province'));
 		$data['city']     = intval($this->request->post('city'));
 		$data['area']     = intval($this->request->post('area'));
 		$data['city']     = intval($this->request->post('city'));
 		
-		$data['modify_t'] = NULL;
+		$data['modified_at'] = NULL;
 		
 		try {
 			$rows = DB::update('agencies')

@@ -11,13 +11,15 @@ class Controller_Teachers extends Controller_Base {
 			->execute()
 			->as_array();
 		
+		$item = null;
 		if ( empty($items) ) {
-			HTTP::redirect('/login/index');
+			$item = array('content' => '');
+		} else {
+			$item = $items[0];
 		}
-		
 							
-		$page = View::factory('contact/index')
-			->set('item', $items[0]);
+		$page = View::factory('teachers/index')
+			->set('item', $item);
 
 		$this->output($page, 'agency');
 	}
@@ -38,12 +40,10 @@ class Controller_Teachers extends Controller_Base {
 				->values($data)
 				->execute();
 			}
+			HTTP::redirect('/show/index/');
 		} catch (Database_Exception $e) {
-			$this->ajax_result['ret'] = ERR_DB_UPDATE;
-			$this->ajax_result['msg'] = $e->getMessage();
+			$this->response->body( $e->getMessage() );
 		}
-		
-		$this->response->body( json_encode($this->ajax_result) );
 	}
 	
 }

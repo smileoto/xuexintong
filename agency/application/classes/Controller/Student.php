@@ -94,7 +94,7 @@ class Controller_Student extends Controller_Base {
 		$pop = Arr::get($_GET, 'pop', 0);
 		$viewname = $pop ? 'student/list_for_select' : 'student/list';
 		$page = View::factory($viewname)
-			->set('items',   $list)
+			->set('items',   $items)
 			->set('entities', $this->entities())
 			->set('schools',  $this->schools())
 			->set('grades',   $this->grades())

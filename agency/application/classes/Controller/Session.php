@@ -2,7 +2,7 @@
 
 class Controller_Session extends Controller_Base {
 	
-	protected function set_session(&$user)
+	protected function set_session(&$user, &$agency)
 	{
 		$session = Session::instance();
 		$session->set('user_id',   $user->get('id'));
@@ -15,16 +15,7 @@ class Controller_Session extends Controller_Base {
 		$session->set('add_t',     $user->get('add_t'));
 		$session->set('modify_t',  $user->get('modify_t'));
 		
-		if ($user->get('agency_id')) {
-			$infor = DB::select('realname')
-				->from('agencies')
-				->where('id', '=', $user->get('agency_id'))
-				->limit(1)
-				->execute();
-			if ($infor->count()) {
-				$session->set('agency_name',  $infor->get('realname'));
-			}
-		}
+		$session->set('agency_name',  $agency->get('realname'));
 	}
 	
 	public function action_index()
@@ -44,7 +35,7 @@ class Controller_Session extends Controller_Base {
 		}
 				
 		try {
-			$agencies = DB::select('id','status', 'parent_id')
+			$agencies = DB::select('id', 'status', 'realname')
 				->from('agencies')
 				->where('username', '=', $agency_sid)
 				->limit(1)
@@ -64,7 +55,7 @@ class Controller_Session extends Controller_Base {
 			}
 			
 			$user = DB::select('*')
-				->from('agency_users')
+				->from('users')
 				->where('agency_id', '=', $agencies->get('id'))
 				->where('username', '=', $username)
 				->where('password', '=', $password)
@@ -72,8 +63,7 @@ class Controller_Session extends Controller_Base {
 				->execute();
 				
 			if ( $user->count() ) {
-				$this->set_session($user);
-				Session::instance()->set('agency_pid', $agencies->get('parent_id'));
+				$this->set_session($user, $agencies);
 				$this->ajax_result['url'] = URL::base(NULL, TRUE).'agency/index/';
 			} else {
 				$this->ajax_result['ret'] = ERR_USER_PASS;
@@ -111,7 +101,7 @@ class Controller_Session extends Controller_Base {
 		}
 		
 		try {
-			$row = DB::update('agency_users')
+			$row = DB::update('users')
 				->set(array('password' => $pswd1))
 				->where('agency_id', '=', $this->auth->agency_id)
 				->where('id', '=', $this->auth->user_id)

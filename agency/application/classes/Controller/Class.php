@@ -1,36 +1,28 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class Controller_Classes extends Controller_Base {
+class Controller_Class extends Controller_Base {
 	
 	public function action_list()
 	{
-		try {			
-			$classes = $this->classes();
-			$groups_classes = array();
-			foreach ( $classes as $v ) {
-				if ( !isset($groups_classes) ) {
-					$groups_classes[$v['entity_id']] = array();
-				}
-				$groups_classes[$v['entity_id']][] = $v;
-			}
-			
-			$items = DB::select('id', 'name')
-				->from('classes')
-				->where('agency_id', '=', $this->auth->agency_id)
-				->where('status', '=', STATUS_NORMAL)
-				->execute()
-				->as_array();
-			
-			$page = View::factory('class/list')
-				->set('items', $items)
-				->set('groups_classes', $groups_classes)
-				->set('entities', $this->entities());
-				
-			$this->output($page, 'classes');
-			
-		} catch (Database_Exception $e) {
-			$this->response->body( $e->getMessage() );
+		$classes = $this->classes();
+		if ( empty($classes) ) {
+			HTTP::redirect('/class/add/');
 		}
+		
+		$groups_classes = array();
+		foreach ( $classes as $v ) {
+			if ( !isset($groups_classes) ) {
+				$groups_classes[$v['entity_id']] = array();
+			}
+			$groups_classes[$v['entity_id']][] = $v;
+		}
+		
+		$page = View::factory('class/list')
+			->set('items', $classes)
+			->set('groups_classes', $groups_classes)
+			->set('entities', $this->entities());
+			
+		$this->output($page, 'class');
 	}
 	
 	public function action_add()
@@ -73,11 +65,10 @@ class Controller_Classes extends Controller_Base {
 		
 		$data = array();
 		$data['name']      = $name;
-		$data['remark']    = Arr::get($_POST, 'remark', '');
 		$data['detail']    = Arr::get($_POST, 'detail', '');
 		$data['entity_id'] = intval(Arr::get($_POST, 'entity_id', 0));
 		
-		$data['modified_at'] = NULL;
+		$data['modified_at'] = date('Y-m-d H:i:s');
 		$data['modified_by'] = $this->auth->user_id;
 		
 		$id = intval(Arr::get($_POST, 'id', 0));
@@ -89,7 +80,7 @@ class Controller_Classes extends Controller_Base {
 					->where('id', '=', $id)
 					->execute();
 			} else {
-				$data['created_at']  = NULL;
+				$data['created_at']  = date('Y-m-d H:i:s');
 				$data['created_by']  = $this->auth->user_id;
 				$data['agency_id']   = $this->auth->agency_id;
 				DB::insert('classes', array_keys($data))
@@ -112,7 +103,7 @@ class Controller_Classes extends Controller_Base {
 		
 		$data = array();
 		$data['detail'] = Arr::get($_POST, 'detail', '');
-		$data['modified_at'] = NULL;
+		$data['modified_at'] = date('Y-m-d H:i:s');
 		$data['modified_by'] = $this->auth->user_id;
 		try {
 			DB::update('classes')

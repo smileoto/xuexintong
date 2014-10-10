@@ -32,8 +32,8 @@
 					<div class="content-box">
 						<div class="content-inner">
 							<div class="navbar-top">
-								<a href="<?php echo URL::base(NULL, TRUE)?>introduction/index/">简介</a>
-								<a href="<?php echo URL::base(NULL, TRUE)?>show/index/">展示</a>
+								<a href="<?php echo URL::base(NULL, TRUE)?>introduction">简介</a>
+								<a href="<?php echo URL::base(NULL, TRUE)?>show">展示</a>
 								<a class="active" href="#">联系</a>
 							</div>
 							<br /><br />

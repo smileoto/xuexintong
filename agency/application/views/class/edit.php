@@ -51,7 +51,7 @@
 												echo 'selected="selected"';
 											}
 											?> >
-											<?php echo $v['realname']?>
+											<?php echo $v['name']?>
 										</option>
 										<?php endforeach?>
 										</select>
@@ -69,7 +69,7 @@
 									<div class="con-name">说明：
 								  </div>
 									<div class="con-info">
-										<textarea name="content" id="content" style="width: 302px;resize: none;" class="<?php echo $xheditor_config?>"><?php echo $item['content']?></textarea>
+										<textarea name="detail" id="content" style="width: 302px;resize: none;" class="<?php echo $xheditor_config?>"><?php echo $item['detail']?></textarea>
 									</div>
 								</li>
 							</ul>

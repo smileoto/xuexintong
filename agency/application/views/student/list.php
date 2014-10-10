@@ -28,15 +28,10 @@
 					<div class="content-box">
 						<div class="content-inner">
 							<div class="navbar-top">
-								<?php if ($status) {?>
 								<a class="active">学生查询</a>
-								<a href="<?php echo URL::base(NULL, TRUE)?>student/list/">申请查询</a>
-								<?php } else { ?>
-								<a href="<?php echo URL::base(NULL, TRUE)?>student/list/?status=1">学生查询</a>
-								<a class="active">申请查询</a>
-								<?php }?>
+								<a href="<?php echo URL::base(NULL, TRUE)?>guest/list/">申请查询</a>
 								<a href="<?php echo URL::base(NULL, TRUE)?>student/add/">添加学生</a>
-								<a href="<?php echo URL::base(NULL, TRUE)?>student/add/?type=adult">添加成人学员</a>
+								<a href="<?php echo URL::base(NULL, TRUE)?>student/add/?adult=1">添加成人学员</a>
 							</div>
 							<div class="accountSettings-title">
 							条件检索
@@ -65,8 +60,8 @@
 									</span>
 									<select class="data-field" id="agency">
 										<option value=""></option>
-										<?php foreach ( $agencies as $v ) : ?>
-										<option value="<?php echo $v['id']?>"><?php echo $v['realname']?></option>
+										<?php foreach ( $entities as $v ) : ?>
+										<option value="<?php echo $v['id']?>"><?php echo $v['name']?></option>
 										<?php endforeach?>
 									</select>
 								</li>
@@ -141,26 +136,22 @@
 						<div class="table-cell">
 							<table border="1" cellspacing="0" cellpadding="0">
 							  <tr><th>序号</th><th>姓名</th><th>性别</th><th>年级</th><th>所在学校</th><th>手机号码</th><th>父名</th><th>父手机</th><th>母名</th><th>母手机</th><th>班别</th><th>操作</th></tr>
-								<?php foreach ( $students as $student ):?>
+								<?php foreach ( $items as $v ):?>
 								<tr>
-									<td><?php echo $student['id']?></td>
-									<td><?php echo $student['realname']?></td>
-									<td><?php echo $student['sex'] ? '男' : '女';?></td>
-									<td><?php echo $student['grade']?></td>
-									<td><?php echo $student['school']?></td>
-									<td><?php echo $student['mobile']?></td>
-									<td><?php echo $student['father_name']?></td>
-									<td><?php echo $student['father_mobile']?></td>
-									<td><?php echo $student['mother_name']?></td>
-									<td><?php echo $student['mother_mobile']?></td>
-									<td><?php echo $student['class']?></td>
+									<td><?php echo $v['id']?></td>
+									<td><?php echo $v['realname']?></td>
+									<td><?php echo $v['sex'] ? '男' : '女';?></td>
+									<td><?php echo $v['grade']?></td>
+									<td><?php echo $v['school']?></td>
+									<td><?php echo $v['mobile']?></td>
+									<td><?php echo $v['father_name']?></td>
+									<td><?php echo $v['father_mobile']?></td>
+									<td><?php echo $v['mother_name']?></td>
+									<td><?php echo $v['mother_mobile']?></td>
+									<td><?php echo $v['class']?></td>
 									<td>
-										<?php if ($status == 1) : ?>
-										<a href="<?php echo URL::base(NULL, TRUE)?>student/edit/?id=<?php echo $student['id']?>">编辑</a>
-										<?php else : ?>
-										<a href="<?php echo URL::base(NULL, TRUE)?>student/audit/?id=<?php echo $student['id']?>">审核</a>
-										<?php endif?>
-									  </td>
+										<a href="<?php echo URL::base(NULL, TRUE)?>student/edit/?id=<?php echo $v['id']?>">编辑</a>
+									 </td>
 								</tr>
 							    <?php endforeach;?>
 							</table>

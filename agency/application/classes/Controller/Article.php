@@ -18,7 +18,7 @@ class Controller_Article extends Controller_Base {
 			$queryList = DB::select('articles.id','articles.title','articles.created_at','articles.modified_at','users.username')
 				->from('articles')
 				->join('users')
-				->on('articles.created_by', '=', 'agency_users.id')
+				->on('articles.created_by', '=', 'users.id')
 				->where('articles.agency_id', '=', $this->auth->agency_id)
 				->where('articles.status', '=', STATUS_NORMAL);
 				
@@ -30,12 +30,12 @@ class Controller_Article extends Controller_Base {
 			$cnt = $queryCount->execute();
 			$total = $cnt->count() ? $cnt[0]['COUNT(0)'] : 0;
 			
-			$articles = $queryList->offset($this->pagenav->offset)
+			$items = $queryList->offset($this->pagenav->offset)
 				->limit($this->pagenav->size)
 				->execute();
 			
 			$page = View::factory('article/list')
-				->set('articles', $articles);
+				->set('items', $items);
 			$page->html_pagenav_content = View::factory('pagenav')
 				->set('total', $total)
 				->set('page',  $this->pagenav->page)
