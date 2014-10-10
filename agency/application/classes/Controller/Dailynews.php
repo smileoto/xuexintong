@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class Controller_Article extends Controller_Base {
+class Controller_Dailynews extends Controller_Base {
 	
 	public function action_list()
 	{		
@@ -9,38 +9,38 @@ class Controller_Article extends Controller_Base {
 		try {
 			$expr = DB::expr('COUNT(0)');
 			$queryCount = DB::select($expr)
-				->from('articles')
+				->from('daily_news')
 				->join('users')
-				->on('articles.created_by', '=', 'users.id')
-				->where('articles.agency_id', '=', $this->auth->agency_id)
-				->where('articles.status', '=', STATUS_NORMAL);
+				->on('daily_news.created_by', '=', 'users.id')
+				->where('daily_news.agency_id', '=', $this->auth->agency_id)
+				->where('daily_news.status', '=', STATUS_NORMAL);
 			
-			$queryList = DB::select('articles.id','articles.title','articles.created_at','articles.modified_at','users.username')
-				->from('articles')
+			$queryList = DB::select('daily_news.id','daily_news.title','daily_news.created_at','daily_news.modified_at','users.username')
+				->from('daily_news')
 				->join('users')
-				->on('articles.created_by', '=', 'agency_users.id')
-				->where('articles.agency_id', '=', $this->auth->agency_id)
-				->where('articles.status', '=', STATUS_NORMAL);
+				->on('daily_news.created_by', '=', 'agency_users.id')
+				->where('daily_news.agency_id', '=', $this->auth->agency_id)
+				->where('daily_news.status', '=', STATUS_NORMAL);
 				
 			if ( $title ) {
-				$queryCount->where('articles.title', 'like', '%'.$title.'%');
-				$queryList->where('articles.title', 'like',  '%'.$title.'%');
+				$queryCount->where('daily_news.title', 'like', '%'.$title.'%');
+				$queryList->where('daily_news.title', 'like',  '%'.$title.'%');
 			}
 				
 			$cnt = $queryCount->execute();
 			$total = $cnt->count() ? $cnt[0]['COUNT(0)'] : 0;
 			
-			$articles = $queryList->offset($this->pagenav->offset)
+			$daily_news = $queryList->offset($this->pagenav->offset)
 				->limit($this->pagenav->size)
 				->execute();
 			
 			$page = View::factory('article/list')
-				->set('articles', $articles);
+				->set('daily_news', $daily_news);
 			$page->html_pagenav_content = View::factory('pagenav')
 				->set('total', $total)
 				->set('page',  $this->pagenav->page)
 				->set('size',  $this->pagenav->size);
-			$this->output($page, 'knowledge');
+			$this->output($page, 'daily_news');
 			
 		} catch (Database_Exception $e) {
 			$this->response->body($e->getMessage());
@@ -49,8 +49,8 @@ class Controller_Article extends Controller_Base {
 	
 	public function action_add()
 	{
-		$page = View::factory('articles/add');
-		$this->output($page, 'knowledge');
+		$page = View::factory('daily_news/add');
+		$this->output($page, 'daily_news');
 	}
 	
 	public function action_edit()
@@ -58,7 +58,7 @@ class Controller_Article extends Controller_Base {
 		$id = intval($this->request->query('id'));
 			
 		$items = DB::select('*')
-			->from('articles')
+			->from('daily_news')
 			->where('agency_id', '=', $this->auth->agency_id)
 			->limit(1)
 			->execute()
@@ -70,7 +70,7 @@ class Controller_Article extends Controller_Base {
 		$page = View::factory('article/edit')
 			->set('item', $items[0]);
 			
-		$this->output($page, 'knowledge');
+		$this->output($page, 'daily_news');
 	}
 	
 	public function action_save()
@@ -88,7 +88,7 @@ class Controller_Article extends Controller_Base {
 		if ( $id ) {
 			// edit 
 			try {
-				DB::update('articles')
+				DB::update('daily_news')
 					->set( $data )
 					->where('id', '=', $id)
 					->where('agency_id', '=', $this->auth->agency_id)
@@ -103,7 +103,7 @@ class Controller_Article extends Controller_Base {
 			$data['created_by']  = $this->auth->user_id;
 			$data['created_at']  = NULL;
 			try {
-				DB::insert('articles', array_keys($data))
+				DB::insert('daily_news', array_keys($data))
 					->values($data)
 					->execute();
 			} catch (Database_Exception $e) {
@@ -120,7 +120,7 @@ class Controller_Article extends Controller_Base {
 		$id = intval($this->request->query('id'));
 		
 		try {
-			DB::update('articles')
+			DB::update('daily_news')
 				->set( array('status'=>STATUS_DELETED, 'modified_at'=>NULL) )
 				->where('agency_id', '=', $this->auth->agency_id)
 				->where('id','=',$id)

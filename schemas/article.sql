@@ -68,7 +68,7 @@ CREATE TABLE contacts
 	KEY agency_id(agency_id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE teachers
+CREATE TABLE shows
 (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	agency_id INT NOT NULL DEFAULT 0,
@@ -76,20 +76,10 @@ CREATE TABLE teachers
 	KEY agency_id(agency_id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE agency_images
+CREATE TABLE teachers
 (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	agency_id INT NOT NULL DEFAULT 0,
-	url       VARCHAR(255) NOT NULL DEFAULT '',
+	content text,
 	KEY agency_id(agency_id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE news_images
-(
-	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	agency_id INT NOT NULL DEFAULT 0,
-	url       VARCHAR(255) NOT NULL DEFAULT '',
-	KEY agency_id(agency_id)
-)ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-INSERT INTO article_categories(name,remark) VALUES('news', '机构动态'),('daily_news', '每日讯息'),('knowledge', '知识分享');

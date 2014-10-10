@@ -63,6 +63,8 @@ CREATE TABLE tops
 	modified_at DATETIME NOT NULL DEFAULT 0,
 	begin_at    DATETIME NOT NULL DEFAULT 0,
 	end_at      DATETIME NOT NULL DEFAULT 0,
+	begin_s     VARCHAR(255) NOT NULL DEFAULT 0,
+	end_s       VARCHAR(255) NOT NULL DEFAULT 0,
 	title       VARCHAR(255) NOT NULL DEFAULT '',
 	content     text,
 	KEY agency_id(agency_id)
