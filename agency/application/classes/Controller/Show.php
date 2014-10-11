@@ -23,6 +23,12 @@ class Controller_Show extends Controller_Base {
 
 		$this->output($page, 'agency');
 	}
+	
+	public function action_images()
+	{
+		$page = View::factory('show/images');
+		$this->output($page, 'agency');
+	}
 		
 	public function action_save()
 	{
