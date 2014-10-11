@@ -4,40 +4,22 @@ class Controller_School extends Controller_Base {
 	
 	public function action_list()
 	{
-		try {
-			$expr = DB::expr('COUNT(0)');
-			$cnt = DB::select($expr)
-				->from('schools')
-				->where('agency_id', '=', $this->auth->agency_id)
-				->where('status', '=', STATUS_NORMAL)
-				->execute();
-			$total = $cnt->count() ? $cnt[0]['COUNT(0)'] : 0;
-				
-			$items = DB::select('*')
-				->from('schools')
-				->where('agency_id', '=', $this->auth->agency_id)
-				->where('status', '=', STATUS_NORMAL)
-				->offset($this->pagenav->offset)
-				->limit($$this->pagenav->size)
-				->execute()
-				->as_array();
-			
-			$page = View::factory('school/list')
-				->set('items', $items);				
-			$page->html_pagenav_content = View::factory('pagenav')
-				->set('total', $total)
-				->set('page',  $this->pagenav->page)
-				->set('size',  $this->pagenav->size);				
-			$this->output($page, 'setting');
-			
-		} catch (Database_Exception $e) {
-			$this->response->body($e->getMessage());
-		}
-		
+		$items = DB::select('*')
+			->from('schools')
+			->where('agency_id', '=', $this->auth->agency_id)
+			->execute()
+			->as_array();
+									
+		$page = View::factory('school/list')
+			->set('items', $items);
+
+		$this->output($page, 'setting');
 	}
 	
 	public function action_add()
 	{
+		$page = View::factory('school/add');
+		$this->output($page, 'setting');
 	}
 	
 	public function action_edit()
@@ -68,7 +50,7 @@ class Controller_School extends Controller_Base {
 		$data['mobile']  = $this->request->post('mobile');
 		$data['contact'] = $this->request->post('contact');
 		
-		$data['modified_at'] = NULL;
+		$data['modified_at'] = date('Y-m-d H:i:s');
 		$data['modified_by'] = $this->auth->user_id;
 		
 		$id = intval( $addr = $this->request->post('id') );
@@ -77,15 +59,13 @@ class Controller_School extends Controller_Base {
 				$schools = DB::select('name')
 					->from('schools')
 					->where('agency_id', '=', $this->auth->agency_id)
-					->where('name', '=', $name)
+					->where('name', '=', $data['name'])
 					->where('id', '<>', $id)
 					->limit(1)
 					->execute();
 				
 				if ( $schools->count() ) {
-					$this->ajax_result['ret'] = ERR_DB_UPDATE;
-					$this->ajax_result['msg'] = '学校名字重复';
-					$this->response->body( json_encode($this->ajax_result) );
+					$this->response->body( '学校名字重复' );
 					return;
 				}
 				
@@ -96,18 +76,16 @@ class Controller_School extends Controller_Base {
 				$schools = DB::select('name')
 					->from('schools')
 					->where('agency_id', '=', $this->auth->agency_id)
-					->where('name', '=', $name)
+					->where('name', '=', $data['name'])
 					->limit(1)
 					->execute();
 				
 				if ( $schools->count() ) {
-					$this->ajax_result['ret'] = ERR_DB_INSERT;
-					$this->ajax_result['msg'] = '学校名字重复';
-					$this->response->body( json_encode($this->ajax_result) );
+					$this->response->body( '学校名字重复' );
 					return;
 				}
 				
-				$data['created_at'] = NULL;
+				$data['created_at'] = date('Y-m-d H:i:s');
 				$data['created_by'] = $this->auth->user_id;
 				$data['agency_id']  = $this->auth->agency_id;
 				DB::insert('schools', array_keys($data))

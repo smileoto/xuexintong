@@ -2,7 +2,7 @@
 
 class Controller_Comment extends Controller_Base {
 	
-	public function action_topics()
+	public function action_list()
 	{
 		$entity = intval($this->request->query('entity'));
 		$school = intval($this->request->query('school'));
@@ -26,9 +26,9 @@ class Controller_Comment extends Controller_Base {
 				->on('students_courses.course_id', '=', 'courses.id')
 				->join('classes', 'LEFT')
 				->on('courses.class_id', '=', 'classes.id')
-				->where('agency_id', '=', $this->auth->agency_id)
-				->where('status', '=', STATUS_NORMAL);
-			$queyrList  = DB::select('comments.id','comments.add_t','students.realname',array('schools.name', 'school'),array('grades.name', 'grade'),array('courses.name', 'course'),array('classes.name', 'class'))
+				->where('comments.agency_id', '=', $this->auth->agency_id)
+				->where('comments.status', '=', STATUS_NORMAL);
+			$queyrList  = DB::select('comments.id','comments.created_at','students.realname',array('schools.name', 'school'),array('grades.name', 'grade'),array('courses.name', 'course'),array('classes.name', 'class'))
 				->from('comments')
 				->join('students')
 				->on('comments.student_id', '=', 'students.id')
@@ -65,12 +65,12 @@ class Controller_Comment extends Controller_Base {
 			$cnt   = $queryCount->execute();
 			$total = $cnt->count() ? $cnt[0]['COUNT(0)'] : 0;
 			
-			$items = $queyrList->offset($offset)
-				->limit($page_size)
+			$items = $queyrList->offset($this->pagenav->offset)
+				->limit($this->pagenav->size)
 				->execute()
 				->as_array();
 			
-			$page = View::factory('feedback/list')
+			$page = View::factory('comment/list')
 				->set('items',   $items)
 				->set('entities', $this->entities())
 				->set('schools',  $this->schools())
@@ -80,7 +80,7 @@ class Controller_Comment extends Controller_Base {
 				->set('total', $total)
 				->set('page',  $this->pagenav->page)
 				->set('size',  $this->pagenav->size);
-			$this->output($page, 'feedback' );
+			$this->output($page, 'comment' );
 			
 		} catch (Database_Exception $e) {
 			$this->response->body($e->getMessage());
@@ -90,7 +90,7 @@ class Controller_Comment extends Controller_Base {
 	public function action_add()
 	{
 		$page = View::factory('comment/add');				
-		$this->output($page, 'comment' );
+		$this->output($page, 'comment');
 	}
 		
 	public function action_save()
@@ -101,13 +101,15 @@ class Controller_Comment extends Controller_Base {
 		
 		$data['agency_id']  = $this->auth->agency_id;
 		$data['created_by'] = $this->auth->user_id;
-		$data['created_at'] = NULL;
+		$data['created_at'] = date('Y-m-d H:i:s');
+		$data['modified_at'] = $this->auth->user_id;
+		$data['modified_by'] = date('Y-m-d H:i:s');
 		
 		try {
 			list($id, $rows) = DB::insert('comments', array_keys($data))
 				->values($data)
 				->execute();
-			HTTP::redirect('/feedback/list/');
+			HTTP::redirect('/comment/list/');
 		} catch (Database_Exception $e) {
 			$this->response->body( $e->getMessage() );
 		}
@@ -123,7 +125,7 @@ class Controller_Comment extends Controller_Base {
 				->where('agency_id', '=', $this->auth->agency_id)
 				->where('id','=',$id)
 				->execute();
-			HTTP::redirect('/feedback/list/');
+			HTTP::redirect('/comment/list/');
 		} catch (Database_Exception $e) {
 			$this->response->body( $e->getMessage() );
 		}

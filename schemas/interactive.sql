@@ -29,8 +29,9 @@ CREATE TABLE feedback_reply
 CREATE TABLE comments
 (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	agency_id   INT NOT NULL DEFAULT 0,
 	status     	INT NOT NULL DEFAULT 0,
+	agency_id   INT NOT NULL DEFAULT 0,
+	student_id  INT NOT NULL DEFAULT 0,
 	reply      	INT NOT NULL DEFAULT 0,
 	created_by  INT NOT NULL DEFAULT 0,
 	modified_by INT NOT NULL DEFAULT 0,

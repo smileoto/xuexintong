@@ -18,7 +18,7 @@ class Controller_Dailynews extends Controller_Base {
 			$queryList = DB::select('daily_news.id','daily_news.title','daily_news.created_at','daily_news.modified_at','users.username')
 				->from('daily_news')
 				->join('users')
-				->on('daily_news.created_by', '=', 'agency_users.id')
+				->on('daily_news.created_by', '=', 'users.id')
 				->where('daily_news.agency_id', '=', $this->auth->agency_id)
 				->where('daily_news.status', '=', STATUS_NORMAL);
 				
@@ -30,17 +30,17 @@ class Controller_Dailynews extends Controller_Base {
 			$cnt = $queryCount->execute();
 			$total = $cnt->count() ? $cnt[0]['COUNT(0)'] : 0;
 			
-			$daily_news = $queryList->offset($this->pagenav->offset)
+			$items = $queryList->offset($this->pagenav->offset)
 				->limit($this->pagenav->size)
 				->execute();
 			
-			$page = View::factory('article/list')
-				->set('daily_news', $daily_news);
+			$page = View::factory('dailynews/list')
+				->set('items', $items);
 			$page->html_pagenav_content = View::factory('pagenav')
 				->set('total', $total)
 				->set('page',  $this->pagenav->page)
 				->set('size',  $this->pagenav->size);
-			$this->output($page, 'daily_news');
+			$this->output($page, 'dailynews');
 			
 		} catch (Database_Exception $e) {
 			$this->response->body($e->getMessage());
@@ -49,8 +49,8 @@ class Controller_Dailynews extends Controller_Base {
 	
 	public function action_add()
 	{
-		$page = View::factory('daily_news/add');
-		$this->output($page, 'daily_news');
+		$page = View::factory('dailynews/add');
+		$this->output($page, 'dailynews');
 	}
 	
 	public function action_edit()
@@ -65,10 +65,10 @@ class Controller_Dailynews extends Controller_Base {
 			->execute()
 			->as_array();
 		if ( empty($items) ) {
-			HTTP::redirect('/article/list/');
+			HTTP::redirect('/dailynews/list/');
 		}
 		
-		$page = View::factory('article/edit')
+		$page = View::factory('dailynews/edit')
 			->set('item', $items[0]);
 			
 		$this->output($page, 'daily_news');
@@ -104,7 +104,7 @@ class Controller_Dailynews extends Controller_Base {
 					->execute();
 			}
 			
-			HTTP::redirect('/article/list/');
+			HTTP::redirect('/dailynews/list/');
 			
 		} catch (Database_Exception $e) {
 			$this->response->body( $e->getMessage() );
@@ -121,7 +121,7 @@ class Controller_Dailynews extends Controller_Base {
 				->where('agency_id', '=', $this->auth->agency_id)
 				->where('id','=',$id)
 				->execute();
-			HTTP::redirect('/article/list/');
+			HTTP::redirect('/dailynews/list/');
 		} catch (Database_Exception $e) {
 			$this->response->body( $e->getMessage() );
 		}

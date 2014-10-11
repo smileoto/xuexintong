@@ -89,7 +89,7 @@
 							<div class="table-cell">
 							<table border="1" cellspacing="0" cellpadding="0">
 								<tr><th>序号</th><th>起止日期</th><th>上榜学生</th><th>操作</th></tr>
-								<?php foreach ( $list as $v ) : ?>
+								<?php foreach ( $items as $v ) : ?>
 								<tr>
 									<td><?php echo $v['id']?></td>
 									<td><?php echo $v['begin_str'],' 至 ',$v['end_str']?></td>

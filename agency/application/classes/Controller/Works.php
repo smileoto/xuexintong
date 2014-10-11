@@ -22,12 +22,16 @@ class Controller_Works extends Controller_Base {
 				->on('works.modified_by', '=', 'users.id')
 				->where('works.agency_id', '=', $this->auth->agency_id)
 				->where('works.status', '=', STATUS_NORMAL);
-			$query = DB::select('works.id', 'works.student_id', 'works.created_at', 'works.modified_at', 'works.title','works.entity_id', 'works.school_id', 'works.grade_id', 'students.realname', array('users.realname', 'editor'))
+			$query = DB::select('works.id', 'works.student_id', 'works.created_at', 'works.modified_at', 'works.title', array('schools.name', 'school'), array('grades.name', 'grade'), 'students.realname', array('users.realname', 'editor'))
 				->from('works')
 				->join('students')
 				->on('works.student_id', '=', 'students.id')
 				->join('users')
 				->on('works.modified_by', '=', 'users.id')
+				->join('schools', 'LEFT')
+				->on('students.school_id', '=', 'schools.id')
+				->join('grades', 'LEFT')
+				->on('students.grade_id', '=', 'grades.id')
 				->where('works.agency_id', '=', $this->auth->agency_id)
 				->where('works.status', '=', STATUS_NORMAL);
 			if ( $realname ) {
@@ -84,10 +88,12 @@ class Controller_Works extends Controller_Base {
 	{
 		$id = intval($this->request->query('id'));
 		
-		$items = DB::select('*')
+		$items = DB::select('works.*', 'students.realname')
 			->from('works')
-			->where('agency_id', '=', $this->auth->agency_id)
-			->where('id', '=', $works_id)
+			->join('students')
+			->on('works.student_id', '=', 'students.id')
+			->where('works.agency_id', '=', $this->auth->agency_id)
+			->where('works.id', '=', $id)
 			->execute()
 			->as_array();
 		if ( !count($items) ) {
@@ -95,23 +101,20 @@ class Controller_Works extends Controller_Base {
 		}
 		
 		$page = View::factory('works/edit')
-			->set('item', $works[0])
-			->set('student', $students[0]['realname']);			
+			->set('item', $items[0]);			
 		$this->output($page, 'works');
 	}
 	
 	public function action_save()
 	{
 		$data = array();
-		$data['entity_id'] = intval($this->request->post('entity'));
-		$data['school_id'] = intval($this->request->post('school'));
-		$data['grade_id']  = intval($this->request->post('grade'));
-		$data['title']     = $this->request->post('title');
-		$data['remark']    = $this->request->post('comment');
-		$data['img']       = Arr::get($_POST, 'img', '');
-		$data['content']   = Arr::get($_POST, 'content', '');
+		$data['student_id'] = intval($this->request->post('student_id'));
+		$data['title']      = $this->request->post('title');
+		$data['remark']     = $this->request->post('comment');
+		$data['img']        = Arr::get($_POST, 'img', '');
+		$data['content']    = Arr::get($_POST, 'content', '');
 		
-		$data['modified_at']  = NULL;
+		$data['modified_at']  = date('Y-m-d H:i:s');
 		$data['modified_by']  = $this->auth->user_id;
 		
 		$id = intval($this->request->query('id'));
@@ -123,7 +126,7 @@ class Controller_Works extends Controller_Base {
 					->where('id', '=', $works_id)
 					->execute();
 			} else {
-				$data['created_at'] = NULL;
+				$data['created_at'] = date('Y-m-d H:i:s');
 				$data['created_by'] = $this->auth->user_id;
 				$data['agency_id']  = $this->auth->agency_id;
 				DB::insert('works', array_keys($data))
@@ -144,7 +147,7 @@ class Controller_Works extends Controller_Base {
 		
 		try {
 			DB::update('works')
-				->set( array('status'=>STATUS_DELETED, 'modified_at'=>NULL) )
+				->set( array('status'=>STATUS_DELETED, 'modified_at'=>date('Y-m-d H:i:s')) )
 				->where('agency_id', '=', $this->auth->agency_id)
 				->where('id','=',$id)
 				->execute();

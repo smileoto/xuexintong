@@ -29,7 +29,7 @@
 						<div class="content-inner">
 							<div class="navbar-top">
 								<a class="active">学生成绩</a>
-								<a href="<?php echo URL::base(NULL, TRUE)?>score/add/">发布成绩</a>
+								<a href="<?php echo URL::base(NULL, TRUE)?>report/add/">发布成绩</a>
 							</div>
 							<div class="accountSettings-title">
 							条件检索
@@ -42,8 +42,8 @@
 									</span>
 									<select class="data-field" id="class">
 										<option value=""></option>
-										<?php foreach ( $courses as $class ) : ?>
-										<option value="<?php echo $class['id']?>"><?php echo $class['name']?></option>
+										<?php foreach ( $courses as $v ) : ?>
+										<option value="<?php echo $v['id']?>"><?php echo $v['name']?></option>
 										<?php endforeach?>
 									</select>
 								</li>
@@ -53,8 +53,8 @@
 									</span>
 									<select class="data-field" id="school">
 										<option value=""></option>
-										<?php foreach ( $schools as $school ) : ?>
-										<option value="<?php echo $school['id']?>"><?php echo $school['name']?></option>
+										<?php foreach ( $schools as $v ) : ?>
+										<option value="<?php echo $v['id']?>"><?php echo $v['name']?></option>
 										<?php endforeach?>
 									</select>
 								</li>
@@ -64,8 +64,8 @@
 									</span>
 									<select class="data-field" id="grade">
 										<option value=""></option>
-										<?php foreach ( $grades as $grade ) : ?>
-										<option value="<?php echo $grade['id']?>"><?php echo $grade['name']?></option>
+										<?php foreach ( $grades as $v ) : ?>
+										<option value="<?php echo $v['id']?>"><?php echo $v['name']?></option>
 										<?php endforeach?>
 									</select>
 								</li>
@@ -83,17 +83,17 @@
 							<div class="table-cell">
 							<table border="1" cellspacing="0" cellpadding="0">
 								<tr><th>序号</th><th>姓名</th><th>时间</th><th>所在学校</th><th>所在年级</th><th>机构班别</th><th>操作</th></tr>
-								<?php foreach($list as $v) : ?>
+								<?php foreach($items as $v) : ?>
 								<tr>
 									<td><?php echo $v['id']?></td>
 									<td><?php echo $v['realname']?></td>
-									<td><?php echo $v['add_t']?></td>
+									<td><?php echo $v['modified_at']?></td>
 									<td><?php echo $v['school']?></td>
 									<td><?php echo $v['grade']?></td>
 									<td><?php echo $v['class'],'-',$v['course']?></td>
 									<td>
-										<a href="<?php echo URL::base(NULL, TRUE)?>score/edit/?id=<?php echo $v['id']?>">编辑</a>
-										<a href="<?php echo URL::base(NULL, TRUE)?>score/del/?id=<?php echo $v['id']?>">删除</a>
+										<a href="<?php echo URL::base(NULL, TRUE)?>report/edit/?id=<?php echo $v['id']?>">编辑</a>
+										<a href="<?php echo URL::base(NULL, TRUE)?>report/del/?id=<?php echo $v['id']?>">删除</a>
 									</td>
 								</tr>
 								<?php endforeach?>
@@ -120,7 +120,7 @@
 $(function(){
 	$('#btnSearch').click(function(){
 		// todo: check params
-		var url = '<?php echo URL::base(NULL, TRUE)?>score/list/?';
+		var url = '<?php echo URL::base(NULL, TRUE)?>report/list/?z=z';
 		$('.data-field').each(function(){
 			var key = $(this).attr('id');
 			var val  = $(this).val();

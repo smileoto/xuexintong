@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class Controller_Top extends Controller_Auth {
+class Controller_Top extends Controller_Base {
 	
 	public function action_list()
 	{		
@@ -51,7 +51,7 @@ class Controller_Top extends Controller_Auth {
 				->from('tops_students')
 				->join('students')
 				->on('tops_students.student_id', '=', 'students.id')
-				->where('tops_students.tops_id', '=', $v['id'])
+				->where('tops_students.top_id', '=', $v['id'])
 				->execute()
 				->as_array();
 			$arr = array();
@@ -61,28 +61,29 @@ class Controller_Top extends Controller_Auth {
 			$tops_students[$v['id']] = implode(',', $arr);
 		}
 		
-		$page = View::factory('tops/list')
+		$page = View::factory('top/list')
 			->set('items',    $items)
 			->set('students', $tops_students)
+			->set('entities', $this->entities())
 			->set('schools',  $this->schools())
 			->set('grades',   $this->grades());
 		$page->html_pagenav_content = View::factory('pagenav')
 			->set('total', $total)
 			->set('page',  $this->pagenav->page)
 			->set('size',  $this->pagenav->size);
-		$this->output($page, 'tops');
+		$this->output($page, 'top');
 	}
 	
 	public function action_add()
 	{
 		Session::instance()->set('upload_dir', 'avatar');
 		
-		$page = View::factory('tops/add')
+		$page = View::factory('top/add')
 			->set('schools',  $this->schools())
 			->set('grades',   $this->grades())
 			->set('courses',  $this->courses());
 
-		$this->output($page, 'tops');
+		$this->output($page, 'top');
 	}
 	
 	public function action_edit()
@@ -97,36 +98,36 @@ class Controller_Top extends Controller_Auth {
 			->where('id', '=', $id)
 			->execute()
 			->as_array();
-		if ( !count($tops) ) {
-			HTTP::redirect('/tops/list/');
+		if ( empty($items) ) {
+			HTTP::redirect('/top/list/');
 		}
 		
 		$tops_students = DB::select('students.id', 'students.realname', 'tops_students.reason', 'tops_students.avatar')
 			->from('tops_students')
 			->join('students')
 			->on('tops_students.student_id', '=', 'students.id')
-			->where('tops_students.tops_id', '=', $id)
+			->where('tops_students.top_id', '=', $id)
 			->execute()
 			->as_array();
 			
-		$page = View::factory('tops/edit')
+		$page = View::factory('top/edit')
 			->set('item', $items[0])
 			->set('tops_students', $tops_students)
 			->set('schools',  $this->schools())
 			->set('grades',   $this->grades())
 			->set('courses',  $this->courses());
 
-		$this->output($page, 'tops');
+		$this->output($page, 'top');
 	}
 	
 	public function action_save()
 	{
 		$data = array();
-		$data['title']   = $this->request->post('title');
-		$data['begin_s'] = $this->request->post('begin');
-		$data['end_s']   = $this->request->post('end');
+		$data['title']     = $this->request->post('title');
+		$data['begin_str'] = strval($this->request->post('begin'));
+		$data['end_str']   = strval($this->request->post('end'));
 		
-		$data['modified_at'] = NULL;
+		$data['modified_at'] = date('Y-m-d H:i:s');
 		$data['modified_by'] = $this->auth->user_id;
 		
 		$cnt = 0;
@@ -155,7 +156,7 @@ class Controller_Top extends Controller_Auth {
 			$cnt++;
 		}
 		
-		$id = intval($this->request->post('id'));
+		$id = intval($this->request->post('top_id'));
 		try {
 			DB::delete('tops_students')
 				->where('top_id', '=', $id)
@@ -168,7 +169,7 @@ class Controller_Top extends Controller_Auth {
 					->where('id', '=', $id)
 					->execute();
 			} else {
-				$data['created_at'] = NULL;
+				$data['created_at'] = date('Y-m-d H:i:s');
 				$data['created_by'] = $this->auth->user_id;
 				$data['agency_id'] = $this->auth->agency_id;
 				list($id, $rows) = DB::insert('tops', array_keys($data))
@@ -177,7 +178,7 @@ class Controller_Top extends Controller_Auth {
 			}
 				
 			if ( $tops_students ) {
-				$d = array('tops_id' => $id, 'student_id' => 0, 'avatar' => '', 'reason' => '');
+				$d = array('top_id' => $id, 'student_id' => 0, 'avatar' => '', 'reason' => '');
 				$insert = DB::insert('tops_students', array_keys($d));
 				foreach ($tops_students as $v) {
 					$d['student_id'] = $v['student_id'];
@@ -188,7 +189,8 @@ class Controller_Top extends Controller_Auth {
 				$insert->execute();
 			}
 			
-			HTTP::redirect('/tops/list/');
+			HTTP::redirect('/top/list/');
+			
 		} catch (Database_Exception $e) {
 			$this->response->body( $e->getMessage() );
 		}		
@@ -204,7 +206,7 @@ class Controller_Top extends Controller_Auth {
 				->where('agency_id', '=', $this->auth->agency_id)
 				->where('id','=',$id)
 				->execute();
-			HTTP::redirect('/tops/list/');
+			HTTP::redirect('/top/list/');
 		} catch (Database_Exception $e) {
 			$this->response->body( $e->getMessage() );
 		}

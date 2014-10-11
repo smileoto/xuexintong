@@ -119,7 +119,7 @@ $(function(){
 	});
 	
 	$('#btnOpenSelector').click(function(){
-		var url = '<?php echo URL::base(NULL, TRUE)?>student/list/?pop=1&size=4';
+		var url = '<?php echo URL::base(NULL, TRUE)?>student/select/?size=4';
 		$.get(url, {}, function (html) {
 			$('#cntSelector').html(html);
 			$('.theme-popover-mask').fadeIn(100);

@@ -17,8 +17,8 @@
 				</span>
 				<select class="search-field" id="agency">
 					<option value=""></option>
-					<?php foreach ( $agencies as $v ) : ?>
-					<option value="<?php echo $v['id']?>"><?php echo $v['realname']?></option>
+					<?php foreach ( $entities as $v ) : ?>
+					<option value="<?php echo $v['id']?>"><?php echo $v['name']?></option>
 					<?php endforeach?>
 				</select>
 			</li>
@@ -50,7 +50,7 @@
 				</span>
 				<select class="search-field" id="class">
 					<option value=""></option>
-					<?php foreach ( $classes as $v ) : ?>
+					<?php foreach ( $courses as $v ) : ?>
 					<option value="<?php echo $v['id']?>"><?php echo $v['name']?></option>
 					<?php endforeach?>
 				</select>
@@ -103,7 +103,7 @@ $(function(){
 	
 	$('#btnSearchStudent_Pop').click(function(){
 		// todo: check params
-		var url = '<?php echo URL::base(NULL, TRUE)?>student/list/?size=4';
+		var url = '<?php echo URL::base(NULL, TRUE)?>student/search/?size=4';
 		$('.search-field').each(function(){
 			var key = $(this).attr('id');
 			var val = $(this).val();

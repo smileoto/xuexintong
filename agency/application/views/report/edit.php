@@ -41,23 +41,23 @@
 									<span class="m-name">
 										起止时间：
 									</span>
-									<input type="date" name="begin_str" id="begin_t" /> 
+									<input type="date" name="begin_str" id="begin_t" value="<?php echo $item['begin_str']?>" /> 
 									至 
-									<input type="date" name="end_str"   id="end_t" />
+									<input type="date" name="end_str"   id="end_t"   value="<?php echo $item['end_str']?>" />
 								</li>
 								<li style="width:100%">
 									<span class="m-name">
 										姓名：
 									</span>
 									<input type="text"   id="student" readonly="readonly"   value="<?php echo $student['realname']?>">
-									<input type="hidden" id="student_id" name="" value="<?php echo $student['id']?>">
+									<input type="hidden" id="student_id" name="student_id" value="<?php echo $student['id']?>">
 									<a class="btn btn-primary btn-large theme-login" href="javascript:;" id="btnOpenSelector">选择学生</a>
                                     </li>
 								<li style="width: 100%;height: 100px;">
 									<span class="m-name">
 										成绩：
 									</span>
-									<textarea style="width: 477px;resize: none;" rows="6" name="" id="content"><?php echo $item['content']?></textarea>
+									<textarea style="width: 477px;resize: none;" rows="6" name="content" id="content"><?php echo $item['content']?></textarea>
 								</li>
 							</ul>
 							</div>
@@ -132,7 +132,7 @@ $(function(){
 	
 	
 	$('#btnOpenSelector').click(function(){
-		var url = '<?php echo URL::base(NULL, TRUE)?>student/list/?status=2';
+		var url = '<?php echo URL::base(NULL, TRUE)?>student/select/?size=4';
 		$.get(url, {}, function (html) {
 			$('#cntSelector').html(html);
 			$('.theme-popover-mask').fadeIn(100);

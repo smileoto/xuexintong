@@ -28,7 +28,7 @@
 					
 					<div class="content-box">
 					
-						<form method="post" id="data-form" action="<?php echo URL::base(NULL, true)?>works/save/">
+						<form method="post" id="data-form" action="<?php echo URL::base(NULL, true)?>student/save/">
 						<div class="content-inner">
 							<div class="navbar-top">
 								<a href="<?php echo URL::base(NULL, TRUE)?>student/list/">学生查询</a>
@@ -151,7 +151,7 @@
 										</span>
 										<div class="checkbox-box" style="width: 485px;float: left;">
 										<?php foreach ( $courses as $v ) : ?>
-										<input type="checkbox" style="width: 15px;margin-left: 10px;" name="course" value="<?php echo $v['id']?>" />
+										<input type="checkbox" class="course" style="width: 15px;margin-left: 10px;" name="course[]" value="<?php echo $v['id']?>" />
 										<span style="float: left; margin-left: 5px; margin-right:15px; line-height: 30px;">
 											<?php echo $v['name']?>
 										</span>
@@ -193,7 +193,7 @@
 $(function(){
 	setup();preselect_ex(0,0,0);
 	
-	$('input[name=course]').click(function () {
+	$('.course').click(function () {
 		if ( $(this).attr('checked') ) {
 			$(this).attr('checked', false);
 		} else {

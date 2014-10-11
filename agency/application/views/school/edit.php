@@ -33,7 +33,9 @@
 						<input type="hidden" name="id" value="<?php echo $item['id']?>">
 						<div class="content-inner">
 							<div class="navbar-top">
+								<a href="<?php echo URL::base(NULL, TRUE)?>entity/list/" >分机构设置</a>
 								<a class="active">编辑学校</a>
+								<a href="<?php echo URL::base(NULL, TRUE)?>grade/list/" >年级设置</a>
 							</div>
 							<ul>
 								<li>

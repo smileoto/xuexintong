@@ -32,7 +32,9 @@
 						<form method="post" id="data-form" action="<?php echo URL::base(NULL, true)?>school/save/">
 						<div class="content-inner">
 							<div class="navbar-top">
+								<a href="<?php echo URL::base(NULL, TRUE)?>entity/list/" >分机构设置</a>
 								<a class="active">添加学校</a>
+								<a href="<?php echo URL::base(NULL, TRUE)?>grade/list/" >年级设置</a>
 							</div>
 							<ul>
 								<li>

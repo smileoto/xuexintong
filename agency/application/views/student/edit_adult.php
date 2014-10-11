@@ -26,53 +26,62 @@
 						<?php echo $html_left_content?>
 					</div>
 					<div class="content-box">
+					
+						<form method="post" id="data-form" action="<?php echo URL::base(NULL, true)?>student/save/">
+						<input type="hidden" name="id" value="<?php echo $item['id']?>">
+						<input type="hidden" name="signup_by" value="3">
+						
 						<div class="content-inner">
 							<div class="navbar-top">
 								<a href="<?php echo URL::base(NULL, TRUE)?>student/list/?status=1">学生查询</a>
 								<a href="<?php echo URL::base(NULL, TRUE)?>student/list/">申请查询</a>
 								<a href="<?php echo URL::base(NULL, TRUE)?>student/add/">添加学生</a>
-								<a class="active" href="#">添加成人学员</a>
+								<a class="active" href="#">编辑成人学员</a>
 							</div>
-						<div class="accountSettings-box">
+							<div class="accountSettings-box">
 							<ul>
 								<li>
 									<span class="m-name">
 										学员姓名：
 									</span>
-									<input type="text" name="realname" id="realname" />
+									<input type="text" name="realname" id="realname" value="<?php echo $item['realname']?>" />
 								</li><li>
 									<span class="m-name">
 										性别：
 									</span>
 									<select name="sex">
-									  <option value="2">请选择</option>
-									  <option value="1">男</option>
-									  <option value="0">女</option>
+										<option value="2">请选择</option>
+										<option value="1" <?php if ($item['sex'] == 1) echo 'selected="selected"'?> >
+											男
+										</option>
+										<option value="0" <?php if ($item['sex'] == 0) echo 'selected="selected"'?> >
+											女
+										</option>
 									</select>
 								</li>
 								<li>
 									<span class="m-name">
 										出生年月：
 									</span>
-									<input type="date" name="birthday" id="birthday" />
+									<input type="date" name="birthday" id="birthday" value="<?php echo $item['birthday']?>" />
 								</li>
 								<li>
 									<span class="m-name">
 										手机号码：
 									</span>
-									<input type="text" name="mobile" id="mobile" />
+									<input type="text" name="mobile" id="mobile" value="<?php echo $item['mobile']?>" />
 								</li>
                                 <li>
 									<span class="m-name">
 										QQ号码：
 									</span>
-									<input type="text" name="QQ" id="QQ"  />
+									<input type="text" name="QQ" id="QQ" value="<?php echo $item['QQ']?>" />
 								</li>
                                 <li>
 									<span class="m-name">
 										电子邮箱：
 									</span>
-									<input type="text" name="email" id="email"  />
+									<input type="text" name="email" id="email" value="<?php echo $item['email']?>" />
 								</li>
 								<li>
 									<span class="m-name">
@@ -80,14 +89,14 @@
 									</span>
 									<select name="entity_id" id="entity">
 										<option value=""></option>
-										<?php foreach ( $agencies as $v ) : ?>
+										<?php foreach ( $entities as $v ) : ?>
 										<option value="<?php echo $v['id']?>" 
 											<?php
-											if ( $student['agency_id'] == $v['id'] ) {
+											if ( $item['agency_id'] == $v['id'] ) {
 												echo 'selected="selected"';
 											}
 											?> >
-											<?php echo $v['realname']?>
+											<?php echo $v['name']?>
 										</option>
 										<?php endforeach?>
 									</select>
@@ -105,15 +114,15 @@
 									<select class="select" id="s3">
 										<option value="">请选择地区</option>
 									</select>
-									<input type="hidden" name="province" id="province" value="0" />
-									<input type="hidden" name="city" id="city" value="0" />
-									<input type="hidden" name="area" id="area" value="0" />
+									<input type="hidden" name="province" id="province" value="<?php echo $item["province"]?>" />
+									<input type="hidden" name="city" id="city" value="<?php echo $item["city"]?>" />
+									<input type="hidden" name="area" id="area" value="<?php echo $item["area"]?>" />
 								</li>
                                 <li style="width: 100%;">
 									<span class="m-name">
 										联系地址：
 									</span>
-									<input style="width: 477px;" type="text" name="addr" id="addr" />
+									<input style="width: 477px;" type="text" name="addr" id="addr" value="<?php echo $item["addr"]?>" />
 								</li>
 								<li style="width: 100%;">
 									<span class="m-name">
@@ -121,7 +130,7 @@
 									</span>
 									<div class="checkbox-box" style="width: 485px;float: left;">
 									<?php foreach ( $courses as $v ) : ?>
-									<input type="checkbox" style="width: 15px;margin-left: 10px;" name="course" value="<?php echo $v['id']?>"  
+									<input type="checkbox" class="course" style="width: 15px;margin-left: 10px;" name="course[]" value="<?php echo $v['id']?>"  
 										<?php if ( isset($student_courses[$v['id']]) ) { echo 'checked="checked"'; } ?> />
 									<span style="float: left; margin-left: 5px; margin-right:15px; line-height: 30px;">
 										<?php echo $v['name']?>
@@ -133,17 +142,21 @@
 									<span class="m-name">
 										特别说明：
 									</span>
-									<textarea rows="9" style="width: 477px;" name="remark" id="remark"></textarea>
+									<textarea rows="9" style="width: 477px;" name="remark" id="remark"><?php echo $item['remark']?></textarea>
 								</li>
 							</ul>
-						</div>
-						<div class="btn-box" style="float: left;margin-top: 0px;height: 50px;"  >
+							</div>
+							<div class="btn-box" style="float: left;margin-top: 0px;height: 50px;"  >
 								<button id="btnAddStudent" style="margin-left: 105px;margin-top: 10px;">确定添加</button>
 							</div>
 						</div>
+						
+						</form>
+						
 						<div class="btn-box" style="float: left;margin-top: 30px;height: 50px;margin-left: 105px;"  >
 							注：添加后不能删除，只能停用。
 						</div>
+						
 						</div>
 					</div>
 				</div>
@@ -163,11 +176,19 @@
 $(function(){
 	setup();preselect_ex(0,0,0);
 	
+	$('.course').click(function () {
+		if ( $(this).attr('checked') ) {
+			$(this).attr('checked', false);
+		} else {
+			$(this).attr('checked', true);
+		}
+	});
+	
 	$('#btnSubmit').click(function(){
 		$('#area').val($('#s3').get(0).selectedIndex);
 		
 		var courses = [];
-		$('input[name=course]').each(function () {
+		$('.course').each(function () {
 			if ( $(this).attr('checked') ) {
 				courses.push($(this).val());
 			}

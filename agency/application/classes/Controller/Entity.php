@@ -6,7 +6,7 @@ class Controller_Entity extends Controller_Base {
 	{
 		$items = DB::select('*')
 			->from('entities')
-			->where('parent_id', '=', $this->auth->agency_id)
+			->where('agency_id', '=', $this->auth->agency_id)
 			->execute()
 			->as_array();
 									
@@ -46,17 +46,17 @@ class Controller_Entity extends Controller_Base {
 	{
 		$data = array();
 		
-		$data['realname']  = $this->request->post('realname');
-		$data['remark']    = strval($this->request->post('remark'));
+		$data['name']      = $this->request->post('name');
 		$data['addr']      = $this->request->post('addr');
 		$data['mobile']    = $this->request->post('mobile');
 		$data['contact']   = $this->request->post('contact');
+		$data['remark']    = strval($this->request->post('remark'));
 		$data['email']     = strval($this->request->post('mail'));
 		$data['province']  = intval($this->request->post('province'));
 		$data['city']      = intval($this->request->post('city'));
 		$data['area']      = intval($this->request->post('area'));
 		
-		$data['modified_at'] = NULL;
+		$data['modified_at'] = date('Y-m-d H:i:s');
 		$data['modified_by'] = $this->auth->user_id;
 		
 		$id = intval( $this->request->post('id') );
@@ -68,7 +68,7 @@ class Controller_Entity extends Controller_Base {
 					->where('id', '=', $id)
 					->execute();		
 			} else {
-				$data['created_at'] = NULL;
+				$data['created_at'] = date('Y-m-d H:i:s');
 				$data['created_by'] = $this->auth->user_id;
 				$data['agency_id']  = $this->auth->agency_id;
 				DB::insert('entities', array_keys($data))
@@ -89,7 +89,7 @@ class Controller_Entity extends Controller_Base {
 		
 			$data = array(
 				'status'      => STATUS_DELETED,
-				'modified_at' => NULL
+				'modified_at' => date('Y-m-d H:i:s')
 			);
 			
 			DB::update('entities')

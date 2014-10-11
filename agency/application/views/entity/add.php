@@ -33,6 +33,8 @@
 						<div class="content-inner">
 							<div class="navbar-top">
 								<a class="active">添加分机构</a>
+								<a href="<?php echo URL::base(NULL, TRUE)?>school/list/">学校设置</a>
+								<a href="<?php echo URL::base(NULL, TRUE)?>grade/list/" >年级设置</a>
 							</div>
 							<ul>
 								<li>

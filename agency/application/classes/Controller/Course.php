@@ -27,7 +27,7 @@ class Controller_Course extends Controller_Base {
 				->execute();
 			$total = $cnt->count() ? $cnt[0]['COUNT(0)'] : 0;
 			
-			$items = DB::select('id', 'class_id', 'hours', 'num', 'tuition', 'name', 'modified_at')
+			$items = DB::select('*')
 				->from('courses')
 				->where('agency_id', '=', $this->auth->agency_id)
 				->where('class_id', '=', $class_id)

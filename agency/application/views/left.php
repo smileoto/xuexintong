@@ -38,7 +38,7 @@
 									</li>
 									
 									<li <?php echo ($active=="top") ? 'class="active"' : '';?> >
-										<a href="<?php echo URL::base(NULL, TRUE)?>tops/list/">-菁英榜</a>
+										<a href="<?php echo URL::base(NULL, TRUE)?>top/list/">-菁英榜</a>
 									</li>
 									
 									<li <?php echo ($active=="signup") ? 'class="active"' : '';?> >
@@ -55,19 +55,19 @@
 									</li>
 									
 									<li <?php echo ($active=="dailynews") ? 'class="active"' : '';?> >
-										<a href="<?php echo URL::base(NULL, TRUE)?>dailynews">-每日讯息</a>
+										<a href="<?php echo URL::base(NULL, TRUE)?>dailynews/list/">-每日讯息</a>
 									</li>
 									
 									<li <?php echo ($active=="report") ? 'class="active"' : '';?> >
 										<a href="<?php echo URL::base(NULL, TRUE)?>report/list/">-学生成绩</a>
 									</li>
 									
-									<li <?php echo ($active=="feedback") ? 'class="active"' : '';?> >
-										<a href="<?php echo URL::base(NULL, TRUE)?>feedback/list/">-老师评语</a>
+									<li <?php echo ($active=="comment") ? 'class="active"' : '';?> >
+										<a href="<?php echo URL::base(NULL, TRUE)?>comment/list/">-老师评语</a>
 									</li>
 									
-									<li <?php echo ($active=="comment") ? 'class="active"' : '';?> >
-										<a href="<?php echo URL::base(NULL, TRUE)?>comment/list/">-反馈管理</a>
+									<li <?php echo ($active=="feedback") ? 'class="active"' : '';?> >
+										<a href="<?php echo URL::base(NULL, TRUE)?>feedback/list/">-反馈管理</a>
 									</li>								
 								</ul>
 							</li>

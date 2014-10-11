@@ -89,7 +89,7 @@ class Controller_Report extends Controller_Base {
 				->set('total', $total)
 				->set('page',  $this->pagenav->page)
 				->set('size',  $this->pagenav->size);
-			$this->output($page, 'score');
+			$this->output($page, 'report');
 				
 		} catch (Database_Exception $e) {
 			$this->response->body($e->getMessage());
@@ -98,12 +98,12 @@ class Controller_Report extends Controller_Base {
 	
 	public function action_add()
 	{
-		$page = View::factory('score/add')
+		$page = View::factory('report/add')
 			->set('schools', $this->schools())
 			->set('grades',  $this->grades())
 			->set('courses', $this->courses());
 			
-		$this->output($page, 'score');
+		$this->output($page, 'report');
 	}
 	
 	public function action_edit()
@@ -137,26 +137,29 @@ class Controller_Report extends Controller_Base {
 			->set('grades',   $this->grades())
 			->set('courses',  $this->courses());
 			
-		$this->output($page, 'score');
+		$this->output($page, 'report');
 	}
 	
 	public function action_save()
 	{
 		$data = array();
-		$data['student_id'] =  intval($this->request->post('student_id'));
+		$data['student_id']  = intval($this->request->post('student_id'));
+		$data['begin_str']   = Arr::get($_POST, 'begin_str', '');
+		$data['end_str']     = Arr::get($_POST, 'end_str', '');
 		$data['content']     = Arr::get($_POST, 'content', '');
-		$data['modified_at'] = NULL;
+		$data['modified_at'] = date('Y-m-d H:i:s');
+		$data['modified_by'] = $this->auth->user_id;
 		
-		$id = intval($this->request->query('id'));
+		$id = intval($this->request->post('id'));
 		try {
 			if ( $id ) {
 				DB::update('reports')
 					->set($data)
 					->where('agency_id', '=', $this->auth->agency_id)
-					->where('id', '=', $works_id)
+					->where('id', '=', $id)
 					->execute();
 			} else {
-				$data['created_at'] = NULL;
+				$data['created_at'] = date('Y-m-d H:i:s');
 				$data['created_by'] = $this->auth->user_id;
 				$data['agency_id']  = $this->auth->agency_id;
 			
@@ -177,7 +180,7 @@ class Controller_Report extends Controller_Base {
 		$id = intval($this->request->query('id'));
 		
 		$data = array();
-		$data['modified_at'] = NULL;
+		$data['modified_at'] = date('Y-m-d H:i:s');
 		$data['status']      = STATUS_DELETED;
 		
 		try {

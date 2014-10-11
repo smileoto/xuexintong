@@ -29,7 +29,7 @@
 					<div class="content-box">
 												
 						<form method="post" id="data-form" action="<?php echo URL::base(NULL, true)?>top/save/">
-						<input type="hidden" name="id" value="<?php echo $item['id']?>">
+						<input type="hidden" name="top_id" value="<?php echo $item['id']?>">
 						
 						<div class="content-inner">
 							<div class="navbar-top">
@@ -42,20 +42,20 @@
 									<input type="text" id="title" value="<?php echo $item['title']?>" />
 								</div>
 								<?php $cnt = 1;?>
-								<?php foreach ( $ranking_students as $v ) : ?>
+								<?php foreach ( $tops_students as $v ) : ?>
 								<div class="input-box">
 									<span>学生姓名：</span>
 									<input type="text" readonly="readonly"  id="realname-<?php echo $cnt?>"   value="<?php echo $v['realname']?>" />
-									<input type="hidden" class="data-field" id="student_id-<?php echo $cnt?>" value="<?php echo $v['id']?>" />
+									<input type="hidden" name="id[]" id="student_id-<?php echo $cnt?>" value="<?php echo $v['id']?>" />
 									<a class="btn btn-primary btn-large theme-login" href="javascript:;" onclick="select_student(<?php echo $cnt?>)">选择学生<a>
 								</div>
 								<div class="scan-box">
 									<span>学生头像：</span>
-									<input type="text" readonly="readonly" name="avator[]" id="avatar-<?php echo $cnt?>" value="<?php $v['avatar']?>" />
+									<input type="text" readonly="readonly" name="avatar[]" id="avatar-<?php echo $cnt?>" value="<?php $v['avatar']?>" />
 								</div>
 								<div class="input-box input-box-title">
 									<span>上榜理由：</span>
-									<input type="text" class="title-elite data-field" name="reason[]" id="reason-<?php echo $cnt?>" value="<?php echo $v['reason']?>" />
+									<input type="text" class="title-elite" name="reason[]" id="reason-<?php echo $cnt?>" value="<?php echo $v['reason']?>" />
 								</div>
 								<?php $cnt++;?>
 								<?php endforeach;?>
@@ -89,7 +89,7 @@ var g_current_group = 1;
 function select_student(group) {
 	g_current_group = group;
 	
-	var url = '<?php echo URL::base(NULL, TRUE)?>student/list/?pop=1&size=4';
+	var url = '<?php echo URL::base(NULL, TRUE)?>student/select/?size=4';
 	$.get(url, {}, function (html) {
 		$('#cntSelector').html(html);
 		$('.theme-popover-mask').fadeIn(100);
@@ -117,12 +117,16 @@ $(function(){
 		html += '<div class="input-box">';
 		html += '	<span>学生姓名：</span>';
 		html += '	<input type="text" readonly="readonly" id="realname-' + cnt + '" />';
-		html += '	<input type="hidden" class="data-field" id="student_id-' + cnt + '" value="" />';
-		html += '	<a class="btn btn-primary btn-large theme-login" href="javascript:;" onclick="select_student(' + cnt + ')">选择学生<a>';
+		html += '	<input type="hidden" name="id[]" id="student_id-' + cnt + '" value="" />';
+		html += '	<a class="btn btn-primary btn-large theme-login" onclick="select_student(' + cnt + ')">选择学生<a>';
+		html += '</div>';
+		html += '<div class="scan-box">';
+		html += '	<span>学生头像：</span>';
+		html += '	<input type="text" readonly="readonly" name="avatar[]" id="avatar-' + cnt + '" />';
 		html += '</div>';
 		html += '<div class="input-box input-box-title">';
 		html += '	<span>上榜理由：</span>';
-		html += '	<input class="title-elite data-field" type="text" id="reason-' + cnt + '" />';
+		html += '	<input class="title-elite" type="text" name="reason[]" id="reason-' + cnt + '" />';
 		html += '</div>';
 		$(html).insertBefore('#posStudents');
 	});

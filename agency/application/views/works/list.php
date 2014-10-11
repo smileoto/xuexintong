@@ -95,14 +95,14 @@
 									<th>编辑者</th>
 									<th>操作</th>
 								</tr>
-								<?php foreach ($works as $v) : ?>
+								<?php foreach ($items as $v) : ?>
 								<tr>
 									<td><?php echo $v['id']?></td>
 									<td><?php echo substr($v['title'], 0, 16)?></td>
 									<td><?php echo $v['realname']?></td>
 									<td><?php echo $v['school'].' '.$v['grade']?></td>
-									<td><?php echo $v['add_t']?></td>
-									<td><?php echo $v['modify_t']?></td>
+									<td><?php echo $v['created_at']?></td>
+									<td><?php echo $v['modified_at']?></td>
 									<td><?php echo $v['editor']?></td>
 									<td>
 										<a href="<?php echo URL::base(NULL, TRUE)?>works/del/?id=<?php echo $v['id']?>">停用</a>

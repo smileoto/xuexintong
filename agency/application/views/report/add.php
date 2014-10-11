@@ -132,7 +132,7 @@ $(function(){
 	
 	
 	$('#btnOpenSelector').click(function(){
-		var url = '<?php echo URL::base(NULL, TRUE)?>student/list/?status=2';
+		var url = '<?php echo URL::base(NULL, TRUE)?>student/select/?size=4';
 		$.get(url, {}, function (html) {
 			$('#cntSelector').html(html);
 			$('.theme-popover-mask').fadeIn(100);

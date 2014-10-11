@@ -26,7 +26,7 @@
 						<?php echo $html_left_content?>
 					</div>
 					<div class="content-box">
-											
+						
 						<form method="post" id="data-form" action="<?php echo URL::base(NULL, true)?>student/save/">
 						<input type="hidden" name="id" value="<?php echo $item['id']?>">
 						<div class="content-inner">
@@ -34,6 +34,7 @@
 								<a href="<?php echo URL::base(NULL, TRUE)?>student/list/">学生查询</a>
 								<a href="<?php echo URL::base(NULL, TRUE)?>guest/list/">申请查询</a>
 								<a class="active" href="#">编辑学生</a>
+								<a href="<?php echo URL::base(NULL, TRUE)?>student/add/?adult=1">添加成人学员</a>
 							</div>
 							<div class="accountSettings-box">
 								<ul>
@@ -68,14 +69,14 @@
 										</span>
 										<select name="entity_id" id="entity">
 											<option value=""></option>
-											<?php foreach ( $agencies as $v ) : ?>
+											<?php foreach ( $entities as $v ) : ?>
 											<option value="<?php echo $v['id']?>" 
 												<?php
 												if ( $item['entity_id'] == $v['id'] ) {
 													echo 'selected="selected"';
 												}
 												?> >
-												<?php echo $v['realname']?>
+												<?php echo $v['name']?>
 											</option>
 											<?php endforeach?>
 										</select>
@@ -173,7 +174,7 @@
 										</span>
 										<div class="checkbox-box" style="width: 485px;float: left;">
 										<?php foreach ( $courses as $v ) : ?>
-										<input type="checkbox" style="width: 15px;margin-left: 10px;" name="course" value="<?php echo $v['id']?>"  
+										<input type="checkbox" class="course" style="width: 15px;margin-left: 10px;" name="course[]" value="<?php echo $v['id']?>"  
 											<?php if ( isset($student_courses[$v['id']]) ) { echo 'checked="checked"'; } ?> />
 										<span style="float: left; margin-left: 5px; margin-right:15px; line-height: 30px;">
 											<?php echo $v['name']?>
@@ -219,7 +220,7 @@ $(function(){
 	var s3 = '<?php echo $item["area"]?>';
 	setup();preselect_ex(s1,s2,s3);
 	
-	$('input[name=course]').click(function () {
+	$('.course').click(function () {
 		if ( $(this).attr('checked') ) {
 			$(this).attr('checked', false);
 		} else {
@@ -231,7 +232,7 @@ $(function(){
 		$('#area').val($('#s3').get(0).selectedIndex);
 		
 		var courses = [];
-		$('input[name=course]').each(function () {
+		$('.course').each(function () {
 			if ( $(this).attr('checked') ) {
 				courses.push($(this).val());
 			}

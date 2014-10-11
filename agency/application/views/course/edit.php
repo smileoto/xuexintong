@@ -33,6 +33,7 @@
 					
 						<form method="post" id="data-form" action="<?php echo URL::base(NULL, true)?>course/save/">
 						<input type="hidden" name="id" value="<?php echo $item['id']?>">
+						<input type="hidden" name="class_id" value="<?php echo $item['class_id']?>">
 						<div class="content-inner">
 							<div class="navbar-top">
 								<a class="active">编辑班别</a>

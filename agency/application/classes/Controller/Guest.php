@@ -31,7 +31,7 @@ class Controller_Guest extends Controller_Base {
 			->join('grades', 'LEFT')
 			->on('guests.grade_id', '=', 'grades.id')
 			->join('guests_courses', 'LEFT')
-			->on('guests.id', '=', 'guests_courses.student_id')
+			->on('guests.id', '=', 'guests_courses.guest_id')
 			->join('courses', 'LEFT')
 			->on('guests_courses.course_id', '=', 'courses.id')
 			->where('guests.agency_id', '=', $this->auth->agency_id)
@@ -54,7 +54,7 @@ class Controller_Guest extends Controller_Base {
 		if ( $class ) {
 			$queryList->where('guests_courses.course_id', '=', $class);
 			$queryCount->join('guests_courses', 'LEFT')
-				->on('guests.id', '=', 'guests_courses.student_id')
+				->on('guests.id', '=', 'guests_courses.guest_id')
 				->where('guests_courses.course_id', '=', $class);
 		}
 		if ( $realname ) {
@@ -96,7 +96,7 @@ class Controller_Guest extends Controller_Base {
 			->as_array();
 		
 		$page = View::factory('guest/list')
-			->set('guests',   $items)
+			->set('items',    $items)
 			->set('entities', $this->entities())
 			->set('schools',  $this->schools())
 			->set('grades',   $this->grades())

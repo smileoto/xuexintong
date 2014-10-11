@@ -63,7 +63,7 @@
 									<div class="con-name">说明：
 									</div>
 									<div class="con-info">
-										<textarea name="detail" id="content" style="width: 302px;resize: none;" class="<?php echo $xheditor_config?>"></textarea>
+										<textarea name="content" id="content" style="width: 302px;resize: none;" class="<?php echo $xheditor_config?>"></textarea>
 									</div>
 								</li>
 							</ul>

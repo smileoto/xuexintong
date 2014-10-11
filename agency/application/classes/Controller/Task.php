@@ -8,42 +8,56 @@ class Controller_task extends Controller_Base {
 		$school = intval($this->request->query('school'));
 		$grade  = intval($this->request->query('grade'));
 		$class  = intval($this->request->query('class'));
-		$date   = intval($this->request->query('date'));
+		$date   = strtotime($this->request->query('date'));
 		
 		try {		
 			$expr = DB::expr('COUNT(0)');
 			$queryCount = DB::select($expr)
 				->from('tasks')
-				->where('agency_id', '=', $this->auth->agency_id);
-			$queyrList  = DB::select('id','title','date_t','entity_id','school_id','grade_id','class_id','course_id')
+				->where('agency_id', '=', $this->auth->agency_id)
+				->where('status', '=', STATUS_NORMAL);
+			$queyrList  = DB::select('tasks.id','tasks.title','tasks.date_t',array('entities.name', 'entity'),array('schools.name', 'school'),array('grades.name', 'grade'),array('classes.name', 'class'),array('courses.name', 'course'))
 				->from('tasks')
-				->where('agency_id', '=', $this->auth->agency_id);
+				->where('tasks.agency_id', '=', $this->auth->agency_id)
+				->join('entities', 'LEFT')
+				->on('tasks.entity_id', '=', 'entities.id')
+				->join('schools', 'LEFT')
+				->on('tasks.school_id', '=', 'schools.id')
+				->join('grades', 'LEFT')
+				->on('tasks.grade_id', '=', 'grades.id')
+				->join('courses', 'LEFT')
+				->on('tasks.course_id', '=', 'courses.id')
+				->join('classes', 'LEFT')
+				->on('courses.class_id', '=', 'classes.id');
 			
 			if ( $entity ) {
-				$queryCount->where('entity_id', '=', $school);
-				$queyrList->where('entity_id',  '=', $school);
+				$queryCount->where('tasks.entity_id', '=', $school);
+				$queyrList->where('tasks.entity_id',  '=', $school);
 			}
 			if ( $school ) {
-				$queryCount->where('school_id', '=', $school);
-				$queyrList->where('school_id',  '=', $school);
+				$queryCount->where('tasks.school_id', '=', $school);
+				$queyrList->where('tasks.school_id',  '=', $school);
 			}
 			if ( $grade ) {
-				$queryCount->where('grade_id', '=', $grade);
-				$queyrList->where('grade_id',  '=', $grade);
+				$queryCount->where('tasks.grade_id', '=', $grade);
+				$queyrList->where('tasks.grade_id',  '=', $grade);
 			}
 			if ( $class ) {
-				$queryCount->where('course_id', '=', $class);
-				$queyrList->where('course_id',  '=', $class);
+				$queryCount->where('tasks.course_id', '=', $class);
+				$queyrList->where('tasks.course_id',  '=', $class);
 			}
 			if ( $date ) {
-				$queryCount->where('date_t', '=', $date);
-				$queyrList->where('date_t',  '=', $date);
+				$queryCount->where('tasks.date_t', '=', $date);
+				$queyrList->where('tasks.date_t',  '=', $date);
 			}
 			
 			$cnt   = $queryCount->execute();
 			$total = $cnt->count() ? $cnt[0]['COUNT(0)'] : 0;
 			
-			$items = $queyrList->offset($this->pagenav->offset)
+			$items = $queyrList
+				->where('tasks.agency_id', '=', $this->auth->agency_id)
+				->where('tasks.status', '=', STATUS_NORMAL)
+				->offset($this->pagenav->offset)
 				->limit($this->pagenav->size)
 				->execute()
 				->as_array();
@@ -53,7 +67,6 @@ class Controller_task extends Controller_Base {
 				->set('entities', $this->entities())
 				->set('schools',  $this->schools())
 				->set('grades',   $this->grades())
-				->set('classes',  $this->classes())
 				->set('courses',  $this->courses());
 			$page->html_pagenav_content = View::factory('pagenav')
 				->set('total', $total)
@@ -68,7 +81,7 @@ class Controller_task extends Controller_Base {
 	
 	public function action_add()
 	{
-		$page = View::factory('tasks/add')
+		$page = View::factory('task/add')
 			->set('entities', $this->entities())
 			->set('schools',  $this->schools())
 			->set('grades',   $this->grades())
@@ -93,7 +106,7 @@ class Controller_task extends Controller_Base {
 			HTTP::redirect('/tasks/list/');
 		}
 		
-		$page = View::factory('tasks/add')
+		$page = View::factory('task/edit')
 			->set('item',     $items[0])
 			->set('entities', $this->entities())
 			->set('schools',  $this->schools())
@@ -116,12 +129,12 @@ class Controller_task extends Controller_Base {
 		
 		$data['content']   = Arr::get($_POST, 'content', '');
 		
-		$data['modified_at']  = NULL;
+		$data['modified_at']  = date('Y-m-d H:i:s');
 		$data['modified_by']  = $this->auth->user_id;
 		
 		$content = $this->request->post('content');
 		
-		$id = intval($this->request->query('id'));
+		$id = intval($this->request->post('id'));
 		try {
 			if ( $id ) {
 				DB::update('tasks')
@@ -130,7 +143,7 @@ class Controller_task extends Controller_Base {
 					->where('id', '=', $id)
 					->execute();
 			} else {
-				$data['created_at'] = NULL;
+				$data['created_at'] = date('Y-m-d H:i:s');
 				$data['created_by'] = $this->auth->user_id;
 				$data['agency_id']  = $this->auth->agency_id;
 				DB::insert('tasks', array_keys($data))
@@ -151,7 +164,7 @@ class Controller_task extends Controller_Base {
 		
 		try {
 			DB::update('tasks')
-				->set( array('status'=>STATUS_DELETED, 'modified_at'=>NULL) )
+				->set( array('status'=>STATUS_DELETED, 'modified_at'=>date('Y-m-d H:i:s')) )
 				->where('agency_id', '=', $this->auth->agency_id)
 				->where('id','=',$id)
 				->execute();

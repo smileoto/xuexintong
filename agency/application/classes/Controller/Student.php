@@ -3,7 +3,17 @@
 class Controller_Student extends Controller_Base {
 	
 	public function action_list()
-	{		
+	{
+		$this->comm_list();
+	}
+	
+	public function action_select()
+	{
+		$this->comm_list(1);
+	}
+	
+	public function comm_list( $pop = 0 )
+	{
 		$entity   = $this->request->query('entity');
 		$school   = $this->request->query('school');
 		$grade    = $this->request->query('grade');
@@ -91,7 +101,6 @@ class Controller_Student extends Controller_Base {
 			->execute()
 			->as_array();
 		
-		$pop = Arr::get($_GET, 'pop', 0);
 		$viewname = $pop ? 'student/list_for_select' : 'student/list';
 		$page = View::factory($viewname)
 			->set('items',   $items)
@@ -120,13 +129,7 @@ class Controller_Student extends Controller_Base {
 	}
 	
 	public function action_edit()
-	{
-		$viewname = 'student/edit';		
-		$adult = Arr::get($_GET, 'adult', 0);
-		if ( $adult ) {
-			$viewname .= '_adult';
-		}
-		
+	{		
 		$id = intval($this->request->query('id'));
 			
 		$result = DB::select('course_id')
@@ -150,11 +153,16 @@ class Controller_Student extends Controller_Base {
 			HTTP::redirect('/student/list/');
 		}
 		
+		$viewname = 'student/edit';
+		if ( $items[0]['signup_by'] == 3 ) {
+			$viewname .= '_adult';
+		}
+		
 		$page = View::factory($viewname)
-			->set('itme',    $items[0])
-			->set('schools', $schools)
-			->set('grades',  $grades)
-			->set('courses', $courses)
+			->set('item',    $items[0])
+			->set('schools', $this->schools())
+			->set('grades',  $this->grades())
+			->set('courses', $this->courses())
 			->set('student_courses', $data_courses)
 			->set('entities', $this->entities());
 			
@@ -188,10 +196,10 @@ class Controller_Student extends Controller_Base {
 		$data['email'] = strval($this->request->post('email'));
 		$data['QQ']    = strval($this->request->post('QQ'));
 		
-		$data['modified_at'] = NULL;
+		$data['modified_at'] = date('Y-m-d H:i:s');
 		$data['modified_by'] = $this->auth->user_id;
 		
-		$courses = explode( ',', strval( $this->request->post('class') ) );
+		$courses = $this->request->post('course');
 		
 		$id = intval($this->request->post('id'));
 		
@@ -207,7 +215,7 @@ class Controller_Student extends Controller_Base {
 					->where('id', '=', $id)
 					->execute();
 			} else {
-				$data['created_at'] = NULL;
+				$data['created_at'] = date('Y-m-d H:i:s');
 				$data['created_by'] = $this->auth->user_id;
 				$data['agency_id']  = $this->auth->agency_id;
 				list($id, $rows) = DB::insert('students', array_keys($data))
@@ -230,12 +238,51 @@ class Controller_Student extends Controller_Base {
 				$insert->execute();
 			}
 			
+			HTTP::redirect('/student/list/');
+			
 		} catch (Database_Exception $e) {
-			$this->ajax_result['ret'] = ERR_DB_INSERT;
-			$this->ajax_result['msg'] = $e->getMessage();
+			$this->response->body( $e->getMessage() );
 		}
+	}
+	
+	public function action_search()
+	{
+		$student_id = intval( $this->request->post('student_id') );
+		$entity_id  = intval( $this->request->post('entity') );
+		$school_id  = intval( $this->request->post('school') );
+		$grade_id   = intval( $this->request->post('grade') );
+		$class_id   = intval( $this->request->post('class') );
+		$realname   = $this->request->post('realname');
 		
-		$this->response->body( json_encode($this->ajax_result) );
+		try {
+			$query = DB::select('students.id', 'students.realname', 'students.birthday')
+				->from('students')
+				->where('students.agency_id', '=', $this->auth->agency_id);
+			if ( $student_id ) {
+				$query->where('students.id', '=', $student_id);
+			}
+			if ( $entity_id ) {
+				$query->where('students.entity_id', '=', $entity_id);
+			}
+			if ( $school_id ) {
+				$query->where('students.school_id', '=', $school_id);
+			}
+			if ( $grade_id ) {
+				$query->where('students.grade_id', '=', $grade_id);
+			}
+			if ( $class_id ) {
+				$query->join('students_courses')
+					->on('students_id', '=', 'students_courses.student_id')
+					->where('students_courses.id', '=', $class_id);
+			}
+			if ( $realname ) {
+				$query->where('students.realname', '=', $realname);
+			}
+			$students = $query->execute()->as_array();
+			$this->response->body( json_encode($students) );
+		} catch (Database_Exception $e) {
+			$this->response->body( $e->getMessage() );
+		}
 	}
 		
 	public function action_del()
@@ -244,7 +291,7 @@ class Controller_Student extends Controller_Base {
 				
 		try {
 			DB::update('students')
-				->set( array('status'=>STATUS_DELETED, 'modify_t'=>NULL) )
+				->set( array('status'=>STATUS_DELETED, 'modify_t'=>date('Y-m-d H:i:s')) )
 				->where('agency_id', '=', $this->auth->agency_id)
 				->where('id','=',$id)
 				->execute();

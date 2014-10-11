@@ -45,7 +45,7 @@
 									学生姓名：
 									</div>
 									<div class="con-info">
-										<?php echo $student?>
+										<?php echo $item['realname']?>
 									</div>
                                 </li>
                                 <li>
@@ -61,7 +61,7 @@
 									老师点评：
 									</div>
 									<div class="con-info">
-									<textarea name="" cols="50" rows="5" class="data-field" id="comment"><?php echo $item['remark']?></textarea>
+									<textarea cols="50" rows="5" class="data-field" id="comment"><?php echo $item['remark']?></textarea>
 									</div>
                                 </li>
                                 <li>

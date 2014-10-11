@@ -29,7 +29,7 @@
 						<div class="content-inner">
 							<div class="navbar-top">
 								<a class="active">老师评语</a>
-								<a href="<?php echo URL::base(NULL, TRUE)?>feedback/add/">发布评语</a>
+								<a href="<?php echo URL::base(NULL, TRUE)?>comment/add/">发布评语</a>
 							</div>
 							<div class="accountSettings-title">
 							条件检索
@@ -110,16 +110,16 @@
 										<th>机构班别</th>
 										<th>操作</th>
 									</tr>
-									<?php foreach( $topics as $topic ) : ?>
+									<?php foreach( $items as $v ) : ?>
 									<tr>
-										<td><?php echo $topic['id']?></td>
-										<td><?php echo $topic['created_at']?></td>
-										<td><?php echo $topic['realname']?></td>
-										<td><?php echo $topic['school']?></td>
-										<td><?php echo $topic['grade']?></td>
-										<td><?php echo $topic['class'],'-',$topic['course']?></td>
+										<td><?php echo $v['id']?></td>
+										<td><?php echo $v['created_at']?></td>
+										<td><?php echo $v['realname']?></td>
+										<td><?php echo $v['school']?></td>
+										<td><?php echo $v['grade']?></td>
+										<td><?php echo $v['class'],'-',$v['course']?></td>
 										<td>
-											<a href="<?php echo URL::base(NULL, TRUE)?>feedback/del/?id=<?php echo $topic['id']?>">删除</a>
+											<a href="<?php echo URL::base(NULL, TRUE)?>comment/del/?id=<?php echo $v['id']?>">删除</a>
 										</td>
 									</tr>
 									<?php endforeach?>

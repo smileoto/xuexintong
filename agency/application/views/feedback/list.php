@@ -109,17 +109,17 @@
 										<th>机构班别</th>
 										<th>操作</th>
 									</tr>
-									<?php foreach( $topics as $topic ) : ?>
+									<?php foreach( $items as $v ) : ?>
 									<tr>
-										<td><?php echo $topic['id']?></td>
-										<td><?php echo $topic['created_at']?></td>
-										<td><?php echo $topic['realname']?></td>
-										<td><?php echo $topic['school']?></td>
-										<td><?php echo $topic['grade']?></td>
-										<td><?php echo $topic['class'],'-',$topic['course']?></td>
+										<td><?php echo $v['id']?></td>
+										<td><?php echo $v['created_at']?></td>
+										<td><?php echo $v['realname']?></td>
+										<td><?php echo $v['school']?></td>
+										<td><?php echo $v['grade']?></td>
+										<td><?php echo $v['class'],'-',$v['course']?></td>
 										<td>
-											<a href="<?php echo URL::base(NULL, TRUE)?>feedback/reply/?id=<?php echo $topic['id']?>">答复</a>
-											<a href="<?php echo URL::base(NULL, TRUE)?>feedback/del/?id=<?php echo $topic['id']?>">删除</a>
+											<a href="<?php echo URL::base(NULL, TRUE)?>feedback/reply/?id=<?php echo $v['id']?>">答复</a>
+											<a href="<?php echo URL::base(NULL, TRUE)?>feedback/del/?id=<?php echo $v['id']?>">删除</a>
 										</td>
 									</tr>
 									<?php endforeach?>

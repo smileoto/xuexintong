@@ -34,12 +34,12 @@
 								<a class="active" >年级设置</a>
 							</div>
 							<div class="titlenav" style="margin-top: 20px;">
-								<a style="float: right;" href="<?php echo URL::base(NULL, TRUE)?>entity/add/">添加分机构</a>
+								<a style="float: right;" href="<?php echo URL::base(NULL, TRUE)?>grade/add/">添加年级</a>
 							</div>
 							<div class="table-cell">
 							<table border="1" cellspacing="0" cellpadding="0">
 								<tr><th>年级名称</th><th>操作</th></tr>
-								<?php foreach ( $agencies as $v ) : ?>
+								<?php foreach ( $items as $v ) : ?>
 								<tr>
 									<td><?php echo $v['name'];?></td>
 									<td>

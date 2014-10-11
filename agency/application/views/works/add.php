@@ -62,7 +62,7 @@
 									老师点评：
 									</div>
 									<div class="con-info">
-									<textarea name="" cols="50" rows="5" name="comment" id="comment"></textarea>
+									<textarea cols="50" rows="5" name="comment" id="comment"></textarea>
 									</div>
                                 </li>
                                 <li>
@@ -101,7 +101,7 @@ $(function(){
 	});
 	
 	$('#btnOpenSelector').click(function(){
-		var url = '<?php echo URL::base(NULL, TRUE)?>student/list/?status=2';
+		var url = '<?php echo URL::base(NULL, TRUE)?>student/select/?size=4';
 		$.get(url, {}, function (html) {
 			$('#cntSelector').html(html);
 			$('.theme-popover-mask').fadeIn(100);

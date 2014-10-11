@@ -62,7 +62,7 @@
 							<form method="post" action="<?php echo URL::base(NULL, TRUE)?>class/save_detail/">
 							<input type="hidden" name="id" value="<?php echo $class['id']?>">
 							<div class="table-cell">
-								<textarea name="detail" class="<?php echo $xheditor_config?>" id="content"><?php echo $class['detail']?></textarea>
+								<textarea name="content" class="<?php echo $xheditor_config?>" id="content"><?php echo $class['content']?></textarea>
 							</div>
 							<div class="btn-box">
 								<button id="btnSubmit" style="margin-left: 10%;margin-top: 50px;float: left;">确定提交</button>

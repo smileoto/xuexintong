@@ -48,7 +48,7 @@
 								</div>
 								<div class="scan-box">
 									<span>学生头像：</span>
-									<input type="text" readonly="readonly" name="avator[]" id="avatar-1"  />
+									<input type="text" readonly="readonly" name="avatar[]" id="avatar-1"  />
 								</div>
 								<div class="input-box input-box-title">
 									<span>上榜理由：</span>
@@ -87,7 +87,7 @@ var g_current_group = 1;
 function select_student(group) {
 	g_current_group = group;
 	
-	var url = '<?php echo URL::base(NULL, TRUE)?>student/list/?pop=1&size=4';
+	var url = '<?php echo URL::base(NULL, TRUE)?>student/select/?size=4';
 	$.get(url, {}, function (html) {
 		$('#cntSelector').html(html);
 		$('.theme-popover-mask').fadeIn(100);
@@ -120,7 +120,7 @@ $(function(){
 		html += '</div>';
 		html += '<div class="scan-box">';
 		html += '	<span>学生头像：</span>';
-		html += '	<input type="text" readonly="readonly" name="avator[]" id="avatar-' + cnt + '" />';
+		html += '	<input type="text" readonly="readonly" name="avatar[]" id="avatar-' + cnt + '" />';
 		html += '</div>';
 		html += '<div class="input-box input-box-title">';
 		html += '	<span>上榜理由：</span>';

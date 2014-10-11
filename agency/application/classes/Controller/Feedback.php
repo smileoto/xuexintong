@@ -15,7 +15,7 @@ class Controller_Feedback extends Controller_Base {
 			$queryCount = DB::select($expr)
 				->from('feedbacks')
 				->join('students')
-				->on('feedbacks.student_id', '=', 'students.id')
+				->on('feedbacks.created_by', '=', 'students.id')
 				->join('schools', 'LEFT')
 				->on('students.school_id', '=', 'schools.id')
 				->join('grades', 'LEFT')
@@ -26,12 +26,12 @@ class Controller_Feedback extends Controller_Base {
 				->on('students_courses.course_id', '=', 'courses.id')
 				->join('classes', 'LEFT')
 				->on('courses.class_id', '=', 'classes.id')
-				->where('agency_id', '=', $this->auth->agency_id)
-				->where('status', '=', STATUS_NORMAL);
-			$queyrList  = DB::select('feedbacks.id','feedbacks.add_t','students.realname',array('schools.name', 'school'),array('grades.name', 'grade'),array('courses.name', 'course'),array('classes.name', 'class'))
+				->where('feedbacks.agency_id', '=', $this->auth->agency_id)
+				->where('feedbacks.status', '=', STATUS_NORMAL);
+			$queyrList  = DB::select('feedbacks.id','feedbacks.created_at','students.realname',array('schools.name', 'school'),array('grades.name', 'grade'),array('courses.name', 'course'),array('classes.name', 'class'))
 				->from('feedbacks')
 				->join('students')
-				->on('feedbacks.student_id', '=', 'students.id')
+				->on('feedbacks.created_by', '=', 'students.id')
 				->join('schools', 'LEFT')
 				->on('students.school_id', '=', 'schools.id')
 				->join('grades', 'LEFT')
@@ -65,8 +65,8 @@ class Controller_Feedback extends Controller_Base {
 			$cnt   = $queryCount->execute();
 			$total = $cnt->count() ? $cnt[0]['COUNT(0)'] : 0;
 			
-			$items = $queyrList->offset($offset)
-				->limit($page_size)
+			$items = $queyrList->offset($this->pagenav->offset)
+				->limit($this->pagenav->size)
 				->execute()
 				->as_array();
 			
@@ -95,7 +95,7 @@ class Controller_Feedback extends Controller_Base {
 			->from('feedbacks')
 			->where('feedbacks.agency_id', '=', $this->auth->agency_id)
 			->join('students')
-			->on('feedbacks.student_id', '=', 'students.id')
+			->on('feedbacks.created_by', '=', 'students.id')
 			->where('feedbacks.id', '=', $id)
 			->execute()
 			->as_array();
@@ -118,12 +118,12 @@ class Controller_Feedback extends Controller_Base {
 			->set('item', $items[0])
 			->set('reply_list', $reply_list);
 			
-		$this->output($page, 'student_feedback' );
+		$this->output($page, 'feedback' );
 	}
 		
 	public function action_save()
 	{
-		$feedback_id = $this->request->query('feedback_id');
+		$feedback_id = $this->request->post('feedback_id');
 		
 		$data = array();
 		$data['feedback_id'] = $feedback_id;
