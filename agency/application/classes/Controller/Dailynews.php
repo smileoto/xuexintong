@@ -56,10 +56,11 @@ class Controller_Dailynews extends Controller_Base {
 	public function action_edit()
 	{
 		$id = intval($this->request->query('id'));
-			
+		
 		$items = DB::select('*')
 			->from('daily_news')
 			->where('agency_id', '=', $this->auth->agency_id)
+			->where('id', '=', $id)
 			->limit(1)
 			->execute()
 			->as_array();

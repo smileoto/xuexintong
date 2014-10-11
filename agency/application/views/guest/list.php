@@ -28,8 +28,8 @@
 					<div class="content-box">
 						<div class="content-inner">
 							<div class="navbar-top">
-								<a class="active">学生查询</a>
-								<a href="<?php echo URL::base(NULL, TRUE)?>guest/list/">申请查询</a>
+								<a href="<?php echo URL::base(NULL, TRUE)?>student/list/">学生查询</a>
+								<a class="active">申请查询</a>
 								<a href="<?php echo URL::base(NULL, TRUE)?>student/add/">添加学生</a>
 								<a href="<?php echo URL::base(NULL, TRUE)?>student/add/?adult=1">添加成人学员</a>
 							</div>
@@ -160,7 +160,7 @@
 									<td><?php echo $v['mother_mobile']?></td>
 									<td><?php echo $v['class']?></td>
 									<td>
-										<a href="<?php echo URL::base(NULL, TRUE)?>student/edit/?id=<?php echo $v['id']?>">编辑</a>
+										<a href="<?php echo URL::base(NULL, TRUE)?>guest/audit/?id=<?php echo $v['id']?>">审核</a>
 									 </td>
 								</tr>
 							    <?php endforeach;?>
@@ -187,7 +187,7 @@
 $(function(){
 	$('#btnSearch').click(function(){
 		// todo: check params
-		var url = '<?php echo URL::base(NULL, TRUE)?>student/list/?z=z';
+		var url = '<?php echo URL::base(NULL, TRUE)?>guest/list/?z=z';
 		$('.data-field').each(function(){
 			var key = $(this).attr('id');
 			var val  = $(this).val();

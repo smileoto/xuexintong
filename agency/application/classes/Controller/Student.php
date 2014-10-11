@@ -83,7 +83,7 @@ class Controller_Student extends Controller_Base {
 		}
 		
 		
-		$cnt = $queryCount->execute();			
+		$cnt = $queryCount->execute();
 		$total = $cnt->count() ? $cnt[0]['COUNT(0)'] : 0;
 		
 		$items = $queryList->offset($this->pagenav->offset)

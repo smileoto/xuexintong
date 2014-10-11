@@ -49,17 +49,21 @@ class Controller_News extends Controller_Base {
 	
 	public function action_add()
 	{
+		Session::instance()->set('upload_dir', 'news');
 		$page = View::factory('news/add');
 		$this->output($page, 'news');
 	}
 	
 	public function action_edit()
 	{
+		Session::instance()->set('upload_dir', 'news');
+		
 		$id = intval($this->request->query('id'));
-			
+		
 		$items = DB::select('*')
 			->from('news')
 			->where('agency_id', '=', $this->auth->agency_id)
+			->where('id', '=', $id)
 			->limit(1)
 			->execute()
 			->as_array();

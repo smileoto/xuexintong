@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<title>学生查询</title>
+		<title>菁英榜</title>
 		<link rel="stylesheet" type="text/css" href="<?PHP echo URL::base()?>css/base.css" />
 		<link rel="stylesheet" type="text/css" href="<?PHP echo URL::base()?>css/ago.css" />
 		<!--[if gte IE 9]>
@@ -28,10 +28,8 @@
 					<div class="content-box">
 						<div class="content-inner">
 							<div class="navbar-top">
-								<a class="active">学生查询</a>
-								<a href="<?php echo URL::base(NULL, TRUE)?>guest/list/">申请查询</a>
-								<a href="<?php echo URL::base(NULL, TRUE)?>student/add/">添加学生</a>
-								<a href="<?php echo URL::base(NULL, TRUE)?>student/add/?adult=1">添加成人学员</a>
+								<a class="active">菁英榜</a>
+								<a href="<?php echo URL::base(NULL, TRUE),'top/add/'?>">添加榜单</a>
 							</div>
 							<div class="accountSettings-title">
 							条件检索
@@ -46,19 +44,9 @@
 								</li>
 								<li>
 									<span class="m-name">
-										性别：
+										所在分机构：
 									</span>
-									<select class="data-field" id="sex">
-										<option value=""></option>
-										<option value="1">男</option>
-										<option value="0">女</option>
-									</select>
-								</li>
-								<li>
-									<span class="m-name">
-										所在机构：
-									</span>
-									<select class="data-field" id="agency">
+									<select class="data-field" name="entity">
 										<option value=""></option>
 										<?php foreach ( $entities as $v ) : ?>
 										<option value="<?php echo $v['id']?>"><?php echo $v['name']?></option>
@@ -67,9 +55,9 @@
 								</li>
 								<li>
 									<span class="m-name">
-										学校：
+										所在学校：
 									</span>
-									<select class="data-field" id="school">
+									<select class="data-field" name="school">
 										<option value=""></option>
 										<?php foreach ( $schools as $v ) : ?>
 										<option value="<?php echo $v['id']?>"><?php echo $v['name']?></option>
@@ -78,92 +66,40 @@
 								</li>
 								<li>
 									<span class="m-name">
-										年级：
+										所在年级：
 									</span>
-									<select class="data-field" id="grade">
+									<select class="data-field" name="grade">
 										<option value=""></option>
 										<?php foreach ( $grades as $v ) : ?>
 										<option value="<?php echo $v['id']?>"><?php echo $v['name']?></option>
 										<?php endforeach?>
 									</select>
 								</li>
-								<li>
+								<li style="width: 600px;">
 									<span class="m-name">
-										班别：
+										标题：
 									</span>
-									<select class="data-field" id="class">
-										<option value=""></option>
-										<?php foreach ( $classes as $v ) : ?>
-										<option value="<?php echo $v['id']?>"><?php echo $v['name']?></option>
-										<?php endforeach?>
-									</select>
-								</li>
-								<li>
-									<span class="m-name">
-										手机号码：
-									</span>
-									<input type="text" class="data-field" id="mobile" />
-								</li>
-								<li>
-									<span class="m-name">
-										父亲姓名：
-									</span>
-									<input type="text" class="data-field" id="father_name" />
-								</li>
-								<li>
-									<span class="m-name">
-										父亲手机：
-									</span>
-									<input type="text" class="data-field" id="father_mobile" />
-								</li>
-								<li>
-									<span class="m-name">
-										母亲姓名：
-									</span>
-									<input type="text" class="data-field" id="mother_name" />
-								</li>
-								<li>
-									<span class="m-name">
-										母亲手机：
-									</span>
-									<input type="text" class="data-field" id="mother_mobile" />
+									<input style="width: 477px;" type="text" class="data-field" id="title" />
 								</li>
 							</ul>
 						</div>
 						<div class="btn-box" style="float: left;margin-top: 0px;height: 50px;"  >
-							<button id="btnSearch" style="margin-left: 0;margin-top: 10px;">搜索</button>
-						</div>
-						<div class="table-cell">
+								<button style="margin-left: 0;margin-top: 10px;" id="btnSearch">搜索</button>
+							</div>
+							<div class="table-cell">
 							<table border="1" cellspacing="0" cellpadding="0">
-							  <tr><th>序号</th><th>姓名</th><th>性别</th><th>年级</th><th>所在学校</th><th>手机号码</th><th>父名</th><th>父手机</th><th>母名</th><th>母手机</th><th>班别</th><th>操作</th></tr>
-								<?php foreach ( $items as $v ):?>
+								<tr><th>序号</th><th>起止日期</th><th>上榜学生</th><th>操作</th></tr>
+								<?php foreach ( $list as $v ) : ?>
 								<tr>
 									<td><?php echo $v['id']?></td>
-									<td><?php echo $v['realname']?></td>
+									<td><?php echo $v['begin_str'],' 至 ',$v['end_str']?></td>
+									<td><?php echo $students[$v['id']]?></td>
 									<td>
-										<?php 
-										if ( $v['sex'] == 1 ) {
-											echo '男';
-										} elseif ( $v['sex'] == 0 ) {
-											echo '女';
-										} else {
-											echo '&nbsp;';
-										}					
-										?>
+										<a href="<?php echo URL::base(NULL, TRUE),'top/edit/?id=',$v['id']?>">编辑</a>
+										<a href="<?php echo URL::base(NULL, TRUE),'top/del/?id=',$v['id']?>">删除</a>
 									</td>
-									<td><?php echo $v['grade']?></td>
-									<td><?php echo $v['school']?></td>
-									<td><?php echo $v['mobile']?></td>
-									<td><?php echo $v['father_name']?></td>
-									<td><?php echo $v['father_mobile']?></td>
-									<td><?php echo $v['mother_name']?></td>
-									<td><?php echo $v['mother_mobile']?></td>
-									<td><?php echo $v['class']?></td>
-									<td>
-										<a href="<?php echo URL::base(NULL, TRUE)?>student/edit/?id=<?php echo $v['id']?>">编辑</a>
-									 </td>
 								</tr>
-							    <?php endforeach;?>
+								<?php endforeach?>
 							</table>
 							<div class="pagenav">
 								<?php echo $html_pagenav_content?>
@@ -187,7 +123,7 @@
 $(function(){
 	$('#btnSearch').click(function(){
 		// todo: check params
-		var url = '<?php echo URL::base(NULL, TRUE)?>student/list/?z=z';
+		var url = '<?php echo URL::base(NULL, TRUE)?>article/list/';
 		$('.data-field').each(function(){
 			var key = $(this).attr('id');
 			var val  = $(this).val();

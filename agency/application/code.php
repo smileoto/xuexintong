@@ -16,6 +16,8 @@ define('STATUS_ENABLED', 1);
 define('STATUS_DISABLED', 2);
 define('STATUS_DELETED', -1);
 
+define('GUEST_STATUS_AUDIT', 1);
+
 define('ARTICLE_TYPE_NEWS',       'news');
 define('ARTICLE_TYPE_DAILY_NEWS', 'daily-news');
 define('ARTICLE_TYPE_KNOWLEDGE',  'knowledge');

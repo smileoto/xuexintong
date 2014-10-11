@@ -60,6 +60,7 @@ class Controller_Article extends Controller_Base {
 		$items = DB::select('*')
 			->from('articles')
 			->where('agency_id', '=', $this->auth->agency_id)
+			->where('id', '=', $id)
 			->limit(1)
 			->execute()
 			->as_array();

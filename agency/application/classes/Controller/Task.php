@@ -43,13 +43,13 @@ class Controller_task extends Controller_Base {
 			$cnt   = $queryCount->execute();
 			$total = $cnt->count() ? $cnt[0]['COUNT(0)'] : 0;
 			
-			$list = $queyrList->offset($offset)
-				->limit($page_size)
+			$items = $queyrList->offset($this->pagenav->offset)
+				->limit($this->pagenav->size)
 				->execute()
 				->as_array();
 			
-			$page = View::factory('tasks/list')
-				->set('items', $list)
+			$page = View::factory('task/list')
+				->set('items', $items)
 				->set('entities', $this->entities())
 				->set('schools',  $this->schools())
 				->set('grades',   $this->grades())

@@ -45,12 +45,12 @@ class UploadHandler
             'script_url' => $this->get_full_url().'/',
             'upload_dir' => dirname($this->get_server_var('SCRIPT_FILENAME')).'/files/',
             'upload_url' => $this->get_full_url().'/files/',
-            'user_dirs' => true,
+            'user_dirs' => false,
             'mkdir_mode' => 0755,
             'param_name' => 'files',
             // Set the following option to 'POST', if your server does not support
             // DELETE requests. This is a parameter sent to the client:
-            'delete_type' => 'POST',
+            'delete_type' => 'DELETE',
             'access_control_allow_origin' => '*',
             'access_control_allow_credentials' => false,
             'access_control_allow_methods' => array(
@@ -201,14 +201,8 @@ class UploadHandler
     }
 
     protected function get_user_path() {
-        if ( $this->options['user_dirs'] ) {
-            //return $this->get_user_id().'/';
-			$user   = $_SESSION['agency_name'];
-			$module = 'agency';
-			if ( isset($_SESSION['img_module']) ) {
-				$module = $_SESSION['img_module'];
-			}
-			return $_SESSION['agency_name'].'/'.$module.'/';
+        if ($this->options['user_dirs']) {
+            return $this->get_user_id().'/';
         }
         return '';
     }

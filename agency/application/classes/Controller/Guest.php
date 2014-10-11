@@ -19,12 +19,13 @@ class Controller_Guest extends Controller_Base {
 		$expr = DB::expr('COUNT(0)');
 		$queryCount = DB::select($expr)
 			->from('guests')
-			->where('guests.agency_id', '=', $this->auth->agency_id);
+			->where('guests.agency_id', '=', $this->auth->agency_id)
+			->where('guests.student_id', '=', 0)
+			->where('guests.status', '=', GUEST_STATUS_AUDIT);
 		
 		
 		$queryList = DB::select('guests.*',array('schools.name', 'school'),array('grades.name','grade'),array('courses.name', 'class'))
 			->from('guests')
-			->where('guests.agency_id', '=', $this->auth->agency_id)
 			->join('schools', 'LEFT')
 			->on('guests.school_id', '=', 'schools.id')
 			->join('grades', 'LEFT')
@@ -32,7 +33,10 @@ class Controller_Guest extends Controller_Base {
 			->join('guests_courses', 'LEFT')
 			->on('guests.id', '=', 'guests_courses.student_id')
 			->join('courses', 'LEFT')
-			->on('guests_courses.course_id', '=', 'courses.id');
+			->on('guests_courses.course_id', '=', 'courses.id')
+			->where('guests.agency_id', '=', $this->auth->agency_id)
+			->where('guests.student_id', '=', 0)
+			->where('guests.status', '=', GUEST_STATUS_AUDIT);
 				
 		if ( $entity ) {
 			$queryList->where('guests.entity_id',  '=', $entity);
@@ -110,7 +114,7 @@ class Controller_Guest extends Controller_Base {
 			
 		$result = DB::select('course_id')
 			->from('guests_courses')
-			->where('student_id', '=', $id)
+			->where('guest_id', '=', $id)
 			->execute()
 			->as_array();
 		$guest_courses = array();
@@ -131,9 +135,9 @@ class Controller_Guest extends Controller_Base {
 		
 		$page = View::factory('guest/audit')
 			->set('item', $items[0])
-			->set('schools', $schools)
-			->set('grades',  $grades)
-			->set('courses', $courses)
+			->set('schools', $this->schools())
+			->set('grades',  $this->grades())
+			->set('courses', $this->courses())
 			->set('guest_courses', $guest_courses)
 			->set('entities', $this->entities());
 			
@@ -143,6 +147,9 @@ class Controller_Guest extends Controller_Base {
 	public function action_save()
 	{
 		$student_id = intval($this->request->post('student_id'));
+		if ( empty($student_id) ) {
+			//todo
+		}
 		
 		$data = array();
 		

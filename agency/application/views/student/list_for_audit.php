@@ -63,16 +63,26 @@
 	<div class="table-cell">
 		<table border="1" cellspacing="0" cellpadding="0">
 			<tr><th>序号</th><th>姓名</th><th>性别</th><th>所在学校</th><th>所在年级</th><th>机构班别</th><th>操作</th></tr>
-			<?php foreach ( $students as $student ):?>
+			<?php foreach ( $items as $v ):?>
 			<tr>
-				<td><?php echo $student['id']?></td>
-				<td><?php echo $student['realname']?></td>
-				<td><?php echo $student['sex'] ? '男' : '女';?></td>
-				<td><?php echo $student['school']?></td>
-				<td><?php echo $student['grade']?></td>
-				<td><?php echo $student['class']?></td>
+				<td><?php echo $v['id']?></td>
+				<td><?php echo $v['realname']?></td>
 				<td>
-					<a href="#" onclick="select_for_audit(<?php echo $student['id']?>)">选择</a>
+					<?php 
+					if ( $v['sex'] == 1 ) {
+						echo '男';
+					} elseif ( $v['sex'] == 0 ) {
+						echo '女';
+					} else {
+						echo '&nbsp;';
+					}					
+					?>
+				</td>
+				<td><?php echo $v['school']?></td>
+				<td><?php echo $v['grade']?></td>
+				<td><?php echo $v['class']?></td>
+				<td>
+					<a href="#" onclick="select_for_audit(<?php echo $v['id']?>)">选择</a>
 				</td>
 			</tr>
 			<?php endforeach;?>
@@ -93,7 +103,7 @@ $(function(){
 	
 	$('#btnSearchStudent_Pop').click(function(){
 		// todo: check params
-		var url = '<?php echo URL::base(NULL, TRUE)?>student/list/?status=2';
+		var url = '<?php echo URL::base(NULL, TRUE)?>student/list/?size=4';
 		$('.search-field').each(function(){
 			var key = $(this).attr('id');
 			var val = $(this).val();
