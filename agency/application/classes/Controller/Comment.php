@@ -107,12 +107,10 @@ class Controller_Comment extends Controller_Base {
 			list($id, $rows) = DB::insert('comments', array_keys($data))
 				->values($data)
 				->execute();
-		} catch ( Database_Exception $e ) {
-			$this->ajax_result['ret'] = ERR_DB_INSERT;
-			$this->ajax_result['msg'] = $e->getMessage();
+			HTTP::redirect('/feedback/list/');
+		} catch (Database_Exception $e) {
+			$this->response->body( $e->getMessage() );
 		}
-		
-		$this->response->body( json_encode($this->ajax_result) );
 	}
 	
 	public function action_del()

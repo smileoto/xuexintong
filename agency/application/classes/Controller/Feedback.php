@@ -2,7 +2,7 @@
 
 class Controller_Feedback extends Controller_Base {
 	
-	public function action_topics()
+	public function action_list()
 	{
 		$entity = intval($this->request->query('entity'));
 		$school = intval($this->request->query('school'));
@@ -126,10 +126,9 @@ class Controller_Feedback extends Controller_Base {
 		$feedback_id = $this->request->query('feedback_id');
 		
 		$data = array();
-		$data['created_at']  = NULL;
-		$data['teacher_id']  = $this->auth->user_id;
-		$data['student_id']  = intval( $this->request->post('student_id') );
 		$data['feedback_id'] = $feedback_id;
+		$data['created_at']  = date('Y-m-d H:i:s');
+		$data['created_by']  = $this->auth->user_id;
 		$data['content']     = $this->request->post('content');
 		
 		try {
@@ -137,16 +136,14 @@ class Controller_Feedback extends Controller_Base {
 				->values($data)
 				->execute();
 			DB::update('feedbacks')
-				->set(array('reply' => 1, 'modified_by' => NULL))
+				->set(array('reply' => 1, 'modified_by' => $this->auth->user_id))
 				->where('agency_id', '=', $this->auth->agency_id)
 				->where('id', '=', $feedback_id)
-				->execute();
+				->execute();			
+			HTTP::redirect('/feedback/list/');
 		} catch ( Database_Exception $e ) {
-			$this->ajax_result['ret'] = ERR_DB_INSERT;
-			$this->ajax_result['msg'] = $e->getMessage();
+			$this->response->body( $e->getMessage() );
 		}
-		
-		$this->response->body( json_encode($this->ajax_result) );
 	}
 	
 	public function action_del()
@@ -155,7 +152,7 @@ class Controller_Feedback extends Controller_Base {
 		
 		try {
 			DB::update('feedbacks')
-				->set( array('status'=>STATUS_DELETED, 'modified_at'=>NULL) )
+				->set( array('status'=>STATUS_DELETED, 'modified_at'=>date('Y-m-d H:i:s')) )
 				->where('agency_id', '=', $this->auth->agency_id)
 				->where('id','=',$id)
 				->execute();
