@@ -1,0 +1,31 @@
+.mui-table-view-cell .list-info{
+	width: 100%;
+	display: box;
+	display: -webkit-box;
+	display: -moz-box;
+	margin-top: 10px;
+	color:#8F8F94;
+}
+.mui-table-view-cell .list-info span{
+	font-size: 0.8em;
+}
+.mui-table-view-cell .list-left{
+	width: 50%;
+	border-right: 1px solid #ddd;
+	text-align: center;
+	font-size: 0.7em;
+}
+.mui-table-view-cell .list-right{
+	width: 50%;
+	text-align: center;
+	font-size: 0.7em;
+}
+.foot{
+	width: 100%;
+	border-top: 1px solid #EBE9E9;
+	text-align: center;
+	padding: 10px 5px;
+	color: #363636;
+	font-size: 0.7em;
+	background-color: #fff;
+}
