@@ -65,7 +65,7 @@ class Controller_Class extends Controller_Base {
 		
 		$data = array();
 		$data['name']      = $name;
-		$data['detail']    = Arr::get($_POST, 'detail', '');
+		$data['content']   = Arr::get($_POST, 'content', '');
 		$data['entity_id'] = intval(Arr::get($_POST, 'entity_id', 0));
 		
 		$data['modified_at'] = date('Y-m-d H:i:s');
@@ -102,7 +102,7 @@ class Controller_Class extends Controller_Base {
 		}
 		
 		$data = array();
-		$data['detail'] = Arr::get($_POST, 'detail', '');
+		$data['content'] = Arr::get($_POST, 'content', '');
 		$data['modified_at'] = date('Y-m-d H:i:s');
 		$data['modified_by'] = $this->auth->user_id;
 		try {

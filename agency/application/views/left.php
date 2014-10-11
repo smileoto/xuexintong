@@ -13,7 +13,7 @@
 									</li>
 									
 									<li <?php echo ($active=="news") ? 'class="active"' : '';?> >
-										<a href="<?php echo URL::base(NULL, TRUE)?>news">-机构动态</a>
+										<a href="<?php echo URL::base(NULL, TRUE)?>news/list/">-机构动态</a>
 									</li>
 									
 									<li <?php echo ($active=="knowledge") ? 'class="active"' : '';?> >

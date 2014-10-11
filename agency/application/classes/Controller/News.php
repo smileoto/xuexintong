@@ -18,7 +18,7 @@ class Controller_News extends Controller_Base {
 			$queryList = DB::select('news.id','news.title','news.created_at','news.modified_at','users.username')
 				->from('news')
 				->join('users')
-				->on('news.created_by', '=', 'agency_users.id')
+				->on('news.created_by', '=', 'users.id')
 				->where('news.agency_id', '=', $this->auth->agency_id)
 				->where('news.status', '=', STATUS_NORMAL);
 				
@@ -30,12 +30,12 @@ class Controller_News extends Controller_Base {
 			$cnt = $queryCount->execute();
 			$total = $cnt->count() ? $cnt[0]['COUNT(0)'] : 0;
 			
-			$news = $queryList->offset($this->pagenav->offset)
+			$items = $queryList->offset($this->pagenav->offset)
 				->limit($this->pagenav->size)
 				->execute();
 			
-			$page = View::factory('article/list')
-				->set('news', $news);
+			$page = View::factory('news/list')
+				->set('items', $items);
 			$page->html_pagenav_content = View::factory('pagenav')
 				->set('total', $total)
 				->set('page',  $this->pagenav->page)
@@ -86,37 +86,32 @@ class Controller_News extends Controller_Base {
 		$data['src']         = strval($this->request->post('from'));
 		$data['img']         = strval($this->request->post('img'));
 		$data['modified_by'] = $this->auth->user_id;
-		$data['modified_at'] = NULL;
+		$data['modified_at'] = date('Y-m-d H:i:s');
 		
 		$id = intval($this->request->post('id'));
-		if ( $id ) {
-			// edit 
-			try {
+		try {
+			if ( $id ) {				
 				DB::update('news')
 					->set( $data )
 					->where('id', '=', $id)
 					->where('agency_id', '=', $this->auth->agency_id)
 					->execute();
-			} catch (Database_Exception $e) {
-				$this->ajax_result['ret'] = ERR_DB_UPDATE;
-				$this->ajax_result['msg'] = $e->getMessage();
-			}
-		} else {
-			// add 
-			$data['agency_id']   = $this->auth->agency_id;
-			$data['created_by']  = $this->auth->user_id;
-			$data['created_at']  = NULL;
-			try {
+			} else {
+				// add 
+				$data['agency_id']   = $this->auth->agency_id;
+				$data['created_by']  = $this->auth->user_id;
+				$data['created_at']  = date('Y-m-d H:i:s');
+				
 				DB::insert('news', array_keys($data))
 					->values($data)
 					->execute();
-			} catch (Database_Exception $e) {
-				$this->ajax_result['ret'] = ERR_DB_INSERT;
-				$this->ajax_result['msg'] = $e->getMessage();
 			}
+			
+			HTTP::redirect('/news/list/');
+			
+		} catch (Database_Exception $e) {
+			$this->response->body( $e->getMessage() );
 		}
-		
-		$this->response->body( json_encode($this->ajax_result) );
 	}
 	
 	public function action_del()
@@ -125,7 +120,7 @@ class Controller_News extends Controller_Base {
 		
 		try {
 			DB::update('news')
-				->set( array('status'=>STATUS_DELETED, 'modified_at'=>NULL) )
+				->set( array('status'=>STATUS_DELETED, 'modified_at'=>date('Y-m-d H:i:s')) )
 				->where('agency_id', '=', $this->auth->agency_id)
 				->where('id','=',$id)
 				->execute();

@@ -30,7 +30,7 @@
 						<div class="content-inner">
 							<div class="navbar-top">
 								<a href="#" class="active">机构动态</a>
-								<a href="<?php echo URL::base(NULL, TRUE)?>article/add/">添加动态</a>
+								<a href="<?php echo URL::base(NULL, TRUE)?>news/add/">添加动态</a>
 							</div>
 							<div class="input-box">
 								<span>标题：</span>

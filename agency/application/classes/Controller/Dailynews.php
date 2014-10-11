@@ -83,37 +83,32 @@ class Controller_Dailynews extends Controller_Base {
 		$data['src']         = strval($this->request->post('from'));
 		$data['img']         = strval($this->request->post('img'));
 		$data['modified_by'] = $this->auth->user_id;
-		$data['modified_at'] = NULL;
+		$data['modified_at'] = date('Y-m-d H:i:s');
 		
 		$id = intval($this->request->post('id'));
-		if ( $id ) {
-			// edit 
-			try {
+		try {
+			if ( $id ) {
+				// edit 
 				DB::update('daily_news')
 					->set( $data )
 					->where('id', '=', $id)
 					->where('agency_id', '=', $this->auth->agency_id)
 					->execute();
-			} catch (Database_Exception $e) {
-				$this->ajax_result['ret'] = ERR_DB_UPDATE;
-				$this->ajax_result['msg'] = $e->getMessage();
-			}
-		} else {
-			// add 
-			$data['agency_id']   = $this->auth->agency_id;
-			$data['created_by']  = $this->auth->user_id;
-			$data['created_at']  = NULL;
-			try {
+			} else {
+				// add 
+				$data['agency_id']   = $this->auth->agency_id;
+				$data['created_by']  = $this->auth->user_id;
+				$data['created_at']  = date('Y-m-d H:i:s');
 				DB::insert('daily_news', array_keys($data))
 					->values($data)
 					->execute();
-			} catch (Database_Exception $e) {
-				$this->ajax_result['ret'] = ERR_DB_INSERT;
-				$this->ajax_result['msg'] = $e->getMessage();
 			}
+			
+			HTTP::redirect('/article/list/');
+			
+		} catch (Database_Exception $e) {
+			$this->response->body( $e->getMessage() );
 		}
-		
-		$this->response->body( json_encode($this->ajax_result) );
 	}
 	
 	public function action_del()
@@ -122,7 +117,7 @@ class Controller_Dailynews extends Controller_Base {
 		
 		try {
 			DB::update('daily_news')
-				->set( array('status'=>STATUS_DELETED, 'modified_at'=>NULL) )
+				->set( array('status'=>STATUS_DELETED, 'modified_at'=>date('Y-m-d H:i:s')) )
 				->where('agency_id', '=', $this->auth->agency_id)
 				->where('id','=',$id)
 				->execute();

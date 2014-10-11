@@ -98,7 +98,7 @@ class Controller_Student extends Controller_Base {
 			->set('entities', $this->entities())
 			->set('schools',  $this->schools())
 			->set('grades',   $this->grades())
-			->set('classes',  $this->courses());
+			->set('courses',  $this->courses());
 		$page->html_pagenav_content = View::factory('pagenav')
 			->set('total', $total)
 			->set('page',  $this->pagenav->page)
@@ -115,7 +115,7 @@ class Controller_Student extends Controller_Base {
 			->set('entities', $this->entities())
 			->set('schools',  $this->schools())
 			->set('grades',   $this->grades())
-			->set('classes',  $this->courses());			
+			->set('courses',  $this->courses());			
 		$this->output($page, 'student');		
 	}
 	

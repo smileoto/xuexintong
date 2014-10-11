@@ -7,7 +7,7 @@ class Controller_Course extends Controller_Base {
 		$class_id  = intval($this->request->query('class_id'));
 
 		try {
-			$classes = DB::select('id', 'name', 'detail')
+			$classes = DB::select('id', 'name', 'content')
 				->from('classes')
 				->where('agency_id', '=', $this->auth->agency_id)
 				->where('id', '=', $class_id)
@@ -32,8 +32,8 @@ class Controller_Course extends Controller_Base {
 				->where('agency_id', '=', $this->auth->agency_id)
 				->where('class_id', '=', $class_id)
 				->where('status', '=', STATUS_NORMAL)
-				->offset($offset)
-				->limit($page_size)
+				->offset($this->pagenav->offset)
+				->limit($this->pagenav->size)
 				->execute()
 				->as_array();
 			
@@ -91,7 +91,7 @@ class Controller_Course extends Controller_Base {
 		$data['hours']     = $this->request->post('hours');
 		$data['num']       = $this->request->post('num');
 		
-		$data['modified_at'] = NULL;
+		$data['modified_at'] = date('Y-m-d H:i:s');
 		$data['modified_by'] = $this->auth->user_id;
 		
 		$id = intval($this->request->post('id'));
@@ -103,7 +103,7 @@ class Controller_Course extends Controller_Base {
 					->where('id', '=', $id)
 					->execute();
 			} else {
-				$data['created_at'] = NULL;
+				$data['created_at'] = date('Y-m-d H:i:s');
 				$data['created_by'] = $this->auth->user_id;
 				$data['agency_id']  = $this->auth->agency_id;
 				DB::insert('courses', array_keys($data))
@@ -122,7 +122,7 @@ class Controller_Course extends Controller_Base {
 		
 		try {
 			DB::update('courses')
-				->set( array('status'=>STATUS_DELETED, 'modified_at'=>NULL) )
+				->set( array('status'=>STATUS_DELETED, 'modified_at'=>date('Y-m-d H:i:s')) )
 				->where('agency_id', '=', $this->auth->agency_id)
 				->where('id','=',$id)
 				->execute();

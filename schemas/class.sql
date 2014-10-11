@@ -9,7 +9,7 @@ CREATE TABLE classes
 	modified_by INT NOT NULL DEFAULT 0,
 	created_at  DATETIME NOT NULL DEFAULT 0,
 	modified_at DATETIME NOT NULL DEFAULT 0,
-	detail  TEXT,
+	content  TEXT,
 	KEY agency_id(agency_id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

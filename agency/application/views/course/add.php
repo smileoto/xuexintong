@@ -31,7 +31,7 @@
 					</div>
 					<div class="content-box">
 					
-						<form method="post" id="data-form" action="<?php echo URL::base(NULL, true)?>contact/save/">
+						<form method="post" id="data-form" action="<?php echo URL::base(NULL, true)?>course/save/">
 						<div class="content-inner">
 							<div class="navbar-top">
 								<a class="active">添加课程</a>
