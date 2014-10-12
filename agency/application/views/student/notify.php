@@ -56,15 +56,15 @@
 										<span style="float:left; line-height:35px; height:35px;font-size:12pt; text-align:right; width:200px;">
 											手机号码：
 										</span>
-										<input type="checkbox" name="phone[]" value="student" style="width: 15px;margin-left: 10px;margin-top:10px; float:left; line-height: 30px;" />
+										<input type="checkbox" name="phone[]" value="<?php echo $item['mobile']?>" style="width: 15px;margin-left: 10px;margin-top:10px; float:left; line-height: 30px;" />
 										<span style="float: left; margin-left: 5px; margin-right:15px; line-height: 30px;float:left">
 											学生手机（<?php echo $item['mobile']?>）
 										</span>
-										<input type="checkbox" name="phone[]" value="father" style="width: 15px;margin-left: 10px;margin-top:10px; float:left; line-height: 30px;" />
+										<input type="checkbox" name="phone[]" value="<?php echo $item['father_mobile']?>" style="width: 15px;margin-left: 10px;margin-top:10px; float:left; line-height: 30px;" />
 										<span style="float: left; margin-left: 5px; margin-right:15px; line-height: 30px;float:left">
 											父亲手机（<?php echo $item['father_mobile']?>）
 										</span>
-	                                    <input type="checkbox" name="phone[]" value="mother" style="width: 15px;margin-left: 10px;margin-top:10px; float:left; line-height: 30px;" />
+	                                    <input type="checkbox" name="phone[]" value="<?php echo $item['mother_mobile']?>" style="width: 15px;margin-left: 10px;margin-top:10px; float:left; line-height: 30px;" />
 	                                    <span style="float: left; margin-left: 5px; margin-right:15px; line-height: 30px;float:left">
 	                                    	母亲手机（<?php echo $item['mother_mobile']?>）
 	                                    </span>
@@ -94,6 +94,15 @@
 
 <script type="text/javascript" charset="utf-8">
 $(function(){
+
+	$('input[type=checkbox]').click(function () {
+		if ( $(this).attr('checked') ) {
+			$(this).attr('checked', false);
+		} else {
+			$(this).attr('checked', true);
+		}
+	});
+
 	$('#btnSubmit').click(function(){
 		var url = '<?php echo URL::base(NULL, TRUE)?>student/sms/';
 		$.post(url, {id:$('#id').val(), content:$('#content').val()}, function (jsonStr) {
