@@ -207,7 +207,7 @@ $(function(){
 		$('#area').val($('#s3').get(0).selectedIndex);
 		
 		var courses = [];
-		$('input[name=course]').each(function () {
+		$('.course').each(function () {
 			if ( $(this).attr('checked') ) {
 				courses.push($(this).val());
 			}
