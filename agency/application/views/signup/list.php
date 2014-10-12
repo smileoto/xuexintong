@@ -14,6 +14,7 @@
 		    }
 		  </style>
 		<![endif]-->
+		<script type="text/javascript" src="<?PHP echo URL::base()?>js/jquery-1.4.4.min.js"></script>
 	</head>
 	<body>
 		<div class="all">
@@ -65,7 +66,7 @@
 									<td><?php echo $v['tuition']?>元</td>
 									<td><?php echo $v['num']?></td>
 									<td>
-										<?php if ( $v['status'] == 0 ) : ?>
+										<?php if ( $v['signup'] == 0 ) : ?>
 										<a href="<?php echo URL::base(NULL, TRUE)?>signup/publish/?id=<?php echo $v['id']?>">
 											发布报名
 											</a>
