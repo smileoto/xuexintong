@@ -320,14 +320,14 @@ class Controller_Student extends Controller_Base {
 		}
 		
 		$code = '';
-		$codes = DB::select('code')
+		$items = DB::select('*')
 			->from('student_valid')
 			->where('student_id', '=', $id)
 			->limit(1)
-			->execute();
-		if ( $codes->count() ) {
-			$code = $codes->get('code');
-			
+			->execute()
+			->as_array();
+		if ( count(items) ) {
+			$code = $items[0]['code'];
 		} else {
 		
 			do {
@@ -343,6 +343,7 @@ class Controller_Student extends Controller_Base {
 			$data['student_id'] = $id;
 			$data['code']       = $code;
 			$data['created_at'] = date('Y-m-d H:i:s');
+			$data['expired_at'] = date('Y-m-d H:i:s');
 			
 			try {
 				DB::insert('student_valid')
@@ -350,6 +351,7 @@ class Controller_Student extends Controller_Base {
 					->execute();
 			} catch (Database_Exception $e) {
 				$this->response->body( $e->getMessage() );
+				return;
 			}
 		}
 		
@@ -425,7 +427,7 @@ class Controller_Student extends Controller_Base {
 			$result = $rest->sendTemplateSMS($to, array($code, 60), $tempId);
 			if( $result == NULL ) {
 				$this->ajax_result['ret'] = ERR_DB_SELECT;
-				$this->ajax_result['msg'] = '发送短信失败：';
+				$this->ajax_result['msg'] = '发送短信失败';
 				$this->response->body( json_encode($this->ajax_result) );
 				return;
 			}
