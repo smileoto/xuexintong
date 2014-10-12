@@ -62,6 +62,11 @@
 								<span>标题：</span><input type="text" name="title" id="title" /><i>(字数必须在16个字符内)</i>
 							</div>
 							
+							<div class="input-box">
+								<span>图片轮播：</span>
+								<input type="checkbox" name="show_type" value="1" />
+							</div>
+							
 							<div class="table-cell">
 								<textarea name="content"  class="<?php echo $xheditor_config?>" name="content" id="content"></textarea>
 							</div>

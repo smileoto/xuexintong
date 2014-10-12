@@ -88,6 +88,7 @@ class Controller_News extends Controller_Base {
 		
 		$data['title']       = $this->request->post('title');
 		$data['content']     = $this->request->post('content');
+		$date['show_type']   = intval($this->request->post('show_type'));
 		$data['src']         = strval($this->request->post('from'));
 		$data['img']         = strval($this->request->post('img'));
 		$data['modified_by'] = $this->auth->user_id;

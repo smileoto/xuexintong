@@ -68,6 +68,11 @@
 								<i>(字数必须在16个字符内)</i>
 							</div>
 							
+							<div class="input-box">
+								<span>图片轮播：</span>
+								<input type="checkbox" name="show_type" value="1" <?php if ($item['show_type'] == 1) echo 'checked="checked"'?> />
+							</div>
+							
 							<div class="table-cell">
 								<textarea name="content" class="<?php echo $xheditor_config?>" name="content" id="content"><?php echo $item['content']?></textarea>
 							</div>
