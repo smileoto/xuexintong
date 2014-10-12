@@ -365,7 +365,8 @@ class Controller_Student extends Controller_Base {
 		}
 		$code = $items->get('code');
 		
-		$phones = $this->request->post('phone');
+		$phones = strval($this->request->post('phones'));
+		$phones = explode(',', $phones);
 		if ( empty($phones) ) {
 			$this->ajax_result['ret'] = ERR_DB_SELECT;
 			$this->ajax_result['msg'] = '请选择手机号码';

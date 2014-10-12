@@ -35,8 +35,7 @@
 								</span>
 							</div>
 							
-							<form method="post" id="data-form" action="<?php echo URL::base(NULL, true)?>student/sms/">
-							<input type="hidden" name="id" value="<?php echo $item['id']?>">
+							<input type="hidden" id="id" value="<?php echo $item['id']?>">
 							
 							<div style="color:#666; width:100%;">
 								<ul>
@@ -50,29 +49,27 @@
 										<span style="float:left; line-height:35px; height:35px;font-size:30px; text-align:right; width:200px;">
 											短信内容：
 										</span>
-										<textarea id="content" name="content" rows="5" readonly="readonly" style="width: 350px; font-size:14pt; color:#666">欢迎您使用<?php echo $agency?>机构的学信通，验证码为：<?php echo $code?>；在您用微信访问本机构的公众号时，输入验证码，系统自动为您授权。</textarea>
+										<textarea rows="5" readonly="readonly" style="width: 350px; font-size:14pt; color:#666">欢迎您使用<?php echo $agency?>机构的学信通，验证码为：<?php echo $code?>；在您用微信访问本机构的公众号时，输入验证码，系统自动为您授权。</textarea>
 									</li>
 	                                <li>
 										<span style="float:left; line-height:35px; height:35px;font-size:12pt; text-align:right; width:200px;">
 											手机号码：
 										</span>
-										<input type="checkbox" name="phone[]" value="<?php echo $item['mobile']?>" style="width: 15px;margin-left: 10px;margin-top:10px; float:left; line-height: 30px;" />
+										<input type="checkbox" value="<?php echo $item['mobile']?>" style="width: 15px;margin-left: 10px;margin-top:10px; float:left; line-height: 30px;" />
 										<span style="float: left; margin-left: 5px; margin-right:15px; line-height: 30px;float:left">
 											学生手机（<?php echo $item['mobile']?>）
 										</span>
-										<input type="checkbox" name="phone[]" value="<?php echo $item['father_mobile']?>" style="width: 15px;margin-left: 10px;margin-top:10px; float:left; line-height: 30px;" />
+										<input type="checkbox" value="<?php echo $item['father_mobile']?>" style="width: 15px;margin-left: 10px;margin-top:10px; float:left; line-height: 30px;" />
 										<span style="float: left; margin-left: 5px; margin-right:15px; line-height: 30px;float:left">
 											父亲手机（<?php echo $item['father_mobile']?>）
 										</span>
-	                                    <input type="checkbox" name="phone[]" value="<?php echo $item['mother_mobile']?>" style="width: 15px;margin-left: 10px;margin-top:10px; float:left; line-height: 30px;" />
+	                                    <input type="checkbox" value="<?php echo $item['mother_mobile']?>" style="width: 15px;margin-left: 10px;margin-top:10px; float:left; line-height: 30px;" />
 	                                    <span style="float: left; margin-left: 5px; margin-right:15px; line-height: 30px;float:left">
 	                                    	母亲手机（<?php echo $item['mother_mobile']?>）
 	                                    </span>
 							  		</li>
 								</ul>
 							</div>
-							
-							</form>
 							
 							<div class="btn-box" style="float: left;margin-top: 0px;height: 50px;"  >
 								<button id="btnSubmit" style="margin-left: 105px;margin-top: 10px;">确定发送</button>
@@ -104,8 +101,20 @@ $(function(){
 	});
 
 	$('#btnSubmit').click(function(){
+		
+		var phones = [];
+		$('input[type=checkbox]').each(function () {
+			if ( $(this).attr('checked') ) {
+				phones.push($(this).val());
+			}
+		});
+		if ( phones.length == 0 ) {
+			alert('请选择手机号码发送短信');
+			return false;
+		}
+	
 		var url = '<?php echo URL::base(NULL, TRUE)?>student/sms/';
-		$.post(url, {id:$('#id').val(), content:$('#content').val()}, function (jsonStr) {
+		$.post(url, {id:$('#id').val(), phones:phones.join(',')}, function (jsonStr) {
 			var jsonObj = $.parseJSON(jsonStr);
 			if ( jsonObj.ret != 0 ) {
 				alert(jsonObj.msg);
