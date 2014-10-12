@@ -101,9 +101,14 @@ $(function(){
 		},
 		'swf'      : '<?PHP echo URL::base()?>swf/uploadify.swf',
 		'uploader' : '/uploadify.php;jsessionid=<?php echo $session_id?>',
-		onUploadSuccess : function(file, data, response) {
-			
-		}
+		'onUploadError' : function(file, errorCode, errorMsg, errorString) {
+            alert('The file ' + file.name + ' could not be uploaded: ' + errorString);
+            alert(errorCode);
+            alert(errorMsg);
+        },
+        'onUploadSuccess' : function(file, data, response) {
+            alert('The file ' + file.name + ' was successfully uploaded with a response of ' + response + ':' + data);
+        }
 	});
 });
 </script>
