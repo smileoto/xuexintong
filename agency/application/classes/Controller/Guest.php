@@ -231,12 +231,11 @@ class Controller_Guest extends Controller_Base {
 				}
 			}
 			
+			HTTP::redirect('/student/notify/?id='.$student_id);
+			
 		} catch (Database_Exception $e) {
-			$this->ajax_result['ret'] = ERR_DB_INSERT;
-			$this->ajax_result['msg'] = $e->getMessage();
+			$this->response->body( $e->getMessage() ）;
 		}
-		
-		$this->response->body( json_encode($this->ajax_result) );
 	}
 		
 	public function action_del()
