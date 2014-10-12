@@ -12,7 +12,7 @@ $verifyToken = md5('unique_salt' . $_POST['timestamp']);
 
 if (!empty($_FILES) && $_POST['token'] == $verifyToken) {
 	$tempFile = $_FILES['Filedata']['tmp_name'];
-	$targetPath = $_SERVER['DOCUMENT_ROOT'] . $targetFolder;
+	$targetPath = '/alidata/www/xuexintong/agency/webroot' . $targetFolder;
 	$targetFile = rtrim($targetPath,'/') . '/' . $_FILES['Filedata']['name'];
 	
 	// Validate the file type
