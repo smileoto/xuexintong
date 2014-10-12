@@ -409,7 +409,7 @@ class Controller_Student extends Controller_Base {
 		$softVersion='2013-12-26';
 		
 		//短信模板ID
-		$tempId = 5379;
+		$tempId = 1;//5379;
 		
 		$rest = new REST($serverIP,$serverPort,$softVersion);
 		$rest->setAccount($accountSid, $accountToken);
@@ -421,7 +421,8 @@ class Controller_Student extends Controller_Base {
 			}
 			
 			// 发送模板短信
-			$result = $rest->sendTemplateSMS($to, array($this->auth->agency_name, $code), $tempId);
+			//$result = $rest->sendTemplateSMS($to, array($this->auth->agency_name, $code), $tempId);
+			$result = $rest->sendTemplateSMS($to, array($code, 60), $tempId);
 			if( $result == NULL ) {
 				$this->ajax_result['ret'] = ERR_DB_SELECT;
 				$this->ajax_result['msg'] = '发送短信失败：';
