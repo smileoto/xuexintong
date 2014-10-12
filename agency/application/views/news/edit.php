@@ -17,6 +17,9 @@
 		<script type="text/javascript" src="<?PHP echo URL::base()?>js/jquery-1.4.4.min.js"></script>
 		<script type="text/javascript" src="<?PHP echo URL::base()?>js/xheditor.js"></script>
 		<script type="text/javascript" src="<?PHP echo URL::base()?>js/xheditor_lang/zh-cn.js"></script>
+		
+		<script type="text/javascript" src="<?PHP echo URL::base()?>js/jquery.uploadify.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="<?PHP echo URL::base()?>css/uploadify.css">
 	</head>
 
 	<body>
@@ -30,13 +33,30 @@
 						<?php echo $html_left_content?>
 					</div>
 					<div class="content-box">
-						<form method="post" id="data-form" action="<?php echo URL::base(NULL, true)?>news/save/">
-						<input type="hidden" name="id" value="<?php echo $item['id']?>" >
+						
 						<div class="content-inner">
 							<div class="navbar-top">
 								<a href="<?php echo URL::base(NULL, TRUE)?>news/list/" >机构动态</a>
 								<a class="active" href="#">编辑动态</a>
 							</div>
+							
+							<div class="input-box">
+								<form>
+								<div id="queue"></div>
+								<input id="file_upload" name="file_upload" type="file" multiple="true">
+								</form>
+							</div>
+							
+							<div class="input-box" id="img_container">
+							</div>
+							
+							<div class="input-box">
+								<br/><br/><br/><br/>
+							</div>
+							
+							<form method="post" id="data-form" action="<?php echo URL::base(NULL, true)?>news/save/">
+							<input type="hidden" name="id" value="<?php echo $item['id']?>" >
+							<input type="hidden" name="img"  id="img_url" value="" />
 							<div class="input-box">
 								<span>标题：</span>
 								<input type="text" name="title" id="title" value="<?php echo $item['title']?>" />
@@ -52,8 +72,9 @@
 							<div class="btn-box">
 								<button id="btnSubmit">确定提交</button>
 							</div>
+							</form>
+							
 						</div>
-						</form>
 					</div>
 				</div>
 			</div>
@@ -70,6 +91,27 @@
 $(function(){
 	$('#btnSubmit').click(function () {
 		$('#data-form').submit();
+	});
+	
+	<?php $timestamp = time();?>
+	var upload_url = '<?php echo URL::base("http", false),$upload_dir?>';
+	$('#file_upload').uploadify({
+		'formData'     : {
+			'timestamp' : '<?php echo $timestamp;?>',
+			'token'     : '<?php echo md5("unique_salt" . $timestamp);?>'
+		},
+		'swf'      : '<?PHP echo URL::base()?>swf/uploadify.swf',
+		'uploader' : '/uploadify.php;jsessionid=<?php echo $session_id?>',
+		'onUploadError' : function(file, errorCode, errorMsg, errorString) {
+            alert('The file ' + file.name + ' could not be uploaded: ' + errorString);
+            alert(errorCode);
+            alert(errorMsg);
+        },
+        'onUploadSuccess' : function(file, data, response) {
+            var img = upload_url + '/' + file.name;
+            $('#img_container').html('<img src="' + img + '" width="150">');
+            $('#img_url').val(img);
+        }
 	});
 });
 </script>

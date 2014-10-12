@@ -58,10 +58,7 @@ class Controller_News extends Controller_Base {
 	}
 	
 	public function action_edit()
-	{
-		$upload_dir = $this->get_upload_dir('news');
-		Session::instance()->set('upload_dir', $upload_dir);
-		
+	{	
 		$id = intval($this->request->query('id'));
 		
 		$items = DB::select('*')
@@ -75,8 +72,12 @@ class Controller_News extends Controller_Base {
 			HTTP::redirect('/article/list/');
 		}
 		
+		$upload_dir = $this->get_upload_dir('news');
+		Session::instance()->set('upload_dir', $upload_dir);
 		$page = View::factory('article/edit')
-			->set('item', $items[0]);
+			->set('item', $items[0])
+			->set('session_id', Session::instance()->id())
+			->set('upload_dir', $upload_dir);
 			
 		$this->output($page, 'news');
 	}

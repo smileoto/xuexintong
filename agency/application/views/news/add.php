@@ -47,6 +47,10 @@
 								<input id="file_upload" name="file_upload" type="file" multiple="true">
 								</form>
 							</div>
+							
+							<div class="input-box" id="img_container">
+							</div>
+							
 							<div class="input-box">
 								<br/><br/><br/><br/>
 							</div>
@@ -56,9 +60,6 @@
 							<input type="hidden" name="img"  id="img_url" value="" />
 							<div class="input-box">
 								<span>标题：</span><input type="text" name="title" id="title" /><i>(字数必须在16个字符内)</i>
-							</div>
-							
-							<div class="input-box" id="img_container">
 							</div>
 							
 							<div class="table-cell">
@@ -85,16 +86,14 @@
 	}
 </script>
 
-<?php $timestamp = time();?>
-
 <script type="text/javascript" charset="utf-8">
 $(function(){
 	$('#btnSubmit').click(function () {
 		$('#data-form').submit();
 	});
 	
+	<?php $timestamp = time();?>
 	var upload_url = '<?php echo URL::base("http", false),$upload_dir?>';
-	
 	$('#file_upload').uploadify({
 		'formData'     : {
 			'timestamp' : '<?php echo $timestamp;?>',
