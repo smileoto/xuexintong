@@ -326,7 +326,7 @@ class Controller_Student extends Controller_Base {
 			->limit(1)
 			->execute()
 			->as_array();
-		if ( count(items) ) {
+		if ( count($items) ) {
 			$code = $items[0]['code'];
 		} else {
 		
