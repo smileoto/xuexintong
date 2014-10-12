@@ -47,7 +47,7 @@ CREATE TABLE guests_courses
 	course_id INT NOT NULL DEFAULT 0
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE signup_infor
+CREATE TABLE signup_explain
 (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	agency_id   INT NOT NULL DEFAULT 0,

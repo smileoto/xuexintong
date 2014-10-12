@@ -32,7 +32,7 @@
 								<a class="active" >
 									报名管理
 								</a>
-								<a href="<?php URL::base(NULL, TRUE)?>?act=remark" >
+								<a href="<?php URL::base(NULL, TRUE)?>signup/explain" >
 									报名说明
 								</a>
 							</div>

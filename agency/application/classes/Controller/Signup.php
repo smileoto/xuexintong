@@ -89,10 +89,10 @@ class Controller_Signup extends Controller_Base {
 		}
 	}
 	
-	public function action_detail() 
+	public function action_explain() 
 	{
 		$items = DB::select('id', 'content')
-			->from('signup_detail')
+			->from('signup_explain')
 			->where('agency_id', '=', $this->auth->agency_id)
 			->limit(1)
 			->execute()
@@ -119,7 +119,7 @@ class Controller_Signup extends Controller_Base {
 		$id = intval($this->request->post('id'));
 		try {
 			if ( $id ) {
-				DB::update('signup_infor')
+				DB::update('signup_explain')
 					->set($data)
 					->where('agency_id', '=', $this->auth->agency_id)
 					->where('id', '=', $id)
@@ -128,7 +128,7 @@ class Controller_Signup extends Controller_Base {
 				$data['created_at'] = date('Y-m-d H:i:s');
 				$data['created_by'] = $this->auth->user_id;
 				$data['agency_id']  = $this->auth->agency_id;
-				DB::insert('signup_infor', array_keys($data))
+				DB::insert('signup_explain', array_keys($data))
 					->values($data)
 					->execute();
 			}
