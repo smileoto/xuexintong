@@ -27,9 +27,12 @@ class Controller_Upload extends Controller_Base {
 		
 		// Define a destination
 		//$targetFolder = DOCROOT.'files/'.Session::instance()->get('upload_dir').'/'.$this->auth->agency_id.'/';
-		$targetFolder = '/files/'.Session::instance()->get('upload_dir').'/'.$this->auth->agency_id.'/';
+		$targetFolder = '/files/'.Session::instance()->get('upload_dir').'/'.$this->auth->agency_id;
 		
-		$verifyToken = md5('unique_salt' . $_POST['timestamp']);
+		$timestamp = isset($_POST['timestamp']) ? $_POST['timestamp'] : time();
+		$verifyToken = md5('unique_salt' . $timestamp);
+		
+		echo 1;exit;
 		
 		if ( !empty($_FILES) && $_POST['token'] == $verifyToken ) {
 			$tempFile   = $_FILES['Filedata']['tmp_name'];
@@ -41,7 +44,7 @@ class Controller_Upload extends Controller_Base {
 			$fileParts = pathinfo($_FILES['Filedata']['name']);
 			
 			if ( in_array($fileParts['extension'], $fileTypes) ) {
-				move_uploaded_file($tempFile,$targetFile);
+				move_uploaded_file($tempFile, $targetFile);
 				echo '1';
 			} else {
 				echo 'Invalid file type.';
