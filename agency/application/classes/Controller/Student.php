@@ -32,7 +32,7 @@ class Controller_Student extends Controller_Base {
 			->where('students.agency_id', '=', $this->auth->agency_id);
 		
 		
-		$queryList = DB::select('students.*',array('schools.name', 'school'),array('grades.name','grade'),array('courses.name', 'class'))
+		$queryItems = DB::select('students.*',array('schools.name', 'school'),array('grades.name','grade'),array('courses.name', 'class'))
 			->from('students')
 			->where('students.agency_id', '=', $this->auth->agency_id)
 			->join('schools', 'LEFT')
@@ -45,50 +45,50 @@ class Controller_Student extends Controller_Base {
 			->on('students_courses.course_id', '=', 'courses.id');
 				
 		if ( $entity ) {
-			$queryList->where('students.entity_id',  '=', $entity);
+			$queryItems->where('students.entity_id',  '=', $entity);
 			$queryCount->where('students.entity_id', '=', $entity);
 		}
 		
 		if ( $school ) {
-			$queryList->where('students.school_id',  '=', $school);
+			$queryItems->where('students.school_id',  '=', $school);
 			$queryCount->where('students.school_id', '=', $school);
 		}
 		if ( $grade ) {
-			$queryList->where('students.grade_id',  '=', $grade);
+			$queryItems->where('students.grade_id',  '=', $grade);
 			$queryCount->where('students.grade_id', '=', $grade);
 		}
 		if ( $class ) {
-			$queryList->where('students_courses.course_id', '=', $class);
+			$queryItems->where('students_courses.course_id', '=', $class);
 			$queryCount->join('students_courses', 'LEFT')
 				->on('students.id', '=', 'students_courses.student_id')
 				->where('students_courses.course_id', '=', $class);
 		}
 		if ( $realname ) {
-			$queryList->where('students.realname', '=', $realname);
-			$queryCount->where('students.realname', '=', $realname);
+			$queryItems->where('students.realname', 'like', '%'.$realname.'%');
+			$queryCount->where('students.realname', 'like', '%'.$realname.'%');
 		}
 		if ( $sex != '' ) {
-			$queryList->where('students.sex', '=', $sex);
+			$queryItems->where('students.sex', '=', $sex);
 			$queryCount->where('students.sex', '=', $sex);
 		}
 		if ( $mobile ) {
-			$queryList->where('students.mobile', '=', $mobile);
+			$queryItems->where('students.mobile', '=', $mobile);
 			$queryCount->where('students.mobile', '=', $mobile);
 		}
 		if ( $father_name ) {
-			$queryList->where('students.father_name', '=', $father_name);
-			$queryCount->where('students.father_name', '=', $father_name);
+			$queryItems->where('students.father_name', 'like', '%'.$father_name.'%');
+			$queryCount->where('students.father_name', 'like', '%'.$father_name.'%');
 		}
 		if ( $father_mobile ) {
-			$queryList->where('students.father_mobile', '=', $father_mobile);
+			$queryItems->where('students.father_mobile', '=', $father_mobile);
 			$queryCount->where('students.father_mobile', '=', $father_mobile);
 		}
 		if ( $mother_name ) {
-			$queryList->where('students.mother_name', '=', $mother_name);
-			$queryCount->where('students.mother_name', '=', $mother_name);
+			$queryItems->where('students.mother_name', 'like', '%'.$mother_name.'%');
+			$queryCount->where('students.mother_name', 'like', '%'.$mother_name.'%');
 		}
 		if ( $mother_mobile ) {
-			$queryList->where('students.mother_mobile', '=', $mother_mobile);
+			$queryItems->where('students.mother_mobile', '=', $mother_mobile);
 			$queryCount->where('students.mother_mobile', '=', $mother_mobile);
 		}
 		
@@ -96,7 +96,7 @@ class Controller_Student extends Controller_Base {
 		$cnt = $queryCount->execute();
 		$total = $cnt->count() ? $cnt[0]['COUNT(0)'] : 0;
 		
-		$items = $queryList->offset($this->pagenav->offset)
+		$items = $queryItems->offset($this->pagenav->offset)
 			->limit($this->pagenav->size)
 			->execute()
 			->as_array();

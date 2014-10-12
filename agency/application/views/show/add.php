@@ -35,7 +35,9 @@
 					
 						<div class="content-inner">
 							<div class="navbar-top">
-								<a class="active">添加图片</a>
+								<a href="<?php echo URL::base(NULL, TRUE)?>introduction">简介</a>
+								<a class="active" href="#">展示-添加</a>
+								<a href="<?php echo URL::base(NULL, TRUE)?>contact">联系</a>
 							</div>
 							
 							<form method="post" id="data-form" action="<?php echo URL::base(NULL, true)?>show/save/">

@@ -35,7 +35,9 @@
 					
 						<div class="content-inner">
 							<div class="navbar-top">
-								<a class="active">添加图片</a>
+								<a href="<?php echo URL::base(NULL, TRUE)?>introduction">简介</a>
+								<a class="active" href="#">编辑</a>
+								<a href="<?php echo URL::base(NULL, TRUE)?>contact">联系</a>
 							</div>
 							
 							<form method="post" id="data-form" action="<?php echo URL::base(NULL, true)?>show/save/">
@@ -53,14 +55,13 @@
 							</ul>
 							</form>
 							
-							<div class="input-box">
+							<div>
 								<form>
 								<div id="queue"></div>
 								<input id="file_upload" name="file_upload" type="file" multiple="true">
 								</form>
 							</div>
-							
-							<div class="input-box" id="img_container">
+							<div id="img_container">
 							<?php 
 							if ( $item['url'] ) {
 								echo '<a href="',$item['url'],'" target="_blank"><img src="',$item['url'],'" width="150"></a>';
