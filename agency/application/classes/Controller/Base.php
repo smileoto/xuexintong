@@ -121,6 +121,7 @@ class Controller_Base extends Controller {
 	public function entities() 
 	{
 		$entities = array();
+		$entities[] = array('id' => 0, 'name' => '总部');
 		
 		$items = DB::select('id', 'name')
 			->from('entities')
@@ -130,10 +131,6 @@ class Controller_Base extends Controller {
 			->as_array();
 		foreach ( $items as $v ) {
 			$entities[$v['id']] = $v;
-		}
-		
-		if ( count($entities) == 0 ) {
-			$entities[] = array('id' => 0, 'name' => '总部');
 		}
 		
 		return $entities;
