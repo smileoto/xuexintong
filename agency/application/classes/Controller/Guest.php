@@ -151,6 +151,21 @@ class Controller_Guest extends Controller_Base {
 			//todo
 		}
 		
+		try {
+			DB::update('guests')
+				->set($data)
+				->where('agency_id', '=', $this->auth->agency_id)
+				->where('id', '=', $id)
+				->execute();
+			
+			HTTP::redirect('/guest/list/');
+			
+		} catch (Database_Exception $e) {
+			$this->response->body( $e->getMessage() );
+		}		
+		
+		return;
+		
 		$data = array();
 		
 		$data['sex']       = intval($this->request->post('sex'));

@@ -40,7 +40,8 @@ class Controller_Top extends Controller_Base {
 		$cnt   = $queryCount->execute();
 		$total = $cnt->count() ? $cnt[0]['COUNT(0)'] : 0;
 		
-		$items = $queyrList->offset($this->pagenav->offset)
+		$items = $queyrList->order_by('tops.id', 'DESC')
+			->offset($this->pagenav->offset)
 			->limit($this->pagenav->size)
 			->execute()
 			->as_array();

@@ -56,7 +56,7 @@
 										班别名称：
 									</div>
 									<div class="con-info">
-										<input type="text" name="name" id="name"/>
+										<input type="text" name="name" id="name" maxlength="20"/>
 									</div>
 								</li>
 								<li>

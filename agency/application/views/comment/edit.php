@@ -30,10 +30,11 @@
 						<div class="content-inner">
 							<div class="navbar-top">
 								<a href="<?php echo URL::base(NULL, TRUE)?>comment/list/">老师评语</a>
-								<a class="active">发布评语</a>
+								<a class="active">编辑评语</a>
 							</div>
 							
 							<form method="post" id="data-form" action="<?php echo URL::base(NULL, true)?>comment/save/">
+							<input type="hidden" name="id" value="<?php echo $item['id']?>" />
 							
 							<div class="accountSettings-box">
 								<ul>
@@ -41,8 +42,8 @@
 										<span class="m-name">
 											姓名：
 										</span>
-										<input type="text" readonly="readonly"  id="student">
-										<input type="hidden" name="student_id" id="student_id">
+										<input type="text" readonly="readonly"  id="student" value="<?php echo $item['student']?>">
+										<input type="hidden" name="student_id" id="student_id" value="<?php echo $item['student_id']?>">
 									</li>
 									<li>
 										<a class="btn btn-primary btn-large theme-login" href="javascript:;" id="btnOpenSelector">选择学生</a>
@@ -51,17 +52,17 @@
 										<span class="m-name">
 											时间：
 										</span>
-										<input  type="date" name="begin_str" />
+										<input  type="date" name="begin_str" value="<?php echo $item['begin_str']?>" />
 										<span class="m-name" style="width: 15px;background: none;margin-right: 10px;border: 0;">
 											至
 										</span>
-										<input  type="date" name="end_str" />
+										<input  type="date" name="end_str" value="<?php echo $item['end_str']?>" />
 									</li>
 									<li style="width: 100%;height: 100px;">
 										<span class="m-name">
 											评语：
 										</span>
-										<textarea name="content" id="content" style="width: 477px;resize: none;" rows="6"></textarea>
+										<textarea name="content" id="content" style="width: 477px;resize: none;" rows="6"><?php echo $item['content']?></textarea>
 									</li>
 								</ul>
 							</div>

@@ -13,6 +13,8 @@
 		    }
 		  </style>
 		<![endif]-->
+		
+		<script type="text/javascript" charset="utf-8" src="<?PHP echo URL::base()?>js/jquery-2.1.1.min.js"></script>
 	</head>
 
 	<body>
@@ -170,7 +172,7 @@
 		document.getElementById("sidebar").style.minHeight = document.getElementById("main").clientHeight - document.getElementById("header").clientHeight - 3 + 'px';
 	}
 </script>
-<script type="text/javascript" charset="utf-8" src="<?PHP echo URL::base()?>js/jquery-2.1.1.min.js"></script>
+
 <script type="text/javascript" charset="utf-8" src="<?php echo URL::base()?>js/geo.js"></script>
 <script type="text/javascript" charset="utf-8">
 $(function(){

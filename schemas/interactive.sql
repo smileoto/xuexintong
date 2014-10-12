@@ -38,6 +38,8 @@ CREATE TABLE comments
 	created_at  DATETIME NOT NULL DEFAULT 0,
 	modified_at DATETIME NOT NULL DEFAULT 0,
 	title       VARCHAR(255) NOT NULL DEFAULT '',
+	begin_str   VARCHAR(50) NOT NULL DEFAULT 0,
+	end_str     VARCHAR(50) NOT NULL DEFAULT 0,
 	content     TEXT,
 	KEY agency_id(agency_id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;

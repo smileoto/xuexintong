@@ -119,6 +119,7 @@
 										<td><?php echo $v['grade']?></td>
 										<td><?php echo $v['class'],'-',$v['course']?></td>
 										<td>
+											<a href="<?php echo URL::base(NULL, TRUE)?>comment/edit/?id=<?php echo $v['id']?>">编辑</a>
 											<a href="<?php echo URL::base(NULL, TRUE)?>comment/del/?id=<?php echo $v['id']?>">删除</a>
 										</td>
 									</tr>

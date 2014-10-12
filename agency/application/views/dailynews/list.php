@@ -49,7 +49,7 @@
 									<td><?php echo $v['username']?></td>
 									<td>
 										<a href="<?php echo URL::base(NULL, TRUE)?>dailynews/edit/?id=<?php echo $v['id']?>">编辑</a>
-										<a href="<?php echo URL::base(NULL, TRUE)?>dailynews/del/?id=<?php echo $v['id']?>">停用</a>
+										<a href="<?php echo URL::base(NULL, TRUE)?>dailynews/del/?id=<?php echo $v['id']?>">删除</a>
 									</td>
 								</tr>
 								<?php endforeach;?>

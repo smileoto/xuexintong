@@ -57,7 +57,8 @@ class Controller_Works extends Controller_Base {
 			$cnt = $queryCount->execute();
 			$total = $cnt->count() ? $cnt[0]['COUNT(0)'] : 0;
 			
-			$items = $query->offset($this->pagenav->offset)
+			$items = $query->order_by('works.id', 'DESC')
+				->offset($this->pagenav->offset)
 				->limit($this->pagenav->size)
 				->execute()
 				->as_array();

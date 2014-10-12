@@ -62,7 +62,7 @@
 										班别名称：
 									</div>
 									<div class="con-info">
-										<input type="text" name="name" id="name" value="<?php echo $item['name']?>"/>
+										<input type="text" name="name" id="name" maxlength="20" value="<?php echo $item['name']?>"/>
 									</div>
 								</li>
 								<li>

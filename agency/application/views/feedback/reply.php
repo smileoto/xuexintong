@@ -55,6 +55,12 @@
 									</span>
 									<?php echo $v['content']?>：
 								</li>
+								<li style="width: 100%;height: 100px;">
+									<span class="m-name">
+										答复时间：
+									</span>
+									<?php echo $item['created_at']?>
+								</li>
 							</ul>
 							<?php endforeach?>
 							<ul>

@@ -48,7 +48,7 @@
 									<td><?php echo $v['modified_at']?></td>
 									<td><?php echo $v['username']?></td>
 									<td>
-										<a href="<?php echo URL::base(NULL, TRUE)?>article/del/?id=<?php echo $v['id']?>">停用</a>
+										<a href="<?php echo URL::base(NULL, TRUE)?>article/del/?id=<?php echo $v['id']?>">删除</a>
 										<a href="<?php echo URL::base(NULL, TRUE)?>article/edit/?id=<?php echo $v['id']?>">编辑</a>
 									</td>
 								</tr>

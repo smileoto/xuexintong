@@ -65,7 +65,8 @@ class Controller_Comment extends Controller_Base {
 			$cnt   = $queryCount->execute();
 			$total = $cnt->count() ? $cnt[0]['COUNT(0)'] : 0;
 			
-			$items = $queyrList->offset($this->pagenav->offset)
+			$items = $queyrList->order_by('comments.id', 'DESC')
+				->offset($this->pagenav->offset)
 				->limit($this->pagenav->size)
 				->execute()
 				->as_array();
@@ -92,6 +93,29 @@ class Controller_Comment extends Controller_Base {
 		$page = View::factory('comment/add');				
 		$this->output($page, 'comment');
 	}
+	
+	public function action_edit()
+	{
+		$id = intval($this->request->query('id'));
+		
+		$items = DB::select('comments.*', array('students.realname', 'student'), array('users.realname', 'teacher'))
+			->from('comments')
+			->join('students')
+			->on('comments.student_id', '=', 'students.id')
+			->join('users')
+			->on('comments.created_by', '=', 'users.id')
+			->where('comments.agency_id', '=', $this->auth->agency_id)
+			->where('comments.id', '=', $id)
+			->execute()
+			->as_array();
+		if ( !count($items) ) {
+			HTTP::redirect('/comment/list/');
+		}
+		
+		$page = View::factory('comment/edit')
+			->set('item', $items[0]);			
+		$this->output($page, 'comment');
+	}
 		
 	public function action_save()
 	{
@@ -99,16 +123,25 @@ class Controller_Comment extends Controller_Base {
 		$data['student_id'] = intval($this->request->post('student_id'));
 		$data['content']    = $this->request->post('content');
 		
-		$data['agency_id']  = $this->auth->agency_id;
-		$data['created_by'] = $this->auth->user_id;
-		$data['created_at'] = date('Y-m-d H:i:s');
 		$data['modified_at'] = $this->auth->user_id;
 		$data['modified_by'] = date('Y-m-d H:i:s');
 		
+		$id = intval($this->request->post('id'));
 		try {
-			list($id, $rows) = DB::insert('comments', array_keys($data))
-				->values($data)
-				->execute();
+			if ( $id ) {
+				DB::update('comments')
+					->set($data)
+					->where('agency_id', '=', $this->auth->agency_id)
+					->where('id', '=', $id)
+					->execute();
+			} else {
+				$data['created_at'] = date('Y-m-d H:i:s');
+				$data['agency_id']  = $this->auth->agency_id;
+				$data['created_by'] = $this->auth->user_id;
+				list($id, $rows) = DB::insert('comments', array_keys($data))
+					->values($data)
+					->execute();
+			}
 			HTTP::redirect('/comment/list/');
 		} catch (Database_Exception $e) {
 			$this->response->body( $e->getMessage() );
