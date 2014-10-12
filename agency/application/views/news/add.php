@@ -53,14 +53,14 @@
 							
 							
 							<form method="post" id="data-form" action="<?php echo URL::base(NULL, true)?>news/save/">
+							<input type="hidden" name="img"  id="img_url" value="" />
 							<div class="input-box">
 								<span>标题：</span><input type="text" name="title" id="title" /><i>(字数必须在16个字符内)</i>
 							</div>
-							<div class="input-box">
-								<span>图片：</span>
-								<img id="img" src="">
-								<input type="hidden" name="img"  id="img_url" value="" />
+							
+							<div class="input-box" id="img_container">
 							</div>
+							
 							<div class="table-cell">
 								<textarea name="content"  class="<?php echo $xheditor_config?>" name="content" id="content"></textarea>
 							</div>
@@ -100,7 +100,7 @@ $(function(){
 			'token'     : '<?php echo md5("unique_salt" . $timestamp);?>'
 		},
 		'swf'      : '<?PHP echo URL::base()?>swf/uploadify.swf',
-		'uploader' : '<?PHP echo URL::base(NULL, TRUE)?>upload/image/;jsessionid=<?php echo $session_id?>',
+		'uploader' : '<?PHP echo URL::base("http", TRUE)?>upload/image/;jsessionid=<?php echo $session_id?>',
 		onUploadSuccess : function(file, data, response) {
 			
 		}
