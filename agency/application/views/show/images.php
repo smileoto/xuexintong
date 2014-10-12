@@ -38,7 +38,8 @@
 					</div>
 					<div class="content-box">
 						<div class="content-inner">
-							
+						
+							<div style=" width:100%;">
 							<!-- The file upload form used as target for the file upload widget -->
 							<form id="fileupload" action="//jquery-file-upload.appspot.com/" method="POST" enctype="multipart/form-data">
 								<!-- Redirect browsers with JavaScript disabled to the origin page -->
@@ -81,6 +82,7 @@
 								<!-- The table listing the files available for upload/download -->
 								<table role="presentation" class="table table-striped"><tbody class="files"></tbody></table>
 							</form>
+							</div>
 							
 						</div>
 					</div>
