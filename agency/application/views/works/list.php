@@ -105,8 +105,8 @@
 									<td><?php echo $v['modified_at']?></td>
 									<td><?php echo $v['editor']?></td>
 									<td>
-										<a href="<?php echo URL::base(NULL, TRUE)?>works/del/?id=<?php echo $v['id']?>">删除</a>
 										<a href="<?php echo URL::base(NULL, TRUE)?>works/edit/?id=<?php echo $v['id']?>">编辑</a>
+										<a href="<?php echo URL::base(NULL, TRUE)?>works/del/?id=<?php echo $v['id']?>">删除</a>
 									</td>
 								</tr>
 								<?php endforeach?>

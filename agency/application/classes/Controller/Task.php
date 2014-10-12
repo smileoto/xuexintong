@@ -57,6 +57,7 @@ class Controller_task extends Controller_Base {
 			$items = $queyrList
 				->where('tasks.agency_id', '=', $this->auth->agency_id)
 				->where('tasks.status', '=', STATUS_NORMAL)
+				->order_by('tasks.id', 'DESC')
 				->offset($this->pagenav->offset)
 				->limit($this->pagenav->size)
 				->execute()
