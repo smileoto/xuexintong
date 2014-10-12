@@ -431,8 +431,10 @@ class Controller_Student extends Controller_Base {
 			
 			if( $result->statusCode != 0 ) {
 				//TODO 添加错误处理逻辑
-				$this->ajax_result['ret'] = $result->statusCode;
-				$this->ajax_result['msg'] = $result->statusMsg;
+				$errno = json_decode($result->statusCode, true);
+				$errmsg = json_decode($result->statusMsg, true);
+				$this->ajax_result['ret'] = $errno[0];
+				$this->ajax_result['msg'] = $errmsg[0];
 				$this->response->body( json_encode($this->ajax_result) );
 				return;
 			}
