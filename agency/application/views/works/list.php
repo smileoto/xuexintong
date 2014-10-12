@@ -100,7 +100,7 @@
 									<td><?php echo $v['id']?></td>
 									<td>
 										<?php
-										if ( strlen(substr($v['title']) > 20 ) { 
+										if ( strlen($v['title']) > 20 ) { 
 											echo substr($v['title'], 0, 20);
 										} else {
 											echo $v['title'];
