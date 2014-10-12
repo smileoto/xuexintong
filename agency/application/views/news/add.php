@@ -100,7 +100,7 @@ $(function(){
 			'token'     : '<?php echo md5("unique_salt" . $timestamp);?>'
 		},
 		'swf'      : '<?PHP echo URL::base()?>swf/uploadify.swf',
-		'uploader' : '<?PHP echo URL::base("http", TRUE)?>upload/image/;jsessionid=<?php echo $session_id?>',
+		'uploader' : '<?PHP echo URL::base("http", TRUE)?>upload/image/?jsessionid=<?php echo $session_id?>',
 		onUploadSuccess : function(file, data, response) {
 			
 		}
