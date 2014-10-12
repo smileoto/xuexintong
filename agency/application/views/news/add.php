@@ -47,6 +47,9 @@
 								<input id="file_upload" name="file_upload" type="file" multiple="true">
 								</form>
 							</div>
+							<div class="input-box">
+								<br/><br/><br/><br/>
+							</div>
 							
 							
 							<form method="post" id="data-form" action="<?php echo URL::base(NULL, true)?>news/save/">
@@ -54,7 +57,9 @@
 								<span>标题：</span><input type="text" name="title" id="title" /><i>(字数必须在16个字符内)</i>
 							</div>
 							<div class="input-box">
-								<span>来源：</span><input type="text" name="from"  id="from" />
+								<span>图片：</span>
+								<img id="img" src="">
+								<input type="hidden" name="img"  id="img_url" value="" />
 							</div>
 							<div class="table-cell">
 								<textarea name="content"  class="<?php echo $xheditor_config?>" name="content" id="content"></textarea>
@@ -95,7 +100,7 @@ $(function(){
 			'token'     : '<?php echo md5('unique_salt' . $timestamp);?>'
 		},
 		'swf'      : '<?PHP echo URL::base()?>swf/uploadify.swf',
-		'uploader' : '<?PHP echo URL::base(NULL, TRUE)?>upload/'
+		'uploader' : '<?PHP echo URL::base(NULL, TRUE)?>upload/image/'
 	});
 });
 </script>

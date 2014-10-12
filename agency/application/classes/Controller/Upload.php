@@ -4,7 +4,7 @@ require_once APPPATH.'../vendor/UploadHandler.php';
 
 class Controller_Upload extends Controller_Base {
 	
-	public function action_index()
+	public function action_image()
 	{
 		/*
 		$options = array();
@@ -47,6 +47,8 @@ class Controller_Upload extends Controller_Base {
 				echo 'Invalid file type.';
 			}
 		}
+		
+		exit;
 	}
 	
 }
