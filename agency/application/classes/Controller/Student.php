@@ -343,10 +343,10 @@ class Controller_Student extends Controller_Base {
 			$data['student_id'] = $id;
 			$data['code']       = $code;
 			$data['created_at'] = date('Y-m-d H:i:s');
-			$data['expired_at'] = date('Y-m-d H:i:s');
+			//$data['expired_at'] = date('Y-m-d H:i:s');
 			
 			try {
-				DB::insert('student_valid')
+				DB::insert('student_valid', array_keys($data))
 					->values($data)
 					->execute();
 			} catch (Database_Exception $e) {
