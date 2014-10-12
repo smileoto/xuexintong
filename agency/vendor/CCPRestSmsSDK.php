@@ -70,35 +70,35 @@ class REST {
     /**
      * 发起HTTPS请求
      */
-     function curl_post($url,$data,$header,$post=1)
-     {
-       //初始化curl
-       $ch = curl_init();
-       //参数设置  
-       $res= curl_setopt ($ch, CURLOPT_URL, $url);  
-       curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
-       curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-       curl_setopt($ch, CURLOPT_HEADER, 0);
-       curl_setopt($ch, CURLOPT_POST, $post);
-       if ( $post ) {
-          curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-       }
-       curl_setopt($ch, CURLOPT_HTTPHEADER, array('Expect:'));
-       curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-       curl_setopt($ch,CURLOPT_HTTPHEADER,$header);
-       $result = curl_exec($ch);
-       //连接失败
-       if($result == FALSE){
-          if($this->BodyType=='json'){
-             $result = "{\"statusCode\":\"172001\",\"statusMsg\":\"网络错误\"}";
-          } else {
-             $result = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><Response><statusCode>172001</statusCode><statusMsg>网络错误</statusMsg></Response>"; 
-          }    
-       }
-
-       curl_close($ch);
-       return $result;
-     } 
+	function curl_post($url,$data,$header,$post=1)
+	{
+		//初始化curl
+		$ch = curl_init();
+		//参数设置  
+		$res= curl_setopt ($ch, CURLOPT_URL, $url);  
+		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+		curl_setopt($ch, CURLOPT_HEADER, 0);
+		curl_setopt($ch, CURLOPT_POST, $post);
+		if ( $post ) {
+		  curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+		}
+		curl_setopt($ch, CURLOPT_HTTPHEADER, array('Expect:'));
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($ch,CURLOPT_HTTPHEADER,$header);
+		$result = curl_exec($ch);
+		//连接失败
+		if ( $result == FALSE ) {
+			if ( $this->BodyType == 'json' ) {
+				$result = "{\"statusCode\":\"172001\",\"statusMsg\":\"网络错误（".curl_error($ch)."）\"}";
+			} else {
+				$result = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><Response><statusCode>172001</statusCode><statusMsg>网络错误（".curl_error($ch)."）</statusMsg></Response>"; 
+			}    
+		}
+		
+		curl_close($ch);
+		return $result;
+	} 
 
    
     
