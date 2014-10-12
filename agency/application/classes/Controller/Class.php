@@ -28,7 +28,7 @@ class Controller_Class extends Controller_Base {
 			->set('items', $classes)
 			->set('groups_classes', $groups_classes)
 			->set('entities', $this->entities())
-			->set('$entity_num', $$entity_num);
+			->set('$entity_num', $entity_num);
 			
 		$this->output($page, 'class');
 	}
