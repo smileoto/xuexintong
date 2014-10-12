@@ -15,7 +15,7 @@ class Controller_Signup extends Controller_Base {
 				->where('courses.agency_id', '=', $this->auth->agency_id)
 				->where('courses.status', '=', STATUS_NORMAL);
 			
-			$queryItems = DB::select('courses.id', 'courses.class_id', 'courses.hours', 'courses.num', 'courses.tuition', 'courses.name', 'courses.modified_at', array('classes.name', 'class'))
+			$queryItems = DB::select('courses.id', 'courses.class_id', 'courses.hours', 'courses.num', 'courses.tuition', 'courses.name', 'courses.content', 'courses.modified_at', array('classes.name', 'class'))
 				->from('courses')
 				->join('classes')
 				->on('courses.class_id', '=', 'classes.id')

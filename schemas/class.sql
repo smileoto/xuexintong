@@ -28,8 +28,8 @@ CREATE TABLE courses
 	created_at  DATETIME NOT NULL DEFAULT 0,
 	modified_at DATETIME NOT NULL DEFAULT 0,
 	name        VARCHAR(100) NOT NULL DEFAULT '',
-	content     VARCHAR(255) NOT NULL DEFAULT '',
 	time        VARCHAR(100) NOT NULL DEFAULT '',
+	content     VARCHAR(255) NOT NULL DEFAULT '',
 	KEY agency_id(agency_id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
