@@ -422,7 +422,7 @@ class Controller_Student extends Controller_Base {
 			
 			// 发送模板短信
 			//$result = $rest->sendTemplateSMS($to, array($this->auth->agency_name, $code), $tempId);
-			$result = $rest->sendTemplateSMS($to, array($code, 60), $tempId);
+			$result = $rest->sendTemplateSMS($to, array(1, 60), $tempId);
 			if( $result == NULL ) {
 				$this->ajax_result['ret'] = ERR_DB_SELECT;
 				$this->ajax_result['msg'] = '发送短信失败：';
