@@ -30,8 +30,8 @@ class Controller_Signup extends Controller_Base {
 			
 			$count = $queryCount->execute();
 			$total = $count->count() ? $count[0]['COUNT(0)'] : 0;
-			$items = $queryItems->offset($this->pagenv->offset)
-				->limit($this->pagenv->size)
+			$items = $queryItems->offset($this->pagnav->offset)
+				->limit($this->pagnav->size)
 				->execute()
 				->as_array();
 			
