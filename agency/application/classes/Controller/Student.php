@@ -308,7 +308,7 @@ class Controller_Student extends Controller_Base {
 	public function action_notify() 
 	{
 		$id = intval($this->request->query('id'));
-		$items = DB::select('*')
+		$items = DB::select('id')
 			->from('students')
 			->where('agency_id', '=', $this->auth->agency_id)
 			->where('id', '=', $id)
@@ -343,7 +343,7 @@ class Controller_Student extends Controller_Base {
 		}
 		
 		$page = View::factory('student/notify')
-			->set('item', $items[0])
+			->set('student_id', $items[0]['id'])
 			->set('code', $code)
 			->set('agency', $this->auth->agency_name);
 		$this->output($page, 'student');

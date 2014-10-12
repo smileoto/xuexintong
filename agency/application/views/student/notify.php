@@ -35,7 +35,7 @@
 								</span>
 							</div>
 							
-							<input type="hidden" id="id" value="<?php echo $item['id']?>">
+							<input type="hidden" id="student_id" value="<?php echo $student_id?>">
 							
 							<div style="color:#666; width:100%;">
 								<ul>
@@ -114,7 +114,7 @@ $(function(){
 		}
 	
 		var url = '<?php echo URL::base(NULL, TRUE)?>student/sms/';
-		$.post(url, {id:$('#id').val(), phones:phones.join(',')}, function (jsonStr) {
+		$.post(url, {id:$('#student_id').val(), phones:phones.join(',')}, function (jsonStr) {
 			var jsonObj = $.parseJSON(jsonStr);
 			if ( jsonObj.ret != 0 ) {
 				alert(jsonObj.msg);
