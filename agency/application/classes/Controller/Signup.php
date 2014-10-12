@@ -103,7 +103,7 @@ class Controller_Signup extends Controller_Base {
 			$item = $items[0];
 		}
 		
-		$page = View::factory('signup/detail')
+		$page = View::factory('signup/explain')
 			->set('item', $item);
 		$this->output($page, 'signup');
 	}
