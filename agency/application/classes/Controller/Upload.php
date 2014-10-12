@@ -9,7 +9,7 @@ class Controller_Upload extends Controller_Base {
 		$options = array();
 		$options['upload_dir']  = DOCROOT.'files/'.Session::instance()->get('upload_dir').'/'.$this->auth->agency_id.'/';
 		$options['upload_url']  = '/files/'.Session::instance()->get('upload_dir').'/'.$this->auth->agency_id.'/';
-		$options['script_url']  = '/files/'.Session::instance()->get('upload_dir').'/'.$this->auth->agency_id.'/';
+		$options['script_url']  = '/index.php/upload/';
 		$options['delete_type'] = 'POST';
 		$upload_handler = new UploadHandler($options);
 		exit;
