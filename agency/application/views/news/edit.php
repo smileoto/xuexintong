@@ -48,6 +48,11 @@
 							</div>
 							
 							<div class="input-box" id="img_container">
+							<?php 
+							if ( $item['img'] ) {
+								echo '<img src="',$item['img'],'" width="150">';
+							}
+							?>
 							</div>
 							
 							<div class="input-box">
@@ -56,7 +61,7 @@
 							
 							<form method="post" id="data-form" action="<?php echo URL::base(NULL, true)?>news/save/">
 							<input type="hidden" name="id" value="<?php echo $item['id']?>" >
-							<input type="hidden" name="img"  id="img_url" value="" />
+							<input type="hidden" name="img"  id="img_url" value="<?php echo $item['img']?>" />
 							<div class="input-box">
 								<span>标题：</span>
 								<input type="text" name="title" id="title" value="<?php echo $item['title']?>" />
