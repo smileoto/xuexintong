@@ -12,4 +12,9 @@ class Controller_Upload extends Controller_Base {
 		$upload_handler = new UploadHandler($options);
 	}
 	
+	public function action_test()
+	{
+		echo 'Hello world!';exit;
+	}
+	
 }
