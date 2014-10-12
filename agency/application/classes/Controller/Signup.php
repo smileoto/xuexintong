@@ -36,7 +36,7 @@ class Controller_Signup extends Controller_Base {
 				->as_array();
 			
 			
-			$page = View::factory('course/list')
+			$page = View::factory('signup/list')
 				->set('items', $items)
 				->set('class_id', $class_id)
 				->set('classes', $this->classes());
