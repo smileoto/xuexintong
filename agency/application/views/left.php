@@ -76,7 +76,7 @@
 								</a>
 								<ul>
 									<li <?php echo ($active=="setting") ? 'class="active"' : '';?> >
-										<a href="<?php echo URL::base(NULL, TRUE)?>entity/list/">-参数设置</a>
+										<a href="<?php echo URL::base(NULL, TRUE)?>school/list/">-参数设置</a>
 									</li>
 									
 									<li <?php echo ($active=="users") ? 'class="active"' : '';?> >

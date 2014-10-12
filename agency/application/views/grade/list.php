@@ -29,7 +29,9 @@
 					<div class="content-box">
 						<div class="content-inner">
 							<div class="navbar-top">
+								<?php if ( isset($entity_num) and $entity_num > 0 ) : ?>
 								<a href="<?php echo URL::base(NULL, TRUE)?>entity/list/" >分机构设置</a>
+								<?php endif?>
 								<a href="<?php echo URL::base(NULL, TRUE)?>school/list/" >学校设置</a>
 								<a class="active" >年级设置</a>
 							</div>

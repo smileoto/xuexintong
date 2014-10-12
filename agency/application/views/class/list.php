@@ -34,9 +34,11 @@
 						<div class="content-inner">
 							<div class="navbar-top">
 								<a class="active">课程类别</a>
+								<?php if ( $entity_id ) : ?>
 								<span style="width:200px; height:40px; line-height:40px; margin-left:5px; margin-top:5px; font-weight:bold;">
 								（<?php echo $entities[$entity_id]['name']?>）
 								</span>
+								<?php endif?>
 							</div>
 							<div class="class-box">
 								<?php foreach($items as $v):?>

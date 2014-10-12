@@ -147,24 +147,6 @@ class Controller_Guest extends Controller_Base {
 	public function action_save()
 	{
 		$student_id = intval($this->request->post('student_id'));
-		if ( empty($student_id) ) {
-			//todo
-		}
-		
-		try {
-			DB::update('guests')
-				->set($data)
-				->where('agency_id', '=', $this->auth->agency_id)
-				->where('id', '=', $id)
-				->execute();
-			
-			HTTP::redirect('/guest/list/');
-			
-		} catch (Database_Exception $e) {
-			$this->response->body( $e->getMessage() );
-		}		
-		
-		return;
 		
 		$data = array();
 		

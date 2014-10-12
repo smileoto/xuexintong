@@ -121,7 +121,7 @@ class Controller_Base extends Controller {
 	public function entities() 
 	{
 		$entities = array();
-		$entities[] = array('id' => 0, 'name' => '总部');
+		$entities[] = array('id' => 0, 'name' => '');
 		
 		$items = DB::select('id', 'name')
 			->from('entities')
