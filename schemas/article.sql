@@ -69,7 +69,7 @@ CREATE TABLE contacts
 	KEY agency_id(agency_id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE shows
+CREATE TABLE teachers
 (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	agency_id INT NOT NULL DEFAULT 0,
@@ -77,10 +77,18 @@ CREATE TABLE shows
 	KEY agency_id(agency_id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE teachers
+CREATE TABLE images
 (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	agency_id INT NOT NULL DEFAULT 0,
-	content text,
-	KEY agency_id(agency_id)
+	agency_id   INT NOT NULL DEFAULT 0,
+	status      INT NOT NULL DEFAULT 0,
+	category_id INT NOT NULL DEFAULT 0,
+	filesize    INT NOT NULL DEFAULT 0,
+	created_by  INT NOT NULL DEFAULT 0,
+	modified_by INT NOT NULL DEFAULT 0,
+	created_at  DATETIME NOT NULL DEFAULT 0,
+	modified_at DATETIME NOT NULL DEFAULT 0,
+	title       VARCHAR(255) NOT NULL DEFAULT '',
+	url         VARCHAR(255) NOT NULL DEFAULT '',
+	realpath    VARCHAR(255) NOT NULL DEFAULT ''
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;

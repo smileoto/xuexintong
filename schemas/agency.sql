@@ -23,8 +23,8 @@ CREATE TABLE agencies
 	wx_appid  VARCHAR(100) NOT NULL DEFAULT '',
 	wx_secret VARCHAR(100) NOT NULL DEFAULT '',
 	wx_openid VARCHAR(100) NOT NULL DEFAULT '',
-	viewname  VARCHAR(100) NOT NULL DEFAULT '' comment '公众号名称',
-	realname  VARCHAR(100) NOT NULL DEFAULT '' comment '机构名称',
+	viewname  VARCHAR(100) NOT NULL DEFAULT '' comment '鹿芦脰脷潞脜脙没鲁脝',
+	realname  VARCHAR(100) NOT NULL DEFAULT '' comment '禄煤鹿鹿脙没鲁脝',
 	username  VARCHAR(100) NOT NULL DEFAULT '',
 	UNIQUE username(username)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -41,7 +41,7 @@ CREATE TABLE entities
 	modified_by INT NOT NULL DEFAULT 0,
 	created_at  DATETIME NOT NULL DEFAULT 0,
 	modified_at DATETIME NOT NULL DEFAULT 0,
-	name      VARCHAR(100) NOT NULL DEFAULT '' comment '机构名称',
+	name      VARCHAR(100) NOT NULL DEFAULT '' comment '禄煤鹿鹿脙没鲁脝',
 	addr      VARCHAR(255) NOT NULL DEFAULT '',
 	contact   VARCHAR(255) NOT NULL DEFAULT '',
 	mobile    VARCHAR(20)  NOT NULL DEFAULT '',
@@ -108,4 +108,4 @@ CREATE TABLE grades
 	KEY agency_id(agency_id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-INSERT INTO agencies(entity_num,viewname,realname,username,wx_appid,wx_secret) VALUES(5,'弘翰教育', '弘翰文化教育机构','tester','wx6a63a3eaee3c449b','e51658dfff34a220fb158d349c3c25c8');
+INSERT INTO agencies(entity_num,viewname,realname,username,wx_appid,wx_secret) VALUES(5,'寮樼堪鏁欒偛','tester','wx6a63a3eaee3c449b','e51658dfff34a220fb158d349c3c25c8');
