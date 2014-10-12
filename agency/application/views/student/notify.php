@@ -44,13 +44,13 @@
 										<span style="float:left; line-height:35px; height:35px;font-size:30px; text-align:right; width:200px;">
 											验证码：
 										</span>
-										<input type="text"  style=" font-size:30px; line-height:30px; width:150px; font-weight:bold; color:#666" value="888888" readonly="readonly" value="<?php echo $code?>" />
+										<input type="text"  style=" font-size:30px; line-height:30px; width:150px; font-weight:bold; color:#666"      readonly="readonly" value="<?php echo $code?>" />
 							  		</li>
 									<li style="font-weight:bold;">
 										<span style="float:left; line-height:35px; height:35px;font-size:30px; text-align:right; width:200px;">
 											短信内容：
 										</span>
-										<textarea name="content" rows="5" readonly="readonly" style="width: 350px; font-size:14pt; color:#666">欢迎您使用<?php echo $agency?>机构的学信通，验证码为：<?php echo $code?>；在您用微信访问本机构的公众号时，输入识别码与验证码，系统自动为您授权。</textarea>
+										<textarea name="content" rows="5" readonly="readonly" style="width: 350px; font-size:14pt; color:#666">欢迎您使用<?php echo $agency?>机构的学信通，验证码为：<?php echo $code?>；在您用微信访问本机构的公众号时，输入验证码，系统自动为您授权。</textarea>
 									</li>
 	                                <li>
 										<span style="float:left; line-height:35px; height:35px;font-size:12pt; text-align:right; width:200px;">
