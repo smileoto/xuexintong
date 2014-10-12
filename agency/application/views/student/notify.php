@@ -35,7 +35,7 @@
 								</span>
 							</div>
 							
-							<input type="hidden" id="student_id" value="<?php echo $student_id?>">
+							<input type="hidden" id="student_id" value="<?php echo $item['id']?>">
 							
 							<div style="color:#666; width:100%;">
 								<ul>
