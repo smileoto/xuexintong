@@ -201,8 +201,8 @@ class Controller_Student extends Controller_Base {
 		
 		$courses = $this->request->post('course');
 		
-		$id = intval($this->request->post('id'));
-		
+		$id  = intval($this->request->post('id'));
+		$new = $id ? false : true;
 		try {
 			DB::delete('students_courses')
 				->where('student_id', '=', $id)
@@ -238,7 +238,11 @@ class Controller_Student extends Controller_Base {
 				$insert->execute();
 			}
 			
-			HTTP::redirect('/student/list/');
+			if ( !$new ) {
+				HTTP::redirect('/student/list/');
+			} else {
+				HTTP::redirect('/student/notify/?id='.$id);
+			}
 			
 		} catch (Database_Exception $e) {
 			$this->response->body( $e->getMessage() );
@@ -300,4 +304,84 @@ class Controller_Student extends Controller_Base {
 			$this->response->body( $e->getMessage() );
 		}
 	}
+	
+	public function action_notify() 
+	{
+		$id = intval($this->request->query('id'));
+		$items = DB::select('*')
+			->from('students')
+			->where('agency_id', '=', $this->auth->agency_id)
+			->where('id', '=', $id)
+			->limit(1)
+			->execute()
+			->as_array();
+		if ( empty($items) ) {
+			HTTP::redirect('/student/list/');
+		}
+		
+		$code = '';
+		do {
+			$code  = $this->generate_rand(6);
+			$items = DB::select('id')
+				->from('student_valid')
+				->where('code', =, $code)
+				->limit(1)
+				->execute();
+		} while ( $items->count() );
+		
+		$data = array();
+		$data['student_id'] = $id;
+		$data['code']       = $code;
+		$data['created_at'] = date('Y-m-d');
+		
+		try {
+			DB::insert('student_valid')
+				->values($data)
+				->execute();
+		} catch (Database_Exception $e) {
+			$this->response->body( $e->getMessage() );
+		}
+		
+		$page = View::factory('student/notify')
+			->set('item', $items[0])
+			->set('code', $code)
+			->set('agency', $this->auth->agency_name);
+		$this->output($page, 'student');
+	}
+	
+	public function action_sms() 
+	{
+		$id = intval($this->request->post('id'));
+		$items = DB::select('*')
+			->from('students')
+			->where('agency_id', '=', $this->auth->agency_id)
+			->where('id', '=', $id)
+			->limit(1)
+			->execute()
+			->as_array();
+		if ( empty($items) ) {
+			$this->ajax_result['ret'] = ERR_DB_SELECT;
+			$this->ajax_result['msg'] = '学生不存在';
+			$this->response->body( json_encode($students) );
+			return;
+		}
+		
+		$phones = $this->request->post('phone');
+		if ( empty($phones) ) {
+			$this->ajax_result['ret'] = ERR_DB_SELECT;
+			$this->ajax_result['msg'] = '请选择手机号码';
+			$this->response->body( json_encode($students) );
+			return;
+		}
+	}
+	
+	public function generate_rand( $l )
+	{ 
+		$c = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"; 
+		srand((double)microtime()*1000000); 
+		for( $i=0; $i<$l; $i++ ) { 
+			$rand.= $c[rand()%strlen($c)]; 
+		} 
+		return $rand; 
+	} 
 }
