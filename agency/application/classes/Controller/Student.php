@@ -424,7 +424,7 @@ class Controller_Student extends Controller_Base {
 			$result = $rest->sendTemplateSMS($to, array($this->auth->agency_name, $code), $tempId);
 			if( $result == NULL ) {
 				$this->ajax_result['ret'] = ERR_DB_SELECT;
-				$this->ajax_result['msg'] = '发送短信失败';
+				$this->ajax_result['msg'] = '发送短信失败：'.$to;
 				$this->response->body( json_encode($this->ajax_result) );
 				return;
 			}
@@ -432,7 +432,7 @@ class Controller_Student extends Controller_Base {
 			if( $result->statusCode != 0 ) {
 				//TODO 添加错误处理逻辑
 				$this->ajax_result['ret'] = $result->statusCode;
-				$this->ajax_result['msg'] = $result->statusMsg;
+				$this->ajax_result['msg'] = $result->statusMsg.': '.$to;
 				$this->response->body( json_encode($this->ajax_result) );
 				return;
 			}
@@ -444,7 +444,7 @@ class Controller_Student extends Controller_Base {
 	public function generate_rand( $l )
 	{ 
 		$rand = '';
-		$c = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"; 
+		$c = "0123456789"; 
 		srand((double)microtime()*1000000); 
 		for( $i=0; $i<$l; $i++ ) { 
 			$rand .= $c[rand()%strlen($c)]; 
