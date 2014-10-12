@@ -125,7 +125,10 @@ CREATE TABLE student_valid
 (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	student_id  INT NOT NULL DEFAULT 0,
-	code        VARCHAR(20) NOT NULL DEFAULT ''
+	code        VARCHAR(20) NOT NULL DEFAULT '',
+	created_at  DATETIME NOT NULL DEFAULT 0,
+	expired_at  DATETIME NOT NULL DEFAULT 0,
+	UNIQUE code(code)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO users(agency_id,role_id,username,password) VALUES(1, 4, 'admin', 'e10adc3949ba59abbe56e057f20f883e');
