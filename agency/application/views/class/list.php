@@ -45,7 +45,7 @@
 								<div class="classinner">
 									<a href="<?php echo URL::base(NULL, TRUE)?>course/list/?class_id=<?php echo $v['id']?>" onmouseover="document.getElementById('abc_' + <?php echo $v['id']?>).style.display = 'block';" onmouseout="document.getElementById('abc_' + <?php echo $v['id']?>).style.display = 'none';">
 									<?php 
-									if ( strlen(substr($v['name']) > 20 ) { 
+									if ( strlen($v['name']) > 20 ) { 
 										echo substr($v['name'], 0, 20);
 									} else {
 										echo $v['name'];
