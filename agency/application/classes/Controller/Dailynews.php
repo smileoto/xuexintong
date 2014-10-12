@@ -71,7 +71,7 @@ class Controller_Dailynews extends Controller_Base {
 		$page = View::factory('dailynews/edit')
 			->set('item', $items[0]);
 			
-		$this->output($page, 'daily_news');
+		$this->output($page, 'dailynews');
 	}
 	
 	public function action_save()

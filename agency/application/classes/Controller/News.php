@@ -69,7 +69,7 @@ class Controller_News extends Controller_Base {
 			->execute()
 			->as_array();
 		if ( empty($items) ) {
-			HTTP::redirect('/article/list/');
+			HTTP::redirect('/news/list/');
 		}
 		
 		$upload_dir = $this->get_upload_dir('news');
@@ -129,7 +129,7 @@ class Controller_News extends Controller_Base {
 				->where('agency_id', '=', $this->auth->agency_id)
 				->where('id','=',$id)
 				->execute();
-			HTTP::redirect('/article/list/');
+			HTTP::redirect('/news/list/');
 		} catch (Database_Exception $e) {
 			$this->response->body( $e->getMessage() );
 		}
