@@ -320,26 +320,37 @@ class Controller_Student extends Controller_Base {
 		}
 		
 		$code = '';
-		do {
-			$code  = $this->generate_rand(6);
-			$items = DB::select('id')
-				->from('student_valid')
-				->where('code', '=', $code)
-				->limit(1)
-				->execute();
-		} while ( $items->count() );
+		$codes = DB::select('code')
+			->from('student_valid')
+			->where('student_id', '=', $id)
+			->limit(1)
+			->execute();
+		if ( $codes->count() ) {
+			$code = $codes->get('code');
+			
+		} else {
 		
-		$data = array();
-		$data['student_id'] = $id;
-		$data['code']       = $code;
-		$data['created_at'] = date('Y-m-d');
+			do {
+				$code  = $this->generate_rand(6);
+				$items = DB::select('id')
+					->from('student_valid')
+					->where('code', '=', $code)
+					->limit(1)
+					->execute();
+			} while ( $items->count() );
 		
-		try {
-			DB::insert('student_valid')
-				->values($data)
-				->execute();
-		} catch (Database_Exception $e) {
-			$this->response->body( $e->getMessage() );
+			$data = array();
+			$data['student_id'] = $id;
+			$data['code']       = $code;
+			$data['created_at'] = date('Y-m-d H:i:s');
+			
+			try {
+				DB::insert('student_valid')
+					->values($data)
+					->execute();
+			} catch (Database_Exception $e) {
+				$this->response->body( $e->getMessage() );
+			}
 		}
 		
 		$page = View::factory('student/notify')
