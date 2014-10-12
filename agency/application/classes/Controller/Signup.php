@@ -4,7 +4,7 @@ class Controller_Signup extends Controller_Base {
 
 	public function action_list() 
 	{
-		$class_id = intval($this->request->get('class_id'));
+		$class_id = intval($this->request->query('class_id'));
 		
 		try {
 			$expr = DB::expr('COUNT(0)');
