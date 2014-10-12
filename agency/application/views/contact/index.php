@@ -33,7 +33,7 @@
 						<div class="content-inner">
 							<div class="navbar-top">
 								<a href="<?php echo URL::base(NULL, TRUE)?>introduction">简介</a>
-								<a href="<?php echo URL::base(NULL, TRUE)?>show/images">展示</a>
+								<a href="<?php echo URL::base(NULL, TRUE)?>show/list">展示</a>
 								<a class="active" href="#">联系</a>
 							</div>
 							<br /><br />
