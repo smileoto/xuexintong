@@ -22,6 +22,7 @@ CREATE TABLE courses
 	hours       INT NOT NULL DEFAULT 0,
 	num         INT NOT NULL DEFAULT 0,
 	tuition     INT NOT NULL DEFAULT 0,
+	signup      INT NOT NULL DEFAULT 0,
 	created_by  INT NOT NULL DEFAULT 0,
 	modified_by INT NOT NULL DEFAULT 0,
 	created_at  DATETIME NOT NULL DEFAULT 0,
@@ -49,7 +50,11 @@ CREATE TABLE guests_courses
 CREATE TABLE signup_infor
 (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	agency_id INT NOT NULL DEFAULT 0,
+	agency_id   INT NOT NULL DEFAULT 0,
+	created_by  INT NOT NULL DEFAULT 0,
+	modified_by INT NOT NULL DEFAULT 0,
+	created_at  DATETIME NOT NULL DEFAULT 0,
+	modified_at DATETIME NOT NULL DEFAULT 0,
 	content TEXT,
 	KEY agency_id(agency_id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;

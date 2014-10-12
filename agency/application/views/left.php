@@ -42,7 +42,7 @@
 									</li>
 									
 									<li <?php echo ($active=="signup") ? 'class="active"' : '';?> >
-										<a href="<?php echo URL::base(NULL, TRUE)?>course/infor/">-报名管理</a>
+										<a href="<?php echo URL::base(NULL, TRUE)?>signup/list/">-报名管理</a>
 									</li>								
 								</ul>
 							</li>

@@ -4,129 +4,136 @@ class Controller_Signup extends Controller_Base {
 
 	public function action_list() 
 	{
-		$class_id  = intval($this->request->query('class_id'));
-
-		try {
-			$classes = DB::select('id', 'name', 'detail')
-				->from('classes')
-				->where('agency_id', '=', $this->auth->agency_id)
-				->where('id', '=', $class_id)
-				->limit(1)
-				->execute()
-				->as_array();
-			if ( empty($classes) ) {
-				HTTP::redirect('/class/list/');
-			}
+		$class_id = intval($this->request->get('class_id'));
 		
+		try {
 			$expr = DB::expr('COUNT(0)');
-			$cnt = DB::select($expr)
+			$queryCount = DB::select($expr)
 				->from('courses')
-				->where('agency_id', '=', $this->auth->agency_id)
-				->where('class_id', '=', $class_id)
-				->where('status', '=', STATUS_NORMAL)
-				->execute();
-			$total = $cnt->count() ? $cnt[0]['COUNT(0)'] : 0;
+				->join('classes')
+				->on('courses.class_id', '=', 'classes.id')
+				->where('courses.agency_id', '=', $this->auth->agency_id)
+				->where('courses.status', '=', STATUS_NORMAL);
 			
-			$items = DB::select('id', 'class_id', 'hours', 'num', 'tuition', 'name', 'modified_at')
+			$queryItems = DB::select('id', 'class_id', 'hours', 'num', 'tuition', 'name', 'modified_at')
 				->from('courses')
-				->where('agency_id', '=', $this->auth->agency_id)
-				->where('class_id', '=', $class_id)
-				->where('status', '=', STATUS_NORMAL)
-				->offset($offset)
-				->limit($page_size)
+				->join('classes')
+				->on('courses.class_id', '=', 'classes.id')
+				->where('courses.agency_id', '=', $this->auth->agency_id)
+				->where('courses.status', '=', STATUS_NORMAL);
+				
+			if ( $class_id ) {
+				$queryCount->where('courses.class_id', '=', $class_id);
+				$queryItems->where('courses.class_id', '=', $class_id);
+			}
+
+			
+			$count = $queryCount->execute();
+			$total = $count->count() ? $count[0]['COUNT(0)'] : 0;
+			$items = $queryItems->offset($this->pagenv->offset)
+				->limit($this->pagenv->size)
 				->execute()
 				->as_array();
+			
 			
 			$page = View::factory('course/list')
 				->set('items', $items)
-				->set('class', $classes[0]);
+				->set('classes', $this->classes());
 			$page->html_pagenav_content = View::factory('pagenav')
 				->set('total', $total)
 				->set('page',  $this->pagenav->page)
 				->set('size',  $this->pagenav->size);
-			$this->output($page, 'classes');
+			$this->output($page, 'signup');
 			
 		} catch (Database_Exception $e) {
 			$this->response->body($e->getMessage());
 		}
 	}
 	
-	public function action_add()
-	{
-		$class_id = intval($this->request->query('class_id'));
-		$page = View::factory('course/add')
-			->set('class_id', $class_id);			
-		$this->output($page, 'classes');
-	}
-	
-	public function action_edit()
+	public function action_publish()
 	{
 		$id = intval($this->request->query('id'));
 		
-		$items = DB::select('*')
-			->from('courses')
-			->where('id', '=', $id)
+		$data = array();
+		$data['signup'] = STATUS_ENABLED;
+		
+		try {
+			DB::update('courses')
+				->set($data)
+				->where('agency_id', '=', $this->auth->agency_id)
+				->where('id', '=', $id)
+				->execute();
+			HTTP::redirect('/signup/list/');
+		} catch (Database_Exception $e) {
+			$this->response->body($e->getMessage());
+		}
+	}
+	
+	public function action_cancel()
+	{
+		$id = intval($this->request->query('id'));
+		
+		$data = array();
+		$data['signup'] = STATUS_NORMAL;
+		
+		try {
+			DB::update('courses')
+				->set($data)
+				->where('agency_id', '=', $this->auth->agency_id)
+				->where('id', '=', $id)
+				->execute();
+			HTTP::redirect('/signup/list/');
+		} catch (Database_Exception $e) {
+			$this->response->body($e->getMessage());
+		}
+	}
+	
+	public function action_detail() 
+	{
+		$items = DB::select('id', 'content')
+			->from('signup_detail')
 			->where('agency_id', '=', $this->auth->agency_id)
 			->limit(1)
 			->execute()
 			->as_array();
-		if ( empty($items) ) {
-			// redirect 404
-			HTTP::redirect('/class/list/');
-		}
 			
-		$page = View::factory('course/edit')
-			->set('item', $items[0]);				
-		$this->output($page, 'classes');
+		$item = array('id' => 0, 'content' => '');
+		if ( count($items) ) {
+			$item = $items[0];
+		}
+		
+		$page = View::factory('signup/detail')
+			->set('item', $item);
+		$this->output($page, 'signup');
 	}
 	
 	public function action_save()
 	{
 		$data = array();
-		$data['class_id']  = $this->request->post('class_id');
-		$data['name']      = $this->request->post('name');
-		$data['content']   = $this->request->post('content');
-		$data['tuition']   = $this->request->post('tuition');
-		$data['time']      = $this->request->post('time');
-		$data['hours']     = $this->request->post('hours');
-		$data['num']       = $this->request->post('num');
+		$data['content']  = $this->request->post('content');
 		
-		$data['modified_at'] = NULL;
+		$data['modified_at'] = date('Y-m-d H:i:s');
 		$data['modified_by'] = $this->auth->user_id;
 		
 		$id = intval($this->request->post('id'));
 		try {
 			if ( $id ) {
-				DB::update('courses')
+				DB::update('signup_infor')
 					->set($data)
 					->where('agency_id', '=', $this->auth->agency_id)
 					->where('id', '=', $id)
 					->execute();
 			} else {
-				$data['created_at'] = NULL;
+				$data['created_at'] = date('Y-m-d H:i:s');
 				$data['created_by'] = $this->auth->user_id;
 				$data['agency_id']  = $this->auth->agency_id;
-				DB::insert('courses', array_keys($data))
+				DB::insert('signup_infor', array_keys($data))
 					->values($data)
 					->execute();
 			}
-			HTTP::redirect('/course/list/');
-		} catch (Database_Exception $e) {
-			$this->response->body( $e->getMessage() );
-		}
-	}
-	
-	public function action_del()
-	{
-		$id = intval($this->request->query('id'));
-		
-		try {
-			DB::update('courses')
-				->set( array('status'=>STATUS_DELETED, 'modified_at'=>NULL) )
-				->where('agency_id', '=', $this->auth->agency_id)
-				->where('id','=',$id)
-				->execute();
-			HTTP::redirect('/class/list/');
+			
+			HTTP::redirect('/signup/list/');
+			
 		} catch (Database_Exception $e) {
 			$this->response->body( $e->getMessage() );
 		}
