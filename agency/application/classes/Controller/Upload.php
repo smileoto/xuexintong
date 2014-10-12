@@ -10,6 +10,7 @@ class Controller_Upload extends Controller_Base {
 		$options['upload_dir']  = DOCROOT.'files/'.$this->auth->agency_name.'/'.Session::instance()->get('upload_dir').'/';
 		$options['delete_type'] = 'POST';
 		$upload_handler = new UploadHandler($options);
+		exit;
 	}
 	
 	public function action_test()
