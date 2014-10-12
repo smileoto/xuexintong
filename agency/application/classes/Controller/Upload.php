@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-require_once APPPATH.'../vendor/UploadHandler.php';
+//require_once APPPATH.'../vendor/UploadHandler.php';
 
 class Controller_Upload extends Controller_Base {
 	
@@ -17,7 +17,7 @@ class Controller_Upload extends Controller_Base {
 		*/
 		
 		@mkdir(DOCROOT.'files');
-		@chmod(OCROOT.'files', 0777);
+		@chmod(DOCROOT.'files', 0777);
 		
 		@mkdir(DOCROOT.'files/'.Session::instance()->get('upload_dir'));
 		@chmod(DOCROOT.'files/'.Session::instance()->get('upload_dir'), 0777);
