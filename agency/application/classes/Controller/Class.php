@@ -19,7 +19,7 @@ class Controller_Class extends Controller_Base {
 		
 		$agencies = DB::select('entity_num')
 			->from('agencies')
-			->where('agency_id', '=', $this->auth->agency_id)
+			->where('id', '=', $this->auth->agency_id)
 			->limit(1)
 			->execute();
 		$entity_num = $agencies->count() ? $agencies->get('entity_num') : 0;
