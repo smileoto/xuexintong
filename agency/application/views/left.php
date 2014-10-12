@@ -80,7 +80,7 @@
 									</li>
 									
 									<li <?php echo ($active=="users") ? 'class="active"' : '';?> >
-										<a href="<?php echo URL::base(NULL, TRUE)?>users/list/">-用户权限</a>
+										<a href="<?php echo URL::base(NULL, TRUE)?>user/list/">-用户权限</a>
 									</li>
 									
 									<li <?php echo ($active=="change_password") ? 'class="active"' : '';?> >

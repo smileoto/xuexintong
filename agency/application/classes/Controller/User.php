@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class Controller_User extends Controller_Auth {
+class Controller_User extends Controller_Base {
 
 	public function action_list()
 	{
@@ -15,13 +15,15 @@ class Controller_User extends Controller_Auth {
 		
 		$page = View::factory('user/list')
 			->set('items',  $items);
-		$this->output($page, 'permission');
+		$this->output($page, 'users');
 	}
 	
 	public function action_add()
 	{
-		$page = View::factory('user/add');
-		$this->output($page, 'permission');
+		$actions = include(APPPATH.'config/action.php')
+		$page = View::factory('user/add')
+			->set('actions', $actions);
+		$this->output($page, 'users');
 	}
 	
 	public function action_edit()
@@ -38,15 +40,19 @@ class Controller_User extends Controller_Auth {
 		if ( !count($items) ) {
 			HTTP::redirect('user/list');
 		}
+		
 		$result = DB::select('name')->from('users_actions')->where('user_id', '=', $id)->execute()->as_array();
 		$users_actions = array();
 		foreach ($result as $v) {
 			$users_actions[$v['name']] = $v['allow'];
 		}
+		
+		$actions = include(APPPATH.'config/action.php')
 		$page = View::factory('user/edit')
 			->set('item', $items[0])
-			->set('users_actions', $users_actions);
-		$this->output($page, 'permission');
+			->set('users_actions', $users_actions)
+			->set('actions', $actions);
+		$this->output($page, 'users');
 	}
 	
 	public function action_save()
@@ -74,8 +80,8 @@ class Controller_User extends Controller_Auth {
 		$data['mail']     = strval($this->request->post('mail'));
 		$data['remark']   = strval($this->request->post('remark'));
 		
-		$data['agency_id'] = $this->auth->agency_id;
-		$data['add_t']     = NULL;
+		$data['modified_at'] = date('Y-m-d');
+		$data['modified_by'] = $this->auth->user_id;
 		
 		$users_actions = $this->request->post('users_actions');
 		
@@ -87,8 +93,11 @@ class Controller_User extends Controller_Auth {
 					->where('agency_id', '=', $this->auth->agency_id)
 					->where('id', '=', $id)
 					->execute();
-			} else {			
-				list($id, $rows) = DB::insert('agency_users', array_keys($data))
+			} else {
+				$data['created_at'] = date('Y-m-d');
+				$data['created_by'] = $this->auth->user_id;
+				$data['agency_id']  = $this->auth->agency_id;
+				list($id, $rows) = DB::insert('users', array_keys($data))
 					->values($data)
 					->execute();
 			}
@@ -100,10 +109,10 @@ class Controller_User extends Controller_Auth {
 			if ( $users_actions ) {
 				$data = array('user_id' => $user_id, 'name' => '', 'allow' => 0);
 				$insert = DB::insert('users_actions', array_keys($data));
-				foreach ( $users_actions as $name => $allow ) {
+				foreach ( $users_actions as $name ) {
 					$data['user_id'] = $user_id;
 					$data['name']    = $name;
-					$data['allow']   = intval($allow);
+					$data['allow']   = 1;
 					$insert->values($data);
 				}
 				$insert->execute();
@@ -124,7 +133,7 @@ class Controller_User extends Controller_Auth {
 			$data = array();
 			$data['status']   = STATUS_DELETED;
 			$data['modified_at'] = date('Y-m-d H:i:s');
-			DB::update('agency_users')
+			DB::update('users')
 				->set($data)
 				->execute();
 			HTTP::redirect('/user/list/');

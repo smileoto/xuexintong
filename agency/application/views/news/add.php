@@ -17,6 +17,9 @@
 		<script type="text/javascript" src="<?PHP echo URL::base()?>js/jquery-1.4.4.min.js"></script>
 		<script type="text/javascript" src="<?PHP echo URL::base()?>js/xheditor.js"></script>
 		<script type="text/javascript" src="<?PHP echo URL::base()?>js/xheditor_lang/zh-cn.js"></script>
+		
+		<script type="text/javascript" src="<?PHP echo URL::base()?>js/jquery.uploadify.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="<?PHP echo URL::base()?>css/uploadify.css">
 	</head>
 
 	<body>
@@ -31,12 +34,22 @@
 					</div>
 					<div class="content-box">
 					
-						<form method="post" id="data-form" action="<?php echo URL::base(NULL, true)?>news/save/">
 						<div class="content-inner">
+						
 							<div class="navbar-top">
 								<a href="<?php echo URL::base(NULL, TRUE)?>news/list/" >机构动态</a>
 								<a class="active" href="#">添加动态</a>
 							</div>
+							
+							<div class="input-box">
+								<form>
+								<div id="queue"></div>
+								<input id="file_upload" name="file_upload" type="file" multiple="true">
+								</form>
+							</div>
+							
+							
+							<form method="post" id="data-form" action="<?php echo URL::base(NULL, true)?>news/save/">
 							<div class="input-box">
 								<span>标题：</span><input type="text" name="title" id="title" /><i>(字数必须在16个字符内)</i>
 							</div>
@@ -44,13 +57,15 @@
 								<span>来源：</span><input type="text" name="from"  id="from" />
 							</div>
 							<div class="table-cell">
-							<textarea name="content"  class="<?php echo $xheditor_config?>" name="content" id="content"></textarea>
+								<textarea name="content"  class="<?php echo $xheditor_config?>" name="content" id="content"></textarea>
+							</div>
+							</form>
 						</div>
+						
 						<div class="btn-box">
 							<button id="btnSubmit">确定提交</button>
 							</div>
 						</div>
-						</form>
 						
 					</div>
 				</div>
@@ -64,10 +79,23 @@
 		document.getElementById("sidebar").style.minHeight = document.getElementById("main").clientHeight - document.getElementById("header").clientHeight - 3 + 'px';
 	}
 </script>
+
+<?php $timestamp = time();?>
+
 <script type="text/javascript" charset="utf-8">
 $(function(){
 	$('#btnSubmit').click(function () {
 		$('#data-form').submit();
+	});
+	
+	
+	$('#file_upload').uploadify({
+		'formData'     : {
+			'timestamp' : '<?php echo $timestamp;?>',
+			'token'     : '<?php echo md5('unique_salt' . $timestamp);?>'
+		},
+		'swf'      : '<?PHP echo URL::base()?>swf/uploadify.swf',
+		'uploader' : '<?PHP echo URL::base(NULL, TRUE)?>upload/'
 	});
 });
 </script>
