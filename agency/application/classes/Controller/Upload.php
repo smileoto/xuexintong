@@ -29,10 +29,7 @@ class Controller_Upload extends Controller_Base {
 		//$targetFolder = DOCROOT.'files/'.Session::instance()->get('upload_dir').'/'.$this->auth->agency_id.'/';
 		$targetFolder = '/files/'.Session::instance()->get('upload_dir').'/'.$this->auth->agency_id;
 		
-		$timestamp = isset($_POST['timestamp']) ? $_POST['timestamp'] : time();
-		$verifyToken = md5('unique_salt' . $timestamp);
-		
-		echo 1;exit;
+		$verifyToken = md5('unique_salt' . $_POST['timestamp']);
 		
 		if ( !empty($_FILES) && $_POST['token'] == $verifyToken ) {
 			$tempFile   = $_FILES['Filedata']['tmp_name'];

@@ -50,7 +50,8 @@ class Controller_News extends Controller_Base {
 	public function action_add()
 	{
 		Session::instance()->set('upload_dir', 'news');
-		$page = View::factory('news/add');
+		$page = View::factory('news/add')
+			->set('session_id', Session::instance()->id());
 		$this->output($page, 'news');
 	}
 	

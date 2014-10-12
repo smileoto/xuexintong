@@ -97,10 +97,13 @@ $(function(){
 	$('#file_upload').uploadify({
 		'formData'     : {
 			'timestamp' : '<?php echo $timestamp;?>',
-			'token'     : '<?php echo md5('unique_salt' . $timestamp);?>'
+			'token'     : '<?php echo md5("unique_salt" . $timestamp);?>'
 		},
 		'swf'      : '<?PHP echo URL::base()?>swf/uploadify.swf',
-		'uploader' : '<?PHP echo URL::base(NULL, TRUE)?>upload/image/'
+		'uploader' : '<?PHP echo URL::base(NULL, TRUE)?>upload/image/;jsessionid=<?php echo $session_id?>',
+		onUploadSuccess : function(file, data, response) {
+			
+		}
 	});
 });
 </script>
