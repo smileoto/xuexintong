@@ -74,7 +74,7 @@ class Controller_News extends Controller_Base {
 		
 		$upload_dir = $this->get_upload_dir('news');
 		Session::instance()->set('upload_dir', $upload_dir);
-		$page = View::factory('article/edit')
+		$page = View::factory('news/edit')
 			->set('item', $items[0])
 			->set('session_id', Session::instance()->id())
 			->set('upload_dir', $upload_dir);
