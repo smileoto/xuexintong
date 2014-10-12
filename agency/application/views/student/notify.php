@@ -96,7 +96,7 @@
 $(function(){
 	$('#btnSubmit').click(function(){
 		var url = '<?php echo URL::base(NULL, TRUE)?>student/sms/';
-		$.post(id:$('#id').val(), content:$('#content').val(), function (jsonStr) {
+		$.post(url, {id:$('#id').val(), content:$('#content').val()}, function (jsonStr) {
 			var jsonObj = $.parseJSON(jsonStr);
 			if ( jsonObj.ret != 0 ) {
 				alert(jsonObj.msg);
