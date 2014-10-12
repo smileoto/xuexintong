@@ -37,9 +37,9 @@
 						<?php echo $html_left_content?>
 					</div>
 					<div class="content-box">
-						<div>
+						<div class="content-inner">
 						
-							<div style=" width:100%;">
+							<div style=" width:100%;height:400px;">
 							<!-- The file upload form used as target for the file upload widget -->
 							<form id="fileupload" action="//jquery-file-upload.appspot.com/" method="POST" enctype="multipart/form-data">
 								<!-- Redirect browsers with JavaScript disabled to the origin page -->
