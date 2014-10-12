@@ -56,7 +56,7 @@
 							<div class="table-cell">
 							<table border="1" cellspacing="0" cellpadding="0">
 								<tr><th>班别名称</th><th>课程内容</th><th>上课时间</th><th>课时</th><th>学费</th><th>招生人数</th><th>操作</th></tr>
-								<?php foreach ( $courses as $v ) : ?>
+								<?php foreach ( $items as $v ) : ?>
 								<tr>
 									<td><?php echo $v['class'],'-',$v['name']?></td>
 									<td><?php echo $v['content']?></td>
