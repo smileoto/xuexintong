@@ -324,7 +324,7 @@ class Controller_Student extends Controller_Base {
 			$code  = $this->generate_rand(6);
 			$items = DB::select('id')
 				->from('student_valid')
-				->where('code', =, $code)
+				->where('code', '=', $code)
 				->limit(1)
 				->execute();
 		} while ( $items->count() );
