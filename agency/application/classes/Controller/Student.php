@@ -395,7 +395,7 @@ class Controller_Student extends Controller_Base {
 		
 		//应用Id，在官网应用列表中点击应用，对应应用详情中的APP ID
 		//在开发调试的时候，可以使用官网自动为您分配的测试Demo的APP ID
-		$appId='';
+		$appId = '8a48b55148fe48600149035485450266';
 		
 		//请求地址
 		//沙盒环境（用于应用开发调试）：sandboxapp.cloopen.com
