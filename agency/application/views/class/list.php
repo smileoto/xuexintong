@@ -29,7 +29,7 @@
 					<div class="sidebar" id="sidebar">
 						<?php echo $html_left_content?>
 					</div>
-					<?php foreach ($groups_classes as $entity_id => $classes) : ?>
+					<?php foreach ($groups_classes as $entity_id => $items) : ?>
 					<div class="content-box">
 						<div class="content-inner">
 							<div class="navbar-top">

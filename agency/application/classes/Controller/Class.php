@@ -25,7 +25,6 @@ class Controller_Class extends Controller_Base {
 		$entity_num = $agencies->count() ? $agencies->get('entity_num') : 0;
 		
 		$page = View::factory('class/list')
-			->set('items', $classes)
 			->set('groups_classes', $groups_classes)
 			->set('entities', $this->entities())
 			->set('$entity_num', $entity_num);
