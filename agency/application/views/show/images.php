@@ -37,7 +37,7 @@
 						<?php echo $html_left_content?>
 					</div>
 					<div class="content-box">
-						<div class="content-inner">
+						<div>
 						
 							<div style=" width:100%;">
 							<!-- The file upload form used as target for the file upload widget -->
