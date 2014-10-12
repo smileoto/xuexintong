@@ -308,14 +308,14 @@ class Controller_Student extends Controller_Base {
 	public function action_notify() 
 	{
 		$id = intval($this->request->query('id'));
-		$items = DB::select('*')
+		$students = DB::select('*')
 			->from('students')
 			->where('agency_id', '=', $this->auth->agency_id)
 			->where('id', '=', $id)
 			->limit(1)
 			->execute()
 			->as_array();
-		if ( empty($items) ) {
+		if ( empty($students) ) {
 			HTTP::redirect('/student/list/');
 		}
 		
@@ -343,7 +343,7 @@ class Controller_Student extends Controller_Base {
 		}
 		
 		$page = View::factory('student/notify')
-			->set('item', $items[0])
+			->set('item', $students[0])
 			->set('code', $code)
 			->set('agency', $this->auth->agency_name);
 		$this->output($page, 'student');
