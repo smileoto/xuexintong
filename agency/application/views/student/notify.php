@@ -117,7 +117,12 @@ $(function(){
 		$.post(url, {id:$('#student_id').val(), phones:phones.join(',')}, function (jsonStr) {
 			var jsonObj = $.parseJSON(jsonStr);
 			if ( jsonObj.ret != 0 ) {
-				alert(jsonObj.msg);
+				if ( jsonObj.msg['0'] != undefined ) {
+					alert(jsonObj.msg['0']);
+				} else {
+					alert(jsonObj.msg);
+				}
+				
 				return false;
 			}
 			alert('发送成功');
