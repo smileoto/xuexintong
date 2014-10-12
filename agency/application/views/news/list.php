@@ -43,7 +43,15 @@
 							  	<?php foreach($items as $v):?>
 								<tr>
 									<td><?php echo $v['id']?></td>
-									<td><?php echo substr($v['title'], 0, 16)?></td>
+									<td>
+										<?php
+										if ( strlen(substr($v['title']) > 20 ) { 
+											echo substr($v['title'], 0, 20);
+										} else {
+											echo $v['title'];
+										}
+										?>
+									</td>
 									<td><?php echo $v['created_at']?></td>
 									<td><?php echo $v['modified_at']?></td>
 									<td><?php echo $v['username']?></td>

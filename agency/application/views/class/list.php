@@ -44,7 +44,13 @@
 								<?php foreach($items as $v):?>
 								<div class="classinner">
 									<a href="<?php echo URL::base(NULL, TRUE)?>course/list/?class_id=<?php echo $v['id']?>" onmouseover="document.getElementById('abc_' + <?php echo $v['id']?>).style.display = 'block';" onmouseout="document.getElementById('abc_' + <?php echo $v['id']?>).style.display = 'none';">
-									<?php echo substr($v['name'], 0, 20)?>
+									<?php 
+									if ( strlen(substr($v['name']) > 20 ) { 
+										echo substr($v['name'], 0, 20);
+									} else {
+										echo $v['name'];
+									}
+									?>
 								</a>
 								<div style="width: 100%; height: 30px; line-height: 30px; position: absolute; left: 0px; bottom: 0px; background-color: #a7cfe5; display:none" id="abc_<?php echo $v['id']?>" onmouseover="this.style.display = 'block';" onmouseout="this.style.display = 'none';">
 										<span style="float: left;padding-left: 5px;color: #fff; cursor:pointer" onclick="location.href='<?php echo URL::base(NULL, TRUE)?>class/edit/?id=<?php echo $v['id']?>'">编辑</span>
