@@ -7,7 +7,7 @@ class Controller_Upload extends Controller_Base {
 	public function action_index()
 	{
 		$options = array();
-		$options['upload_dir']  = DOCROOT.'files/'.$this->auth->agency_name.'/'.Session::instance()->get('upload_dir').'/';
+		$options['upload_dir']  = DOCROOT.'files/'.Session::instance()->get('upload_dir').'/'.$this->auth->agency_id.'/';
 		$options['delete_type'] = 'POST';
 		$upload_handler = new UploadHandler($options);
 		exit;
