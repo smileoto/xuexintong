@@ -35,16 +35,24 @@
 									报名说明
 								</a>
 							</div>
+							
 							<div class="titlenav" style="margin-top: 20px;">
 								类别选择：
-								<select id="category">
+								<select name="class_id" id="class_selector">
+									<option value="0"></option>
 									<?php foreach ( $classes as $v ) : ?>
-									<option value="<?php echo $v['id']?>">
+									<option value="<?php echo $v['id']?>" 
+									<?php
+									if ( $class_id == $v['id'] ) {
+										echo 'selected="selected"';
+									}
+									?> >
 									<?php echo $v['name']?>
 									</option>
 									<?php endforeach?>
 								</select>
 							</div>
+							
 							<div class="table-cell">
 							<table border="1" cellspacing="0" cellpadding="0">
 								<tr><th>班别名称</th><th>课程内容</th><th>上课时间</th><th>课时</th><th>学费</th><th>招生人数</th><th>操作</th></tr>
@@ -82,4 +90,13 @@
 	window.onload = function() {
 		document.getElementById("sidebar").style.minHeight = document.getElementById("main").clientHeight - document.getElementById("header").clientHeight - 3 + 'px';
 	}
+</script>
+
+<script type="text/javascript">
+$(function () {
+	var url = '<?php echo URL::base(NULL, TRUE)?>signup/list/?class_id=';
+	$('#class_selector').change(function () {
+		window.location.href = url + $(this).val();
+	});
+});
 </script>

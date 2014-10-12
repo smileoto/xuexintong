@@ -15,7 +15,7 @@ class Controller_Signup extends Controller_Base {
 				->where('courses.agency_id', '=', $this->auth->agency_id)
 				->where('courses.status', '=', STATUS_NORMAL);
 			
-			$queryItems = DB::select('id', 'class_id', 'hours', 'num', 'tuition', 'name', 'modified_at')
+			$queryItems = DB::select('courses.id', 'courses.class_id', 'courses.hours', 'courses.num', 'courses.tuition', 'courses.name', 'courses.modified_at', array('classes.name', 'class'))
 				->from('courses')
 				->join('classes')
 				->on('courses.class_id', '=', 'classes.id')
@@ -38,6 +38,7 @@ class Controller_Signup extends Controller_Base {
 			
 			$page = View::factory('course/list')
 				->set('items', $items)
+				->set('class_id', $class_id)
 				->set('classes', $this->classes());
 			$page->html_pagenav_content = View::factory('pagenav')
 				->set('total', $total)
