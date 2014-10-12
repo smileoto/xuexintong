@@ -34,6 +34,10 @@
 								<a href="<?php echo URL::base(NULL, TRUE)?>contact">联系</a>
 							</div>
 							
+							<div class="titlenav" style="margin-top: 20px;">
+								<a style="float: right;" href="<?php echo URL::base(NULL, TRUE)?>show/add/">添加图片</a>
+							</div>
+							
 							<div class="table-cell">
 								<table border="1" cellspacing="0" cellpadding="0">
 									<tr><th>图片</th><th>标题</th><th>操作</th></tr>

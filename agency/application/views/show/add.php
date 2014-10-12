@@ -52,14 +52,13 @@
 							</ul>
 							</form>
 							
-							<div class="input-box">
+							<div>
 								<form>
 								<div id="queue"></div>
 								<input id="file_upload" name="file_upload" type="file" multiple="true">
 								</form>
 							</div>
-							
-							<div class="input-box" id="img_container">
+							<div id="img_container">
 							</div>
 							
 							<div class="btn-box">
