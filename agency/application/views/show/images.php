@@ -15,6 +15,8 @@
 		  </style>
 		<![endif]-->
 		
+		<!-- bootstrap styles -->
+		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 		<!-- blueimp Gallery styles -->
 		<link rel="stylesheet" href="//blueimp.github.io/Gallery/css/blueimp-gallery.min.css">
 		<!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
