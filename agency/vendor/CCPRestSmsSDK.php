@@ -90,9 +90,9 @@ class REST {
 		//连接失败
 		if ( $result == FALSE ) {
 			if ( $this->BodyType == 'json' ) {
-				$result = "{\"statusCode\":\"172001\",\"statusMsg\":\"网络错误（".curl_error($ch)."）\"}";
+				$result = "{\"statusCode\":\"172001\",\"statusMsg\":\"网络错误（".curl_errno($ch)."）\"}";
 			} else {
-				$result = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><Response><statusCode>172001</statusCode><statusMsg>网络错误（".curl_error($ch)."）</statusMsg></Response>"; 
+				$result = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><Response><statusCode>172001</statusCode><statusMsg>网络错误（".curl_errno($ch)."）</statusMsg></Response>"; 
 			}    
 		}
 		
