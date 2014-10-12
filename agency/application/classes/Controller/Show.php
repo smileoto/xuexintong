@@ -26,7 +26,8 @@ class Controller_Show extends Controller_Base {
 	
 	public function action_images()
 	{
-		Session::instance()->set('upload_dir', 'show');
+		$upload_dir = $this->get_upload_dir('show');
+		Session::instance()->set('upload_dir', $upload_dir);
 		$page = View::factory('show/images');
 		$this->output($page, 'agency');
 	}

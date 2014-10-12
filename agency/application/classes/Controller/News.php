@@ -49,15 +49,18 @@ class Controller_News extends Controller_Base {
 	
 	public function action_add()
 	{
-		Session::instance()->set('upload_dir', 'news');
+		$upload_dir = $this->get_upload_dir('news');
+		Session::instance()->set('upload_dir', $upload_dir);
 		$page = View::factory('news/add')
-			->set('session_id', Session::instance()->id());
+			->set('session_id', Session::instance()->id())
+			->set('upload_dir', $upload_dir);
 		$this->output($page, 'news');
 	}
 	
 	public function action_edit()
 	{
-		Session::instance()->set('upload_dir', 'news');
+		$upload_dir = $this->get_upload_dir('news');
+		Session::instance()->set('upload_dir', $upload_dir);
 		
 		$id = intval($this->request->query('id'));
 		

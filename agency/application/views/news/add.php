@@ -93,6 +93,7 @@ $(function(){
 		$('#data-form').submit();
 	});
 	
+	var upload_url = '<?php echo URL::base("http", false),$upload_dir?>';
 	
 	$('#file_upload').uploadify({
 		'formData'     : {
@@ -107,7 +108,9 @@ $(function(){
             alert(errorMsg);
         },
         'onUploadSuccess' : function(file, data, response) {
-            alert('The file ' + file.name + ' was successfully uploaded with a response of ' + response + ':' + data);
+            var img = upload_url + '/' + file.name;
+            $('#img_container').html('<img src="' + img + '" width="150">');
+            $('#img_url').val(img);
         }
 	});
 });

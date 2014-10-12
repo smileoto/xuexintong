@@ -203,4 +203,18 @@ class Controller_Base extends Controller {
 		
 		return $courses;
 	}
+	
+	public function get_upload_dir ($module) 
+	{
+		@mkdir(DOCROOT.'files');
+		@chmod(DOCROOT.'files', 0777);
+		
+		@mkdir(DOCROOT.'files/'.$module);
+		@chmod(DOCROOT.'files/'.$module, 0777);
+		
+		@mkdir(DOCROOT.'files/'.$module.'/'.$this->auth->agency_id);
+		@chmod(DOCROOT.'files/'.$module.'/'.$this->auth->agency_id, 0777);
+		
+		return '/files/'.$module.'/'.$this->auth->agency_id;
+	}
 }

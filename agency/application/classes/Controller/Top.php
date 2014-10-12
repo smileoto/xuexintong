@@ -77,7 +77,8 @@ class Controller_Top extends Controller_Base {
 	
 	public function action_add()
 	{
-		Session::instance()->set('upload_dir', 'avatar');
+		$upload_dir = $this->get_upload_dir('news');
+		Session::instance()->set('upload_dir', $upload_dir);
 		
 		$page = View::factory('top/add')
 			->set('schools',  $this->schools())
