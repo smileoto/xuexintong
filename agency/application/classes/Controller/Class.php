@@ -11,16 +11,24 @@ class Controller_Class extends Controller_Base {
 		
 		$groups_classes = array();
 		foreach ( $classes as $v ) {
-			if ( !isset($groups_classes) ) {
+			if ( !isset($groups_classes[$v['entity_id']]) ) {
 				$groups_classes[$v['entity_id']] = array();
 			}
 			$groups_classes[$v['entity_id']][] = $v;
 		}
 		
+		$agencies = DB::select('entity_num')
+			->from('agencies')
+			->where('agency_id', '=', $this->auth->agency_id)
+			->limit(1)
+			->execute();
+		$entity_num = $agencies->count() ? $agencies->get('entity_num') : 0;
+		
 		$page = View::factory('class/list')
 			->set('items', $classes)
 			->set('groups_classes', $groups_classes)
-			->set('entities', $this->entities());
+			->set('entities', $this->entities())
+			->set('$entity_num', $$entity_num);
 			
 		$this->output($page, 'class');
 	}
