@@ -50,7 +50,7 @@
 										<span style="float:left; line-height:35px; height:35px;font-size:30px; text-align:right; width:200px;">
 											短信内容：
 										</span>
-										<textarea name="content" rows="5" readonly="readonly" style="width: 350px; font-size:14pt; color:#666">欢迎您使用<?php echo $agency?>机构的学信通，验证码为：<?php echo $code?>；在您用微信访问本机构的公众号时，输入验证码，系统自动为您授权。</textarea>
+										<textarea id="content" name="content" rows="5" readonly="readonly" style="width: 350px; font-size:14pt; color:#666">欢迎您使用<?php echo $agency?>机构的学信通，验证码为：<?php echo $code?>；在您用微信访问本机构的公众号时，输入验证码，系统自动为您授权。</textarea>
 									</li>
 	                                <li>
 										<span style="float:left; line-height:35px; height:35px;font-size:12pt; text-align:right; width:200px;">
@@ -95,7 +95,16 @@
 <script type="text/javascript" charset="utf-8">
 $(function(){
 	$('#btnSubmit').click(function(){
-		$('#data-form').submit();
+		var url = '<?php echo URL::base(NULL, TRUE)?>student/sms/';
+		$.post(id:$('#id').val(), content:$('#content').val(), function (jsonStr) {
+			var jsonObj = $.parseJSON(jsonStr);
+			if ( jsonObj.ret != 0 ) {
+				alert(jsonObj.msg);
+				return false;
+			}
+			alert('发送成功');
+			window.location.href = '<?php echo URL::base(NULL, TRUE)?>student/list/';
+		});
 	});
 });
 </script>

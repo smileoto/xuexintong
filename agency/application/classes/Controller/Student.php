@@ -352,27 +352,81 @@ class Controller_Student extends Controller_Base {
 	public function action_sms() 
 	{
 		$id = intval($this->request->post('id'));
-		$items = DB::select('*')
-			->from('students')
-			->where('agency_id', '=', $this->auth->agency_id)
-			->where('id', '=', $id)
+		$items = DB::select('code')
+			->from('student_valid')
+			->where('student_id', '=', $id)
 			->limit(1)
-			->execute()
-			->as_array();
+			->execute();
 		if ( empty($items) ) {
 			$this->ajax_result['ret'] = ERR_DB_SELECT;
-			$this->ajax_result['msg'] = '学生不存在';
-			$this->response->body( json_encode($students) );
+			$this->ajax_result['msg'] = '验证码不存在';
+			$this->response->body( json_encode($this->ajax_result) );
 			return;
 		}
+		$code = $items->get('code');
 		
 		$phones = $this->request->post('phone');
 		if ( empty($phones) ) {
 			$this->ajax_result['ret'] = ERR_DB_SELECT;
 			$this->ajax_result['msg'] = '请选择手机号码';
-			$this->response->body( json_encode($students) );
+			$this->response->body( json_encode($this->ajax_result) );
 			return;
 		}
+		
+		require_once APPPATH.'../vendor/CCPRestSmsSDK.php';
+
+		//主帐号,对应开官网发者主账号下的 ACCOUNT SID
+		$accountSid   = 'aaf98f89486445e601486d44059b026d';
+		
+		//主帐号令牌,对应官网开发者主账号下的 AUTH TOKEN
+		$accountToken = 'c905e240d89d48f1ab045dac840539f1';
+		
+		//应用Id，在官网应用列表中点击应用，对应应用详情中的APP ID
+		//在开发调试的时候，可以使用官网自动为您分配的测试Demo的APP ID
+		$appId='';
+		
+		//请求地址
+		//沙盒环境（用于应用开发调试）：sandboxapp.cloopen.com
+		//生产环境（用户应用上线使用）：app.cloopen.com
+		$serverIP='sandboxapp.cloopen.com';
+		
+		//请求端口，生产环境和沙盒环境一致
+		$serverPort='8883';
+		
+		//REST版本号，在官网文档REST介绍中获得。
+		$softVersion='2013-12-26';
+		
+		//短信模板ID
+		$tempId = 5379;
+		
+		$rest = new REST($serverIP,$serverPort,$softVersion);
+		$rest->setAccount($accountSid, $accountToken);
+		$rest->setAppId($appId);
+		
+		foreach ($phones as $to) {
+			if ( empty($to) ) {
+				continue;
+			}
+			
+			// 发送模板短信
+			$result = $rest->sendTemplateSMS($to, array($this->auth->agency_name, $code), $tempId);
+			if( $result == NULL ) {
+				$this->ajax_result['ret'] = ERR_DB_SELECT;
+				$this->ajax_result['msg'] = '发送短信失败';
+				$this->response->body( json_encode($this->ajax_result) );
+				return;
+			}
+			
+			if( $result->statusCode != 0 ) {
+				//TODO 添加错误处理逻辑
+				$this->ajax_result['ret'] = $result->statusCode;
+				$this->ajax_result['msg'] = $result->statusMsg;
+				$this->response->body( json_encode($this->ajax_result) );
+				return;
+			}
+		}
+		
+		$this->response->body( json_encode($this->ajax_result) );
 	}
 	
 	public function generate_rand( $l )
