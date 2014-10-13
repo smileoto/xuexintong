@@ -11,8 +11,9 @@ class Controller_Course extends Controller_Auth {
 				->from('classes')
 				->where('agency_id', '=', $this->agency->get('agency_id'))
 				->where('id', '=', $class_id)
+				->limit(1)
 				->execute();
-			if ( !count($classes) ) {
+			if ( $classes->count() == 0 ) {
 				HTTP::redirect('/classes/list/');
 			}
 				
@@ -56,7 +57,7 @@ class Controller_Course extends Controller_Auth {
 				->execute();
 			
 			$page = View::factory('course/detail')
-				->set('item', $courses[0])
+				->set('item',  $courses[0])
 				->set('class', $classes->get('name'));
 				
 			$this->output($page);

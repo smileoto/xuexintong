@@ -25,6 +25,15 @@ class Controller_Base extends Controller_Auth
 	
 	public function action_show()
 	{
+		$items = DB::select('*')
+			->from('images')
+			->where('agency_id', '=', $this->auth->agency_id)
+			->execute()
+			->as_array();
+		
+		$page = View::factory('agency/show')
+			->set('items', $items);
+		$this->output($page);
 	}
 	
 	public function action_contact()
@@ -42,7 +51,7 @@ class Controller_Base extends Controller_Auth
 		}
 							
 		$page = View::factory('agency/contact')
-			->set('item', $item);
+			->set('content', $content);
 
 		$this->output($page);
 	}
@@ -62,7 +71,7 @@ class Controller_Base extends Controller_Auth
 		}
 							
 		$page = View::factory('agency/teachers')
-			->set('item', $item);
+			->set('content', $content);
 
 		$this->output($page);
 	}

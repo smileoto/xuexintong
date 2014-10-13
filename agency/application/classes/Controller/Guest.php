@@ -20,11 +20,10 @@ class Controller_Guest extends Controller_Base {
 		$queryCount = DB::select($expr)
 			->from('guests')
 			->where('guests.agency_id', '=', $this->auth->agency_id)
-			->where('guests.student_id', '=', 0)
 			->where('guests.status', '=', GUEST_STATUS_AUDIT);
 		
 		
-		$queryList = DB::select('guests.*',array('schools.name', 'school'),array('grades.name','grade'),array('courses.name', 'class'))
+		$queryItems = DB::select('guests.*',array('schools.name', 'school'),array('grades.name','grade'),array('courses.name', 'class'))
 			->from('guests')
 			->join('schools', 'LEFT')
 			->on('guests.school_id', '=', 'schools.id')
@@ -35,54 +34,53 @@ class Controller_Guest extends Controller_Base {
 			->join('courses', 'LEFT')
 			->on('guests_courses.course_id', '=', 'courses.id')
 			->where('guests.agency_id', '=', $this->auth->agency_id)
-			->where('guests.student_id', '=', 0)
 			->where('guests.status', '=', GUEST_STATUS_AUDIT);
 				
 		if ( $entity ) {
-			$queryList->where('guests.entity_id',  '=', $entity);
+			$queryItems->where('guests.entity_id', '=', $entity);
 			$queryCount->where('guests.entity_id', '=', $entity);
 		}
 		
 		if ( $school ) {
-			$queryList->where('guests.school_id',  '=', $school);
+			$queryItems->where('guests.school_id', '=', $school);
 			$queryCount->where('guests.school_id', '=', $school);
 		}
 		if ( $grade ) {
-			$queryList->where('guests.grade_id',  '=', $grade);
+			$queryItems->where('guests.grade_id', '=', $grade);
 			$queryCount->where('guests.grade_id', '=', $grade);
 		}
 		if ( $class ) {
-			$queryList->where('guests_courses.course_id', '=', $class);
+			$queryItems->where('guests_courses.course_id', '=', $class);
 			$queryCount->join('guests_courses', 'LEFT')
 				->on('guests.id', '=', 'guests_courses.guest_id')
 				->where('guests_courses.course_id', '=', $class);
 		}
 		if ( $realname ) {
-			$queryList->where('guests.realname', '=', $realname);
+			$queryItems->where('guests.realname', '=', $realname);
 			$queryCount->where('guests.realname', '=', $realname);
 		}
 		if ( $sex != '' ) {
-			$queryList->where('guests.sex', '=', $sex);
+			$queryItems->where('guests.sex', '=', $sex);
 			$queryCount->where('guests.sex', '=', $sex);
 		}
 		if ( $mobile ) {
-			$queryList->where('guests.mobile', '=', $mobile);
+			$queryItems->where('guests.mobile', '=', $mobile);
 			$queryCount->where('guests.mobile', '=', $mobile);
 		}
 		if ( $father_name ) {
-			$queryList->where('guests.father_name', '=', $father_name);
+			$queryItems->where('guests.father_name', '=', $father_name);
 			$queryCount->where('guests.father_name', '=', $father_name);
 		}
 		if ( $father_mobile ) {
-			$queryList->where('guests.father_mobile', '=', $father_mobile);
+			$queryItems->where('guests.father_mobile', '=', $father_mobile);
 			$queryCount->where('guests.father_mobile', '=', $father_mobile);
 		}
 		if ( $mother_name ) {
-			$queryList->where('guests.mother_name', '=', $mother_name);
+			$queryItems->where('guests.mother_name', '=', $mother_name);
 			$queryCount->where('guests.mother_name', '=', $mother_name);
 		}
 		if ( $mother_mobile ) {
-			$queryList->where('guests.mother_mobile', '=', $mother_mobile);
+			$queryItems->where('guests.mother_mobile', '=', $mother_mobile);
 			$queryCount->where('guests.mother_mobile', '=', $mother_mobile);
 		}
 		
@@ -90,7 +88,7 @@ class Controller_Guest extends Controller_Base {
 		$cnt = $queryCount->execute();			
 		$total = $cnt->count() ? $cnt[0]['COUNT(0)'] : 0;
 		
-		$items = $queryList->offset($this->pagenav->offset)
+		$items = $queryItems->offset($this->pagenav->offset)
 			->limit($this->pagenav->size)
 			->execute()
 			->as_array();
@@ -192,22 +190,25 @@ class Controller_Guest extends Controller_Base {
 			}
 			
 			DB::delete('guests_courses')
-				->where('student_id', '=', $id)
+				->where('guest_id',   '=', $id)
+				->execute();
+			DB::delete('students_courses')
+				->where('student_id', '=', $student_id)
 				->execute();
 			
+			$data['status'] = GUEST_STATUS_ENABLED;
 			$data['student_id'] = $student_id;
 			$rows = DB::update('guests')
 				->set($data)
 				->where('agency_id', '=', $this->auth->agency_id)
 				->where('id', '=', $id)
 				->execute();
-					
-			$guest_courses = array(
-				'guest_id'  => $id,
-				'course_id' => 0
-			);
 			
-			if ( $courses ) {
+			if ( $courses ) {					
+				$guest_courses = array(
+					'guest_id'  => $id,
+					'course_id' => 0
+				);
 				$insert = DB::insert('guests_courses', array_keys($guest_courses));
 				foreach ($courses as $course_id) {
 					if ( empty($course_id) ) continue;
@@ -216,19 +217,17 @@ class Controller_Guest extends Controller_Base {
 				}
 				$insert->execute();
 				
-				if ( $new_student ) {					
-					$student_courses = array(
-						'student_id' => $student_id,
-						'course_id'  => 0
-					);
-					$insert = DB::insert('students_courses', array_keys($student_courses));
-					foreach ($courses as $course_id) {
-						if ( empty($course_id) ) continue;
-						$student_courses['course_id'] = $course_id;
-						$insert->values($student_courses);
-					}
-					$insert->execute();
+				$student_courses = array(
+					'student_id' => $student_id,
+					'course_id'  => 0
+				);
+				$insert = DB::insert('students_courses', array_keys($student_courses));
+				foreach ($courses as $course_id) {
+					if ( empty($course_id) ) continue;
+					$student_courses['course_id'] = $course_id;
+					$insert->values($student_courses);
 				}
+				$insert->execute();
 			}
 			
 			HTTP::redirect('/student/notify/?id='.$student_id);

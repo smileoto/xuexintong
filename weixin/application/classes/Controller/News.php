@@ -4,8 +4,19 @@ class Controller_News extends Controller_Base
 {	
 	public function action_list()
 	{
-		try {
-			$items = DB::select('news.id','news.title','news.created_at','news.modified_at','users.username')
+		try {			
+			$images = DB::select('img')
+				->from('news')
+				->where('agency_id', '=', $this->agency->get('agency_id'))
+				->where('status',    '=', STATUS_NORMAL)
+				->where('show_type', '=', STATUS_ENABLED)
+				->offset(0)
+				->limit(4)
+				->order_by('id', 'DESC')
+				->execute()
+				->as_array();
+		
+			$items = DB::select('news.id','news.title','news.img','news.show_type','news.created_at','news.modified_at','users.username')
 				->from('news')
 				->join('users')
 				->on('news.created_by', '=', 'users.id')
@@ -17,11 +28,16 @@ class Controller_News extends Controller_Base
 				->execute()
 				->as_array();
 			
-			$page = View::factory('news/list')
+			if ( $this->request->is_ajax() ) {
+				echo json_encode($items);exit;
+			} else {
+				$page = View::factory('news/list')
 				->set('items', $items)
 				->set('page',  $this->pagenav->page)
-				->set('images', $this->images);
-			$this->output($page);
+				->set('size',  $this->pagenav->size)
+				->set('images', $images);
+				$this->output($page);
+			}
 			
 		} catch (Database_Exception $e) {
 			if ( $this->request->is_ajax() ) {

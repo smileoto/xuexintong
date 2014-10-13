@@ -17,11 +17,15 @@ class Controller_Article extends Controller_Base
 				->execute()
 				->as_array();
 			
-			$page = View::factory('article/list')
-				->set('items', $items)
-				->set('page',  $this->pagenav->page)
-				->set('size',  $this->pagenav->size);
-			$this->output($page);
+			if ( $this->request->is_ajax() ) {
+				echo json_encode($items);exit;
+			} else {
+				$page = View::factory('article/list')
+					->set('items', $items)
+					->set('page',  $this->pagenav->page)
+					->set('size',  $this->pagenav->size);
+				$this->output($page);
+			}
 			
 		} catch (Database_Exception $e) {
 			if ( $this->request->is_ajax() ) {

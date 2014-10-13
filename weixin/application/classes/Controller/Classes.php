@@ -16,7 +16,7 @@ class Controller_Class extends Controller_Base {
 			$items = $list->execute();
 			
 			$page = View::factory('classes/list')
-				->set('items',  $items)
+				->set('items',    $items)
 				->set('entities', $this->entities());
 				
 			$this->output($page);

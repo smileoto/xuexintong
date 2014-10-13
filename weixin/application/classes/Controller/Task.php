@@ -17,13 +17,12 @@ class Controller_Task extends Controller_Auth {
 				->order_by('tasks.id', 'DESC')
 				->offset($this->pagenav->page)
 				->limit(1)
-				->execute()
-				->as_array();
+				->execute();
 			
-			$item = $items ? $item : array('id'=>0);
+			$items = $items->count() ? $items->as_array() : array('id'=>0);
 			
 			$page = View::factory('tasks/index')
-				->set('item', $item)
+				->set('item',    $items[0])
 				->set('schools', $this->schools())
 				->set('grades',  $this->grades());
 				

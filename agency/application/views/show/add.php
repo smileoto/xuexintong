@@ -41,26 +41,26 @@
 							</div>
 							
 							<form method="post" id="data-form" action="<?php echo URL::base(NULL, true)?>show/save/">
-							<input type="hidden" name="url" value="" id="img_url" />
-							<ul>
-								<li>
-									<div class="con-name">
-										标题：
-									</div>
-									<div class="con-info">
-										<input type="text" name="title" id="title"/>
-									</div>
-								</li>
-							</ul>
+								<input type="hidden" name="url" value="" id="img_url" />
+								<ul>
+									<li>
+										<div class="con-name">
+											标题：
+										</div>
+										<div class="con-info">
+											<input type="text" name="title" id="title"/>
+										</div>
+									</li>
+								</ul>
 							</form>
 							
-							<div>
+							<div style="height:auto; background:#e5e5e5; width:600px;">
+								<div style="width:100%; height:35px; line-height:35px;">上传图片</div>
 								<form>
-								<div id="queue"></div>
-								<input id="file_upload" name="file_upload" type="file" multiple="true">
+									<div id="queue"></div>
+									<input id="file_upload" name="file_upload" type="file" multiple="true">
 								</form>
-							</div>
-							<div id="img_container">
+                                <div id="img_container"></div>
 							</div>
 							
 							<div class="btn-box">

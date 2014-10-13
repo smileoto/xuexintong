@@ -59,8 +59,9 @@ class Controller_Base extends Controller {
 		if ( empty( $this->auth->student_id ) and !$this->refresh_student_infor() ) {
 			switch ( $this->request->controller() ) {
 				case 'Feedback':
-				case 'Homework':
-				case 'Score': HTTP::redirect('/student/deny/');
+				case 'Comment':
+				case 'task':
+				case 'report': HTTP::redirect('/student/deny/');
 				default:return;
 			}
 		}

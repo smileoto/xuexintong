@@ -17,11 +17,15 @@ class Controller_Dailynews extends Controller_Base
 				->execute()
 				->as_array();
 			
-			$page = View::factory('dailynews/list')
+			if ( $this->request->is_ajax() ) {
+				echo json_encode($items);exit;
+			} else {
+				$page = View::factory('dailynews/list')
 				->set('items', $items)
 				->set('page',  $this->pagenav->page)
 				->set('images', $this->images);
-			$this->output($page);
+				$this->output($page);
+			}
 			
 		} catch (Database_Exception $e) {
 			if ( $this->request->is_ajax() ) {

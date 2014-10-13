@@ -12,10 +12,10 @@ class Controller_Top extends Controller_Auth {
 				->order_by('tops.id', 'DESC')
 				->offset($this->pagenav->page)
 				->limit(1)
-				->execute()
-				->as_array();
+				->execute();
 			
-			$item = $items ? $items : array('id'=>0);
+			$items = $items->count() ? $items->as_array() : array('id'=>0);
+			$item  = $items[0];
 			
 			$students = DB::select('tops_students.*','students.*',array('schools.name', 'school'),array('grades.name', 'grade'))
 				->from('tops_students')
@@ -25,11 +25,11 @@ class Controller_Top extends Controller_Auth {
 				->on('students.school_id', '=', 'schools.id')
 				->join('grades',  'LEFT')
 				->on('students.grade_id', '=', 'grades.id')
-				->where('tops_students.tops_id', '=', $item['id'])
+				->where('tops_students.top_id', '=', $item['id'])
 				->execute()
 				->as_array();
 					
-			$page = View::factory('tops/index')
+			$page = View::factory('top/index')
 				->set('item', $item)
 				->set('page', $this->pagenav->page)
 				->set('students', $students);

@@ -1,59 +1,49 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class Controller_Student extends Controller_Auth {
+class Controller_Student extends Controller_Base {
 	
 	protected $data = array();
 	
 	public function action_infor()
 	{
 		try {
-			$students = DB::select('*')
-				->from('register')
+			$items = DB::select('*')
+				->from('guests')
 				->where('agency_id', '=', $this->agency->get('id'))
-				->where('wx_openid', '=',  $this->auth->wx_openid)
+				->where('wx_openid', '=', $this->auth->wx_openid)
 				->limit(1)
 				->execute()
 				->as_array();
 			
-			$student = array();
-			if ( empty($students) ) {
-				$student['realname']  = '';
-				$student['sex']       = 0;
-				$student['role']      = 0;
-				$student['school_id'] = 0;
-				$student['grade_id']  = 0;
-				$student['wx_openid'] = '';
-				$student['birthday']  = '';
-				$student['mobile']    = '';
-				$student['father_name']   = '';
-				$student['father_mobile'] = '';
-				$student['mother_name']   = '';
-				$student['mother_mobile'] = '';
-				$student['province']      = 0;
-				$student['city']      = 0;
-				$student['area']      = 0;
-				$student['addr']      = '';
-			} else {
-				$student = $students[0];
+			if ( empty($items) ) {
+				$items = array();
+				$v = array();
+				$v['agency_id'] = $this->agency->get('id');
+				$v['realname']  = '';
+				$v['sex']       = 0;
+				$v['signup_by'] = 0;
+				$v['agency_id'] = 0;
+				$v['entity_id'] = 0;
+				$v['school_id'] = 0;
+				$v['grade_id']  = 0;
+				$v['wx_openid'] = '';
+				$v['birthday']  = '';
+				$v['mobile']    = '';
+				$v['father_name']   = '';
+				$v['father_mobile'] = '';
+				$v['mother_name']   = '';
+				$v['mother_mobile'] = '';
+				$v['province']      = 0;
+				$v['city']          = 0;
+				$v['area']          = 0;
+				$v['addr']          = '';
+				$items[] = $v;
 			}
 			
-			$schools = DB::select('id', 'name')
-				->from('agency_schools')
-				->where('agency_id', '=', $this->agency->get('id'))
-				->execute()
-				->as_array();
-			
-			$grades = DB::select('id', 'name')
-				->from('agency_grades')
-				->where('agency_id', '=', $this->agency->get('id'))
-				->execute()
-				->as_array();
-			
 			$page = View::factory('student/infor')
-				->set('student', $student)
-				->set('html_title_content', '我的资料')
-				->set('schools', $schools)
-				->set('grades', $grades);
+				->set('item',    $items[0])
+				->set('schools', $this->schools())
+				->set('grades',  $this->grades());
 				
 			$this->output($page);
 			
@@ -72,7 +62,7 @@ class Controller_Student extends Controller_Auth {
 		$data['wx_openid'] = $this->auth->wx_openid;
 		$data['realname']  = strval($this->request->post('realname'));
 		$data['sex']       = intval($this->request->post('sex'));
-		$data['role']      = intval($this->request->post('role'));
+		$data['signup_by'] = intval($this->request->post('signup_by'));
 		$data['school_id'] = intval($this->request->post('school_id'));
 		$data['grade_id']  = intval($this->request->post('grade_id'));
 		$data['birthday']  = strval($this->request->post('birthday'));
@@ -87,40 +77,40 @@ class Controller_Student extends Controller_Auth {
 		$data['addr']      = strval($this->request->post('addr'));
 		
 		try {
-			$users = DB::select('id')
-				->from('register')
+			$items = DB::select('id')
+				->from('guests')
 				->where('wx_openid', '=', $this->auth->wx_openid)
 				->limit(1)
 				->execute();
-			if ( $users->count() ) {
-				DB::update('register')
+			if ( $items->count() ) {
+				DB::update('guests')
 					->set($data)
 					->where('wx_openid', '=', $this->auth->wx_openid)
 					->execute();
 			} else {
 				$data['agency_id'] = $this->agency->get('id');
-				list($id, $rows) = DB::insert('register', array_keys($data))
+				list($id, $rows) = DB::insert('guests', array_keys($data))
 					->values($data)
 					->execute();
 			}
 			
+			Session::instance()->set('realname', $data['realname']);			
+			HTTP::redirect('/student/infor/');
+			
 		} catch (Database_Exception $e) {
-			$this->ajax_result['ret'] = ERR_DB_INSERT;
-			$this->ajax_result['msg'] = $e->getMessage();
+			$this->response->body( $e->getMessage() );
 		}
-		
-		$this->response->body( json_encode($this->ajax_result) );
 	}
 	
 	public function action_signup()
 	{
 		try {
-			$users = DB::select('id')
-				->from('register')
+			$user = DB::select('id')
+				->from('guests')
 				->where('wx_openid', '=', $this->auth->wx_openid)
 				->limit(1)
 				->execute();
-			if ( !$users->count() ) {
+			if ( $user->count() == 0 ) {
 				HTTP::redirect('/student/infor/');
 			}
 			
@@ -130,19 +120,19 @@ class Controller_Student extends Controller_Auth {
 			}
 			
 			$courses = DB::select('*')
-				->from('students_courses')
-				->where('register_id', '=', $users->get('id'))
+				->from('guests_courses')
+				->where('guest_id',  '=', $user->get('id'))
 				->where('course_id', '=', $course_id)
 				->execute();
 			
-			if ( !$courses->count() ) {
-				DB::insert('students_courses', array('register_id', 'course_id'))
-					->values(array('register_id' => $users->get('id'), 'course_id' => $course_id))
+			if ( $courses->count() == 0 ) {
+				DB::insert('guests_courses', array('guests_id', 'course_id'))
+					->values(array('guest_id' => $user->get('id'), 'course_id' => $course_id))
 					->execute();
-				DB::update('register')
-					->set(array('status' => 1))
+				DB::update('guests')
+					->set(array('status' => GUEST_STATUS_AUDIT))
 					->where('agency_id', '=', $this->agency->get('id'))
-					->where('id', '=', $users->get('id'))
+					->where('id', '=', $user->get('id'))
 					->execute();
 			}
 			
@@ -159,5 +149,64 @@ class Controller_Student extends Controller_Auth {
 	{
 		$page = View::factory('deny');
 		$this->output($page);
+	}
+	
+	public function action_valid()
+	{
+		$page = View::factory('student/valid');
+		$this->output($page);
+	}
+	
+	public function action_auth()
+	{
+		$code = strval($this->request->post('code'));
+		if ( empty($code) ) {
+			$this->ajax_result['ret'] = ERR_DB_SELECT;
+			$this->ajax_result['msg'] = '请输入验证码';
+			$this->response->body( json_encode($this->ajax_result) );
+			return;
+		}
+		
+		$item = DB::select('*')
+			->from('student_valid')
+			->where('code',  '=', $code)
+			->limit(1)
+			->execute();
+		if ( $item->count() == 0 ) {
+			$this->ajax_result['ret'] = ERR_DB_SELECT;
+			$this->ajax_result['msg'] = '验证码不存在';
+			$this->response->body( json_encode($this->ajax_result) );
+			return;
+		}
+		
+		$student_id = $item->get('student_id');
+		if ( $student_id == 0 ) {
+			$this->ajax_result['ret'] = ERR_DB_SELECT;
+			$this->ajax_result['msg'] = '验证码无效，请联系机构重发';
+			$this->response->body( json_encode($this->ajax_result) );
+			return;
+		}
+		
+		try {
+			$data = array();
+			$data['status'] = GUEST_STATUS_ENABLED;
+			$data['student_id']  = $student_id;
+			$data['created_at']  = date('Y-m-d H:i:s');
+			$data['modified_at'] = date('Y-m-d H:i:s');
+			DB::update('guests')
+				->set($data)
+				->where('agency_id', '=', $this->agency->get('id'))
+				->where('id', '=', $user->auth->user_id)
+				->execute();
+			$this->auth->student_id = $student_id;
+			Session::instance()->set('student_id', $student_id);
+		}  catch (Database_Exception $e) {
+			$this->ajax_result['ret'] = ERR_DB_UPDATE;
+			$this->ajax_result['msg'] = $e->getMessage();
+			$this->response->body( json_encode($this->ajax_result) );
+			return;
+		}
+		
+		$this->response->body( json_encode($this->ajax_result) );
 	}
 }

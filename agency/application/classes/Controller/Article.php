@@ -15,7 +15,7 @@ class Controller_Article extends Controller_Base {
 				->where('articles.agency_id', '=', $this->auth->agency_id)
 				->where('articles.status', '=', STATUS_NORMAL);
 			
-			$queryList = DB::select('articles.id','articles.title','articles.created_at','articles.modified_at','users.username')
+			$queryItems = DB::select('articles.id','articles.title','articles.created_at','articles.modified_at','users.username')
 				->from('articles')
 				->join('users')
 				->on('articles.created_by', '=', 'users.id')
@@ -24,13 +24,13 @@ class Controller_Article extends Controller_Base {
 				
 			if ( $title ) {
 				$queryCount->where('articles.title', 'like', '%'.$title.'%');
-				$queryList->where('articles.title', 'like',  '%'.$title.'%');
+				$queryItems->where('articles.title', 'like',  '%'.$title.'%');
 			}
 				
 			$cnt = $queryCount->execute();
 			$total = $cnt->count() ? $cnt[0]['COUNT(0)'] : 0;
 			
-			$items = $queryList->offset($this->pagenav->offset)
+			$items = $queryItems->offset($this->pagenav->offset)
 				->limit($this->pagenav->size)
 				->execute();
 			
