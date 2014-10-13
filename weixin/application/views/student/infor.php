@@ -3,7 +3,7 @@
 
 	<head>
 		<meta charset="utf-8">
-		<title><?php echo $html_title_content?></title>
+		<title>学生资料</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
@@ -24,11 +24,13 @@
 				line-height: 43px;
 			}
 		</style>
+		
+		<script src="<?PHP echo URL::base()?>js/jquery-1.4.4.min.js" type="text/javascript" charset="utf-8"></script>
 	</head>
 
 	<body>
 		<header class="mui-bar mui-bar-nav bg-color">
-			<h1 class="mui-title"><?php echo $html_title_content?></h1> 
+			<h1 class="mui-title">完善资料</h1> 
 		</header>
 		<div class="mui-content">
 			<div class="mui-content-padded" style="margin: 10px;">
@@ -121,7 +123,7 @@
 						<label>家庭住址</label>
 						<input type="text" placeholder="填写您的家庭地址" name="addr" id="addr" value="<?php echo $item['addr']?>">
 					</div>
-			</div>
+				</div>
 			</form>
 			<div class="mui-input-row" style="margin: 10px 5px;">
 				<button class="mui-btn mui-btn-block" id="btnSubmit">确认修改</button>
@@ -139,20 +141,19 @@
 	</body>
 
 </html>
-<script src="<?PHP echo URL::base()?>js/jquery-1.4.4.min.js" type="text/javascript" charset="utf-8"></script>
 <script src="<?PHP echo URL::base()?>js/picker.js" type="text/javascript" charset="utf-8"></script>
 <script src="<?PHP echo URL::base()?>js/picker.date.js" type="text/javascript" charset="utf-8"></script>
 <script src="<?PHP echo URL::base()?>js/setheight.js" type="text/javascript" charset="utf-8"></script>
-<script src="<?PHP echo URL::base()?>js/legacy.js"></script>
+
 <script type="text/javascript" charset="utf-8" src="<?php echo URL::base()?>js/geo.js"></script>
 
 <script type="text/javascript" charset="utf-8">
 //$('.datepicker').picker.get('start')
 
 $(function () {
-	var s1 = '<?php echo $agency["province"]?>';
-	var s2 = '<?php echo $agency["city"]?>';
-	var s3 = '<?php echo $agency["area"]?>';
+	var s1 = '<?php echo $item["province"]?>';
+	var s2 = '<?php echo $item["city"]?>';
+	var s3 = '<?php echo $item["area"]?>';
 	setup();preselect_ex(s1,s2,s3);
 	
 	var parseClick = false;

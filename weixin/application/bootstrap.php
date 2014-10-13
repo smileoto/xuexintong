@@ -103,13 +103,14 @@ if (isset($_SERVER['KOHANA_ENV']))
  * - boolean  expose      set the X-Powered-By header                        FALSE
  */
 Kohana::init(array(
-	'base_url'   => '/wap/htdocs/',
+	'base_url'   => '/',
+	'cache_dir'  => SYSPATH.'../../cache',
 ));
 
 /**
  * Attach the file write to logging. Multiple writers are supported.
  */
-Kohana::$log->attach(new Log_File(APPPATH.'logs'));
+Kohana::$log->attach(new Log_File(SYSPATH.'../../logs'));
 
 /**
  * Attach a file reader to config. Multiple readers are supported.

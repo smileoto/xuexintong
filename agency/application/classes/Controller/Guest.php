@@ -166,13 +166,13 @@ class Controller_Guest extends Controller_Base {
 		$data['school_id']      = intval($this->request->post('school'));
 		$data['grade_id']       = intval($this->request->post('grade'));
 
-		$data['mail'] = strval($this->request->post('mail'));
-		$data['QQ']   = strval($this->request->post('QQ'));
+		$data['email'] = strval($this->request->post('email'));
+		$data['QQ']    = strval($this->request->post('QQ'));
 		
-		$data['modified_at'] = NULL;
+		$data['modified_at'] = date('Y-m-d H:i:s');
 		$data['modified_by'] = $this->auth->user_id;
 		
-		$courses = explode( ',', strval( $this->request->post('class') ) );
+		$courses = $this->request->post('course');
 		
 		$id = intval($this->request->post('id'));
 		
@@ -180,7 +180,7 @@ class Controller_Guest extends Controller_Base {
 			$new_student = false;
 			if ( empty( $student_id ) ) {
 				$new = $data;
-				$new['created_at'] = NULL;
+				$new['created_at'] = date('Y-m-d H:i:s');
 				$new['created_by'] = $this->auth->user_id;
 				$new['agency_id']  = $this->auth->agency_id;
 				list($student_id, $rows) = DB::insert('students', array_keys($new))
@@ -230,10 +230,11 @@ class Controller_Guest extends Controller_Base {
 				$insert->execute();
 			}
 			
-			HTTP::redirect('/student/notify/?id='.$student_id);
+			//HTTP::redirect('/student/notify/?id='.$student_id);
+			HTTP::redirect('/student/list/');
 			
 		} catch (Database_Exception $e) {
-			$this->response->body( $e->getMessage() ）;
+			$this->response->body( $e->getMessage() );
 		}
 	}
 		
@@ -243,7 +244,7 @@ class Controller_Guest extends Controller_Base {
 				
 		try {
 			DB::update('guests')
-				->set( array('status'=>STATUS_DELETED, 'modify_t'=>NULL) )
+				->set( array('status'=>STATUS_DELETED, 'modify_t'=>date('Y-m-d H:i:s')) )
 				->where('agency_id', '=', $this->auth->agency_id)
 				->where('id','=',$id)
 				->execute();

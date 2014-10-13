@@ -108,4 +108,4 @@ CREATE TABLE grades
 	KEY agency_id(agency_id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-INSERT INTO agencies(entity_num,viewname,realname,username,wx_appid,wx_secret) VALUES(5,'弘翰教育','tester','wx6a63a3eaee3c449b','e51658dfff34a220fb158d349c3c25c8');
+INSERT INTO agencies(entity_num,viewname,realname,username,wx_appid,wx_secret) VALUES(5,'弘翰教育','弘翰教育机构','tester','wx6a63a3eaee3c449b','e51658dfff34a220fb158d349c3c25c8');

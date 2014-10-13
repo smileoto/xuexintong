@@ -41,7 +41,10 @@ class Controller_Base extends Controller {
 		$this->auth->school_id   = intval( Session::instance()->get('school_id') );
 		$this->auth->grade_id    = strval( Session::instance()->get('grade_id') );
 		
-		$this->init_agency();//$this->auth->wx_openid = 'abcdefg';
+		$this->auth->agency_id = 1; // for test
+		$this->auth->wx_openid = 'zhangys'; // for test
+		
+		$this->init_agency();
 		if ( $this->request->action() != 'wx_login' and empty($this->auth->wx_openid) ) {
 			Session::instance()->set('callback_url', '/'.$this->request->controller().'/'.$this->request->action().'/');
 			$this->wx_auth();
@@ -71,7 +74,6 @@ class Controller_Base extends Controller {
 	{
 		if ( empty($this->auth->agency_id) ) {
 			$this->auth->agency_id = intval($this->request->query('aid'));
-			//Session::instance()->set('agency_id', $this->auth->agency_id);
 		}
 		
 		try {
@@ -264,7 +266,11 @@ class Controller_Base extends Controller {
 				->where('id', '=', $this->auth->user_id)
 				->limit(1)
 				->execute();
-		if ( $user->count() ) {
+		if ( $user->count() == 0  ) {
+			return false;
+		}
+		
+		if ( $user->get('student_id') > 0 ) {
 			$this->auth->user_id    = $user->get('id');
 			$this->auth->student_id = $user->get('student_id');
 			$this->auth->wx_openid  = $user->get('wx_openid');
@@ -283,7 +289,10 @@ class Controller_Base extends Controller {
 			Session::instance()->set('grade_id',   $this->auth->grade_id);
 			
 			return $this->auth->student_id;
-		} 
+			
+		} elseif ( $user->get('status') == GUEST_STATUS_ENABLED ) {
+			HTTP::redirect('/student/valid/');
+		}
 		
 		return false;
 	}

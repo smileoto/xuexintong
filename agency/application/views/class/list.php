@@ -29,8 +29,10 @@
 					<div class="sidebar" id="sidebar">
 						<?php echo $html_left_content?>
 					</div>
-					<?php foreach ($groups_classes as $entity_id => $items) : ?>
+					
 					<div class="content-box">
+					
+						<?php foreach ($groups_classes as $entity_id => $items) : ?>
 						<div class="content-inner">
 							<div class="navbar-top">
 								<a class="active">课程类别</a>
@@ -63,9 +65,10 @@
 								</div>
 							</div>
 						</div>
+						<p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p>
+						<?php endforeach;?>
+						
 					</div>
-					<p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p>
-					<?php endforeach;?>
 				</div>
 			</div>
 		</div>

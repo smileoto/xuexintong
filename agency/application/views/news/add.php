@@ -41,18 +41,13 @@
 								<a class="active" href="#">添加动态</a>
 							</div>
 							
-							<div class="input-box">
+							<div style="height:auto; background:#e5e5e5; width:600px;">
+								<div style="width:100%; height:35px; line-height:35px;">上传图片</div>
 								<form>
-								<div id="queue"></div>
-								<input id="file_upload" name="file_upload" type="file" multiple="true">
+									<div id="queue"></div>
+									<input id="file_upload" name="file_upload" type="file" multiple="true">
 								</form>
-							</div>
-							
-							<div class="input-box" id="img_container">
-							</div>
-							
-							<div class="input-box">
-								<br/><br/><br/><br/>
+                                <div id="img_container"></div>
 							</div>
 							
 							
@@ -65,6 +60,10 @@
 							<div class="input-box">
 								<span>图片轮播：</span>
 								<input type="checkbox" name="show_type" value="1" />
+							</div>
+							
+							<div class="input-box">
+								<span>来源：</span><input type="text" name="from" id="from" />
 							</div>
 							
 							<div class="table-cell">
@@ -105,7 +104,7 @@ $(function(){
 			'token'     : '<?php echo md5("unique_salt" . $timestamp);?>'
 		},
 		'swf'      : '<?PHP echo URL::base()?>swf/uploadify.swf',
-		'uploader' : '/uploadify.php;jsessionid=<?php echo $session_id?>',
+		'uploader' : '<?PHP echo URL::base("http",false)?>uploadify.php;jsessionid=<?php echo $session_id?>',
 		'onUploadError' : function(file, errorCode, errorMsg, errorString) {
             alert('The file ' + file.name + ' could not be uploaded: ' + errorString);
             alert(errorCode);

@@ -2,15 +2,15 @@
 
 class Controller_Dailynews extends Controller_Base 
 {	
-	public function action_list()
+	public function action_index()
 	{
 		try {
-			$items = DB::select('daily_news.id','daily_news.title','daily_news.created_at','daily_news.modified_at','users.username')
+			$items = DB::select('daily_news.id','daily_news.title','daily_news.remark','daily_news.modified_at','users.username')
 				->from('daily_news')
 				->join('users')
 				->on('daily_news.created_by', '=', 'users.id')
 				->where('daily_news.agency_id', '=', $this->auth->agency_id)
-				->where('daily_news.status', '=', STATUS_NORMAL);
+				->where('daily_news.status', '=', STATUS_NORMAL)
 				->offset($this->pagenav->offset)
 				->limit($this->pagenav->size)
 				->order_by('id', 'DESC')
@@ -21,9 +21,8 @@ class Controller_Dailynews extends Controller_Base
 				echo json_encode($items);exit;
 			} else {
 				$page = View::factory('dailynews/list')
-				->set('items', $items)
-				->set('page',  $this->pagenav->page)
-				->set('images', $this->images);
+					->set('items', $items)
+					->set('page',  $this->pagenav->page);
 				$this->output($page);
 			}
 			
@@ -48,8 +47,14 @@ class Controller_Dailynews extends Controller_Base
 			->execute()
 			->as_array();
 		if ( empty($items) ) {
-			HTTP::redirect('/dailynews/list/');
+			HTTP::redirect('/dailynews/');
 		}
+		
+		DB::update('daily_news')
+			->set( array( 'read_count' => $items[0]['read_count']+1 ) )
+			->where('agency_id', '=', $this->auth->agency_id)
+			->where('id', '=', $id)
+			->execute();
 		
 		$page = View::factory('dailynews/detail')
 			->set('item', $items[0]);

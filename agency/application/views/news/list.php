@@ -84,7 +84,7 @@
 $(function(){
 	$('#btnSearch').click(function(){
 		// todo: check params
-		var url = '<?php echo URL::base(NULL, TRUE)?>news/list/';
+		var url = '<?php echo URL::base(NULL, TRUE)?>news/list/?z=z';
 		$('.data-field').each(function(){
 			var key = $(this).attr('id');
 			var val  = $(this).val();

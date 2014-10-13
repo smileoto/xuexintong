@@ -21,7 +21,7 @@ class Controller_Teachers extends Controller_Base {
 		$page = View::factory('teachers/index')
 			->set('item', $item);
 
-		$this->output($page, 'agency');
+		$this->output($page, 'teachers');
 	}
 		
 	public function action_save()
@@ -40,7 +40,7 @@ class Controller_Teachers extends Controller_Base {
 				->values($data)
 				->execute();
 			}
-			HTTP::redirect('/show/index/');
+			HTTP::redirect('/teachers/index/');
 		} catch (Database_Exception $e) {
 			$this->response->body( $e->getMessage() );
 		}

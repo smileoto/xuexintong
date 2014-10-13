@@ -28,7 +28,7 @@
 					</div>
 					<div class="content-box">
 					
-						<form method="post" id="data-form" action="<?php echo URL::base(NULL, true)?>student/save/">
+						<form method="post" id="data-form" action="<?php echo URL::base(NULL, true)?>guest/save/">
 						<input type="hidden" name="id" value="<?php echo $item['id']?>">
 						
 						<div class="content-inner">
@@ -50,7 +50,7 @@
 										微信号昵称：
 									</span>
 									<span class="m-content">
-										<?php echo //$item['nickname']?>
+										<?php //echo $item['nickname']?>
 									</span>
 								</li>
 								<li>
@@ -273,12 +273,13 @@
 									<span class="m-name">
 										报名班别：
 									</span>
-									<?php foreach ( $courses as $v ) : ?>
-									<input type="checkbox" id="course" value="<?php echo $v['id']?>"  
-										<?php if ( isset($student_courses[$v['id']]) ) { echo 'checked="checked"'; } ?> />
-									<?php echo $v['name']?>
-									&nbsp;&nbsp;
-									<?php endforeach?>
+										<?php foreach ( $courses as $v ) : ?>
+										<input type="checkbox" class="course" style="width: 15px;margin-left: 10px;" name="course[]" value="<?php echo $v['id']?>"  
+											<?php if ( isset($guest_courses[$v['id']]) ) { echo 'checked="checked"'; } ?> />
+										<span style="float: left; margin-left: 5px; margin-right:15px; line-height: 30px;">
+											<?php echo $v['name']?>
+										</span>
+										<?php endforeach?>
 								</li>
                                 <li style=" width:100%">
 									<span class="caption-name">
@@ -320,15 +321,20 @@
 	}
 </script>
 <script type="text/javascript" charset="utf-8" src="<?PHP echo URL::base()?>js/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="<?php echo URL::base()?>js/geo.js"></script>
 <script type="text/javascript" charset="utf-8">
 $(function(){
 	var id = '<?php echo $item["id"]?>';
+	var s1 = '<?php echo $item["province"]?>';
+	var s2 = '<?php echo $item["city"]?>';
+	var s3 = '<?php echo $item["area"]?>';
+	setup();preselect_ex(s1,s2,s3);
 	
 	$('#btnSubmit').click(function(){
 		// todo: check params
 		
 		var courses = [];
-		$('input[name=course]').each(function () {
+		$('.course').each(function () {
 			if ( $(this).attr('checked') ) {
 				courses.push($(this).val());
 			}
@@ -343,7 +349,7 @@ $(function(){
 	
 	
 	$('#btnOpenSelector').click(function(){
-		var url = '<?php echo URL::base(NULL, TRUE)?>student/list/?status=2';
+		var url = '<?php echo URL::base(NULL, TRUE)?>student/select/?size=4';
 		$.get(url, {}, function (html) {
 			$('#cntSelector').html(html);
 			$('.theme-popover-mask').fadeIn(100);

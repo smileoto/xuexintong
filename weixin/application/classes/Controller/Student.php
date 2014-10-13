@@ -9,7 +9,7 @@ class Controller_Student extends Controller_Base {
 		try {
 			$items = DB::select('*')
 				->from('guests')
-				->where('agency_id', '=', $this->agency->get('id'))
+				->where('agency_id', '=', $this->auth->agency_id)
 				->where('wx_openid', '=', $this->auth->wx_openid)
 				->limit(1)
 				->execute()
@@ -18,7 +18,7 @@ class Controller_Student extends Controller_Base {
 			if ( empty($items) ) {
 				$items = array();
 				$v = array();
-				$v['agency_id'] = $this->agency->get('id');
+				$v['agency_id'] = $this->auth->agency_id;
 				$v['realname']  = '';
 				$v['sex']       = 0;
 				$v['signup_by'] = 0;
@@ -88,7 +88,7 @@ class Controller_Student extends Controller_Base {
 					->where('wx_openid', '=', $this->auth->wx_openid)
 					->execute();
 			} else {
-				$data['agency_id'] = $this->agency->get('id');
+				$data['agency_id'] = $this->auth->agency_id;
 				list($id, $rows) = DB::insert('guests', array_keys($data))
 					->values($data)
 					->execute();
@@ -126,12 +126,12 @@ class Controller_Student extends Controller_Base {
 				->execute();
 			
 			if ( $courses->count() == 0 ) {
-				DB::insert('guests_courses', array('guests_id', 'course_id'))
+				DB::insert('guests_courses', array('guest_id', 'course_id'))
 					->values(array('guest_id' => $user->get('id'), 'course_id' => $course_id))
 					->execute();
 				DB::update('guests')
 					->set(array('status' => GUEST_STATUS_AUDIT))
-					->where('agency_id', '=', $this->agency->get('id'))
+					->where('agency_id', '=', $this->auth->agency_id)
 					->where('id', '=', $user->get('id'))
 					->execute();
 			}
@@ -195,8 +195,8 @@ class Controller_Student extends Controller_Base {
 			$data['modified_at'] = date('Y-m-d H:i:s');
 			DB::update('guests')
 				->set($data)
-				->where('agency_id', '=', $this->agency->get('id'))
-				->where('id', '=', $user->auth->user_id)
+				->where('agency_id', '=', $this->auth->agency_id)
+				->where('id', '=', $this->auth->user_id)
 				->execute();
 			$this->auth->student_id = $student_id;
 			Session::instance()->set('student_id', $student_id);

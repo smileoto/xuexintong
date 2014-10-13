@@ -1,31 +1,32 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class Controller_Course extends Controller_Auth {
+class Controller_Course extends Controller_Base {
 
 	public function action_list() 
 	{
 		$class_id  = intval($this->request->query('class_id'));
 		
 		try {
-			$classes = DB::select('id','name')
+			$classes = DB::select('*')
 				->from('classes')
-				->where('agency_id', '=', $this->agency->get('agency_id'))
+				->where('agency_id', '=', $this->auth->agency_id)
 				->where('id', '=', $class_id)
 				->limit(1)
-				->execute();
-			if ( $classes->count() == 0 ) {
+				->execute()
+				->as_array();
+			if ( count($classes) == 0 ) {
 				HTTP::redirect('/classes/list/');
 			}
 				
-			$items = DB::select('id', 'name'))
+			$items = DB::select('*')
 				->from('courses')
-				->where('agency_id', '=', $this->agency->get('agency_id'))
+				->where('agency_id', '=', $this->auth->agency_id)
 				->where('class_id', '=', $class_id)
 				->execute()
 				->as_array();
 			
 			$page = View::factory('course/list')
-				->set('class',   $classes->get('name'))
+				->set('class',   $classes[0])
 				->set('items',   $items);
 				
 			$this->output($page);
@@ -42,7 +43,7 @@ class Controller_Course extends Controller_Auth {
 		try {
 			$courses = DB::select('*')
 				->from('courses')
-				->where('agency_id', '=', $this->agency->get('agency_id'))
+				->where('agency_id', '=', $this->auth->agency_id)
 				->where('id', '=', $id)
 				->limit(1)
 				->execute()

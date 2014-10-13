@@ -2,12 +2,12 @@
 
 class Controller_News extends Controller_Base 
 {	
-	public function action_list()
+	public function action_index()
 	{
 		try {			
-			$images = DB::select('img')
+			$images = DB::select('id','img','title')
 				->from('news')
-				->where('agency_id', '=', $this->agency->get('agency_id'))
+				->where('agency_id', '=', $this->auth->agency_id)
 				->where('status',    '=', STATUS_NORMAL)
 				->where('show_type', '=', STATUS_ENABLED)
 				->offset(0)
@@ -15,16 +15,16 @@ class Controller_News extends Controller_Base
 				->order_by('id', 'DESC')
 				->execute()
 				->as_array();
-		
-			$items = DB::select('news.id','news.title','news.img','news.show_type','news.created_at','news.modified_at','users.username')
+				
+			$items = DB::select('news.id','news.title','news.remark','news.img','news.read_count','news.modified_at','users.realname')
 				->from('news')
 				->join('users')
 				->on('news.created_by', '=', 'users.id')
-				->where('news.agency_id', '=', $this->agency->get('agency_id'))
-				->where('news.status', '=', STATUS_NORMAL)
+				->where('news.agency_id', '=', $this->auth->agency_id)
+				->where('news.status',    '=', STATUS_NORMAL)
 				->offset($this->pagenav->offset)
 				->limit($this->pagenav->size)
-				->order_by('id', 'DESC')
+				->order_by('news.id', 'DESC')
 				->execute()
 				->as_array();
 			
@@ -32,10 +32,10 @@ class Controller_News extends Controller_Base
 				echo json_encode($items);exit;
 			} else {
 				$page = View::factory('news/list')
-				->set('items', $items)
-				->set('page',  $this->pagenav->page)
-				->set('size',  $this->pagenav->size)
-				->set('images', $images);
+					->set('items',  $items)
+					->set('page',   $this->pagenav->page)
+					->set('size',   $this->pagenav->size)
+					->set('images', $images);
 				$this->output($page);
 			}
 			
@@ -54,14 +54,20 @@ class Controller_News extends Controller_Base
 			
 		$items = DB::select('*')
 			->from('news')
-			->where('agency_id', '=', $this->agency->get('agency_id'))
+			->where('agency_id', '=', $this->auth->agency_id)
 			->where('id', '=', $id)
 			->limit(1)
 			->execute()
 			->as_array();
 		if ( empty($items) ) {
-			HTTP::redirect('/news/list/');
+			HTTP::redirect('/news/');
 		}
+		
+		DB::update('news')
+			->set( array( 'read_count' => $items[0]['read_count']+1 ) )
+			->where('agency_id', '=', $this->auth->agency_id)
+			->where('id', '=', $id)
+			->execute();
 		
 		$page = View::factory('news/detail')
 			->set('item', $items[0]);

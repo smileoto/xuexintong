@@ -73,6 +73,10 @@
 								<input type="checkbox" name="show_type" value="1" <?php if ($item['show_type'] == 1) echo 'checked="checked"'?> />
 							</div>
 							
+							<div class="input-box">
+								<span>来源：</span><input type="text" name="from" id="from" value="<?php echo $item['src']?>" />
+							</div>
+							
 							<div class="table-cell">
 								<textarea name="content" class="<?php echo $xheditor_config?>" name="content" id="content"><?php echo $item['content']?></textarea>
 							</div>

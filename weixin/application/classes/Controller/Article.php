@@ -2,18 +2,18 @@
 
 class Controller_Article extends Controller_Base 
 {	
-	public function action_list()
+	public function action_index()
 	{
 		try {
-			$items = DB::select('articles.id','articles.title','articles.created_at','articles.modified_at','users.username')
+			$items = DB::select('articles.id','articles.title','articles.remark','articles.modified_at','users.username')
 				->from('articles')
 				->join('users')
 				->on('articles.created_by', '=', 'users.id')
-				->where('articles.agency_id', '=', $this->agency->get('agency_id'))
+				->where('articles.agency_id', '=', $this->auth->agency_id)
 				->where('articles.status', '=', STATUS_NORMAL)
 				->offset($this->pagenav->offset)
 				->limit($this->pagenav->size)
-				->order_by('id', 'DESC')
+				->order_by('articles.id', 'DESC')
 				->execute()
 				->as_array();
 			
@@ -42,14 +42,20 @@ class Controller_Article extends Controller_Base
 			
 		$items = DB::select('*')
 			->from('articles')
-			->where('agency_id', '=', $this->agency->get('agency_id'))
+			->where('agency_id', '=', $this->auth->agency_id)
 			->where('id', '=', $id)
 			->limit(1)
 			->execute()
 			->as_array();
-		if ( empty($items) ) {
-			HTTP::redirect('/article/list/');
+		if ( count($items) == 0 ) {
+			HTTP::redirect('/article/');
 		}
+		
+		DB::update('articles')
+			->set( array( 'read_count' => $items[0]['read_count']+1 ) )
+			->where('agency_id', '=', $this->auth->agency_id)
+			->where('id', '=', $id)
+			->execute();
 		
 		$page = View::factory('article/detail')
 			->set('item', $items[0]);

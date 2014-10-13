@@ -1,24 +1,18 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class Controller_Base extends Controller_Auth 
+class Controller_Agency extends Controller_Base
 {
 	
 	public function action_index()
 	{
 		$items = DB::select('*')
-			->from('agencies')
-			->where('id', '=', $this->auth->agency_id)
+			->from('introductions')
+			->where('agency_id', '=', $this->auth->agency_id)
 			->limit(1)
-			->execute()
-			->as_array();
+			->execute();
 		
-		$content = '';
-		if ( empty($items) ) {
-			$content = &$items[0]['content'];
-		}
-									
 		$page = View::factory('agency/index')
-			->set('content', $content);
+			->set('content', $items->count() ? $items->get('content') : '');
 
 		$this->output($page);
 	}
@@ -42,16 +36,10 @@ class Controller_Base extends Controller_Auth
 			->from('contacts')
 			->where('agency_id', '=', $this->auth->agency_id)
 			->limit(1)
-			->execute()
-			->as_array();
+			->execute();
 		
-		$content = '';
-		if ( empty($items) ) {
-			$content = &$items[0]['content'];
-		}
-							
 		$page = View::factory('agency/contact')
-			->set('content', $content);
+			->set('content',  $items->count() ? $items->get('content') : '');
 
 		$this->output($page);
 	}
@@ -62,16 +50,10 @@ class Controller_Base extends Controller_Auth
 			->from('teachers')
 			->where('agency_id', '=', $this->auth->agency_id)
 			->limit(1)
-			->execute()
-			->as_array();
+			->execute();
 		
-		$content = '';
-		if ( empty($items) ) {
-			$content = &$items[0]['content'];
-		}
-							
 		$page = View::factory('agency/teachers')
-			->set('content', $content);
+			->set('content', $items->count() ? $items->get('content') : '');
 
 		$this->output($page);
 	}
