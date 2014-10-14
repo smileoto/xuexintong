@@ -34,69 +34,70 @@
 							<div class="navbar-top">
 								<a href="<?php echo URL::base(NULL, TRUE)?>top/list/">菁英榜</a><a class="active" >添加榜单</a>
 							</div>
-							
-							<form method="post" id="data-form" action="<?php echo URL::base(NULL, true)?>top/save/">
-								<input type="hidden" id="top_id"     name="id" value="<?php echo $item['id']?>">
-								<input type="hidden" id="img_url"    name="avatar">
-								<input type="hidden" id="student_id" name="student_id">
-								<ul>
-                            		<li>
-                                    	<div class="con-name">
-											评榜时间：
-										</div>
-										<input type="date" name="begin" value="<?php echo $item['begin_str']?>" /> 
-										&nbsp;&nbsp;至&nbsp;&nbsp;
-										<input type="date" name="end"   value="<?php echo $item['end_str']?>" />
-                                    </li>
-									
-									<?php foreach ($tops_students as $v) : ?>
-                            		<li>
-                                    	<div class="con-name">
-                                    		[上榜学生]
-                                    		<?php echo $v['realname']?>
-                                    		&nbsp;&nbsp;&nbsp;&nbsp;
-                                    		[
-											<a href="#" title="删除学生" onclick="del_top_student(<?php echo $v['id']?>)">
-												删除学生
-											</a>
-											]
-											&nbsp;&nbsp;&nbsp;&nbsp;
-										</div>
-										<div class="con-info">
-											[上榜理由]
-											<?php echo $v['reason']?>
-										</div>
-                                    </li>
-									<?php endforeach?>
-									
-                            		<li>
-                                    	<div class="con-name">
-											学生姓名：
-										</div>
-										<div class="con-info">
-											<input type="text" size="10" maxlength="10" name="realname" id="realname" /> 
-											<a href="#" onclick="select_student()">选择学生</a>
-										</div>
-                                    </li>
-                                    <li style="height:30xp; line-height:30px; height:30px">学生头像：</li>
-                                    <li style="background:#dddddd; width:500px; padding:10px;border:1px dashed #a5a5a5; margin-top:-30px; margin-left:80px;">
-										<form id="form_file_upload">
-											<div id="queue"></div>
-											<input id="file_upload" name="file_upload" type="file" multiple="true">
-										</form>
-										<div id="img_container" style="float:left;width:100%"></div>
-                                    </li>
-                                    <li>
-                                    	<div class="con-name">
-											上榜理由：
-										</div>
-										<div class="con-info">
-											<textarea rows="9" style="width: 500px;" name="reason"></textarea>
-                                        </div>
-                                    </li>
-								</ul>
-							
-							</form>
+
+							<ul>
+                        		<li>
+                                	<div class="con-name">
+										评榜时间：
+									</div>
+									<input type="date" id="begin" value="<?php echo $item['begin_str']?>" /> 
+									&nbsp;&nbsp;至&nbsp;&nbsp;
+									<input type="date" id="end"   value="<?php echo $item['end_str']?>" />
+                                </li>
+								
+								<?php foreach ($tops_students as $v) : ?>
+                        		<li>
+                                	<div class="con-name">
+                                		[上榜学生]
+                                		<?php echo $v['realname']?>
+                                		&nbsp;&nbsp;&nbsp;&nbsp;
+                                		[
+										<a href="#" title="删除学生" onclick="del_top_student(<?php echo $v['id']?>)">
+											删除学生
+										</a>
+										]
+										&nbsp;&nbsp;&nbsp;&nbsp;
+									</div>
+									<div class="con-info">
+										[上榜理由]
+										<?php echo $v['reason']?>
+									</div>
+                                </li>
+								<?php endforeach?>
+								
+                        		<li>
+                                	<div class="con-name">
+										学生姓名：
+									</div>
+									<div class="con-info">
+										<input type="text" size="10" maxlength="10" name="realname" id="realname" /> 
+										<a href="#" onclick="select_student()">选择学生</a>
+									</div>
+                                </li>
+                                <li style="height:30xp; line-height:30px; height:30px">学生头像：</li>
+                                <li style="background:#dddddd; width:500px; padding:10px;border:1px dashed #a5a5a5; margin-top:-30px; margin-left:80px;">
+									<form id="form_file_upload">
+										<div id="queue"></div>
+										<input id="file_upload" name="file_upload" type="file" multiple="true">
+									</form>
+									<div id="img_container" style="float:left;width:100%"></div>
+                                </li>
+                                <li>
+                                	<form method="post" id="data-form" action="<?php echo URL::base(NULL, true)?>top/save/">
+									<input type="hidden" id="top_id"     name="id" value="<?php echo $item['id']?>">
+									<input type="hidden" id="img_url"    name="avatar">
+									<input type="hidden" id="student_id" name="student_id">
+									<input type="hidden" id="begin_str"  name="begin"      value="">
+									<input type="hidden" id="end_str"    name="end"        value="">
+                                	<div class="con-name">
+										上榜理由：
+									</div>
+									<div class="con-info">
+										<textarea rows="9" style="width: 500px;" name="reason"></textarea>
+                                    </div>
+                                    </form>
+                                </li>
+							</ul>
                             
 							<div class="btn-box" style="float:left">
 								<button style="margin-left: 70px;margin-top: 10px;" id="btnSubmit">确认提交</button>
@@ -130,7 +131,8 @@
 			});
 		
 			$('#btnSubmit').click(function () {
-				$('#form_file_upload').remove();
+				$('#begin_str').val($('#begin').val());
+				$('#end_str').val($('#end').val());
 				$('#data-form').submit();
 			});
 		});

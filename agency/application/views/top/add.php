@@ -36,47 +36,49 @@
 								<a class="active" >添加榜单</a>
 							</div>
 							
-							<form method="post" id="data-form" action="<?php echo URL::base(NULL, true)?>top/save/">
-								<input type="hidden" id="img_url"    name="avatar"     value="">
-								<input type="hidden" id="student_id" name="student_id" value="">
-								<ul>
-                            		<li>
-                                    	<div class="con-name">
-										评榜时间：
-										</div>
-										<input type="date" name="begin" /> 
-										&nbsp;&nbsp;至&nbsp;&nbsp;
-										<input type="date" name="end" />
-                                    </li>
-                            		<li>
-                                    	<div class="con-name">
-											学生姓名：
-										</div>
-										<div class="con-info">
-											<input type="text" size="10" maxlength="10" name="realname" id="realname" /> 
-											<a href="#" onclick="select_student()">选择学生</a>
-										</div>
-                                    </li>
-                                    <li style="height:30xp; line-height:30px; height:30px">学生头像：</li>
-                                    <li style="background:#dddddd; width:500px; padding:10px;border:1px dashed #a5a5a5; margin-top:-30px; margin-left:80px;">
-										<form id="form_file_upload">
-											<div id="queue"></div>
-											<input id="file_upload" name="file_upload" type="file" multiple="true">
-										</form>
-										<div id="img_container" style="float:left;width:100%"></div>
-                                    </li>
-                                    <li>
-                                    	<div class="con-name">
-											上榜理由：
-										</div>
-										<div class="con-info">
-											<textarea rows="9" style="width: 500px;" name="reason"></textarea>
-                                        </div>
-                                    </li>
-								</ul>
 							
-							</form>
-                            
+							<ul>
+                        		<li>
+                                	<div class="con-name">
+									评榜时间：
+									</div>
+									<input type="date" id="begin" /> 
+									&nbsp;&nbsp;至&nbsp;&nbsp;
+									<input type="date" id="end" />
+                                </li>
+                        		<li>
+                                	<div class="con-name">
+										学生姓名：
+									</div>
+									<div class="con-info">
+										<input type="text" size="10" maxlength="10" name="realname" id="realname" /> 
+										<a href="#" onclick="select_student()">选择学生</a>
+									</div>
+                                </li>
+                                <li style="height:30xp; line-height:30px; height:30px">学生头像：</li>
+                                <li style="background:#dddddd; width:500px; padding:10px;border:1px dashed #a5a5a5; margin-top:-30px; margin-left:80px;">
+									<form id="form_file_upload">
+										<div id="queue"></div>
+										<input id="file_upload" name="file_upload" type="file" multiple="true">
+									</form>
+									<div id="img_container" style="float:left;width:100%"></div>
+                                </li>
+                                <li>
+                                	<form method="post" id="data-form" action="<?php echo URL::base(NULL, true)?>top/save/">
+									<input type="hidden" id="img_url"    name="avatar"     value="">
+									<input type="hidden" id="student_id" name="student_id" value="">
+									<input type="hidden" id="begin_str"  name="begin"      value="">
+									<input type="hidden" id="end_str"    name="end"        value="">
+                                	<div class="con-name">
+										上榜理由：
+									</div>
+									<div class="con-info">
+										<textarea rows="9" style="width: 500px;" name="reason"></textarea>
+                                    </div>
+                                    </form>
+                                </li>
+							</ul>
+
 							<div class="btn-box" style="float:left">
 								<button style="margin-left: 70px;margin-top: 10px;" id="btnSubmit">确认提交</button>
 							</div>
@@ -109,7 +111,8 @@
 			});
 		
 			$('#btnSubmit').click(function () {
-				$('#form_file_upload').remove();
+				$('#begin_str').val($('#begin').val());
+				$('#end_str').val($('#end').val());
 				$('#data-form').submit();
 			});
 		});

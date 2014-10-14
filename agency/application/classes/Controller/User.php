@@ -42,7 +42,11 @@ class Controller_User extends Controller_Base {
 		}
 		
 		$result = DB::select('content')->from('user_rights')->where('user_id', '=', $id)->execute();
-		$user_rights = json_encode($result->get('content'), true);
+		$keys = explode(',', $result->get('content'));
+		$user_rights = array();
+		foreach ($keys as $k) {
+			$user_rights[$k] = 1;
+		}
 		
 		$actions = include_once(APPPATH.'config/action.php');
 		$page = View::factory('user/edit')
@@ -125,13 +129,14 @@ class Controller_User extends Controller_Base {
 				$user_rights = array();
 			}
 			
+			$str_user_rights = implode(',', array_keys($user_rights));
 			$rows = DB::update('user_rights')
-				->set( array( 'content' => json_encode($user_rights) ) )
+				->set( array( 'content' => $str_user_rights ) )
 				->where('user_id', '=', $id)
 				->execute();
 			if ( empty($rows) ) {
 				DB::insert('user_rights', array('user_id', 'content'))
-					->values( array( 'user_id' => $id, 'content' => json_encode($user_rights) ) )
+					->values( array( 'user_id' => $id, 'content' => $str_user_rights ) )
 					->execute();
 			}
 			
@@ -159,6 +164,12 @@ class Controller_User extends Controller_Base {
 		} catch (Database_Exception $e) {
 			$this->response->body( $e->getMessage() );
 		}
+	}
+	
+	public function action_deny()
+	{
+		$page = View::factory('user/deny');
+		$this->output($page, 'users');
 	}
 	
 }

@@ -64,8 +64,7 @@ class Controller_Base extends Controller {
 			if ( $this->auth->user_id == 0 ) {
 				HTTP::redirect('/session/index/');
 			} else {
-				// HTTP::redirect('/login/out/');
-				echo 'permission deny';exit;
+				HTTP::redirect('/user/deny/');
 			}
 		}
 	}
@@ -74,14 +73,16 @@ class Controller_Base extends Controller {
 	{
 		$ctl = $this->request->controller();
 		$act = $this->request->action();
-		$key = strtolower($ctl.'/'.$act);
+		$key = strtolower($ctl.'.'.$act);
+		
+		$actions = include_once(APPPATH.'config/action.php');
 		
 		if ( empty($this->auth->user_id) ) {
-			$actions = include_once(APPPATH.'config/action.php');
-			if ( !isset($actions[$key]) ) {
-				return false;
-			}
-			return $actions[$key]['login'] ? false : true;
+			return false;
+		}
+		
+		if ( isset($actions[$key]) and $actions[$key]['login'] === false ) {
+			return true;
 		}
 		
 		$rights = DB::select('content')
@@ -89,16 +90,16 @@ class Controller_Base extends Controller {
 			->where('user_id', '=', $this->auth->user_id)
 			->limit(1)
 			->execute();
-		if ( $rights->count() ) {
+		if ( $rights->count() == 0 ) {
 			return false;
 		}
 		
-		$allow = json_encode($rights->get('content'), true); 
-		if ( !isset($allow[$key]) ) {
+		$allow = explode(',', $rights->get('content'));
+		if ( !in_array($key, $allow) ) {
 			return false;
 		}
 		
-		return $allow[$key]['allow'];
+		return true;
 	}
 	
 	public function generate_left_menu()

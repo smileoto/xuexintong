@@ -113,7 +113,7 @@
 							
 						</div>
 						<div class="btn-box" style="float: left;height: 50px;"  >
-								<button id="btnSubmit" style="margin-top: 10px;margin-left: 100px;">添加</button>
+								<button id="btnSubmit" style="margin-top: 10px;margin-left: 100px;">修改</button>
 							</div>
 						</div>
 					</div>

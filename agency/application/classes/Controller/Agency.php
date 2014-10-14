@@ -35,7 +35,7 @@ class Controller_Agency extends Controller_Base {
 		$data['area']     = intval($this->request->post('area'));
 		$data['city']     = intval($this->request->post('city'));
 		
-		$data['modified_at'] = NULL;
+		$data['modified_at'] = date('Y-m-d H:i:s');
 		
 		try {
 			$rows = DB::update('agencies')

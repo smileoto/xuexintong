@@ -39,16 +39,13 @@
 								<a class="active" href="#">添加动态</a>
 							</div>
 							
-							<form method="post" id="data-form" action="<?php echo URL::base(NULL, true)?>news/save/">
-							<input type="hidden" name="img"  id="img_url" value="" />
-							
 							<ul>
 								<li>
 									<div class="con-name">
 										标&nbsp&nbsp题：
 									</div>
 									<div class="con-info">
-										<input type="text" name="title" />
+										<input type="text" id="show_title" />
 										<i>(字数必须在16个字符内)</i>
 									</div>
 								</li>
@@ -57,18 +54,24 @@
 										发布者：
 									</div>
 									<div class="con-info">
-										<input type="text" name="from" />
+										<input type="text" id="show_from" />
 									</div>
 								</li>
 								<li style="height:30xp; line-height:30px; height:30px">图片上传：</li>
 								<li style="background:#dddddd; width:500px; padding:10px;border:1px dashed #a5a5a5; margin-top:-30px; margin-left:80px;">
 
-									<form id="form_file_upload">
+									<form>
 										<div id="queue"></div>
 										<input id="file_upload" name="file_upload" type="file" multiple="true">
 									</form>
 									<div id="img_container" style="float:left;width:100%"></div>
 								</li>
+								
+								<form method="post" id="data-form" action="<?php echo URL::base(NULL, true)?>news/save/">
+								<input type="hidden" name="img"   id="img_url" value="" />
+								<input type="hidden" name="title" id="title"  value="" />
+								<input type="hidden" name="from"  id="from"   value="" />
+								
 								<li>
 									<div class="con-name">
 										轮播图片：
@@ -79,17 +82,18 @@
 								</li>
 								<li>
 									<div class="table-cell">
-									<textarea name="content"  class="<?php echo $xheditor_config?>"></textarea>
+									<textarea name="content" class="<?php echo $xheditor_config?>"></textarea>
 									</div>
 								</li>
+							
+								</form>
+							
 								<li>
 									<div class="btn-box">
 										<button id="btnSubmit">确定提交</button>
 									</div>
 								</li>
 							</ul>
-							
-							</form>
 							
 						</div>
 					</div>
@@ -116,7 +120,8 @@
 			});
 		
 			$('#btnSubmit').click(function () {
-				$('#form_file_upload').remove();
+				$('#title').val($('#show_title').val());
+				$('#from').val($('#show_from').val());
 				$('#data-form').submit();
 			});
 		});

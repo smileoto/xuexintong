@@ -3,17 +3,17 @@ return array
 (
 	/*
 	'session'   => '登录',
-	'session/index' => array(
+	'session.index' => array(
 		'desc'  => '登录',
 		'login' => false,
 		'show'  => false,
 	),
-	'session/start' => array(
+	'session.start' => array(
 		'desc'  => '验证',
 		'login' => false,
 		'show'  => false,
 	),
-	'session/end' => array(
+	'session.end' => array(
 		'desc'  => '退出',
 		'login' => false,
 		'show'  => false,
@@ -21,59 +21,59 @@ return array
 	*/
 	
 	'agency'    => '机构介绍',
-	'agency/index' => array(
+	'agency.index' => array(
 		'desc'  => '机构信息',
 		'login' => false,
 		'show'  => false,
 	),
-	'agency/save' => array(
+	'agency.save' => array(
 		'desc'  => '修改信息',
 		'login' => true,
 		'show'  => true,
 	),
 	
-	'introduction/index' => array(
+	'introduction.index' => array(
 		'desc'  => '简介',
 		'login' => false,
 		'show'  => false,
 	),
-	'introduction/save' => array(
+	'introduction.save' => array(
 		'desc'  => '修改简介',
 		'login' => true,
 		'show'  => true,
 	),
-	'show/index' => array(
+	'show.index' => array(
 		'desc'  => '展示',
 		'login' => false,
 		'show'  => false,
 	),
-	'show/save' => array(
+	'show.save' => array(
 		'desc'  => '修改展示',
 		'login' => true,
 		'show'  => true,
-		'bind'  => array('show/add','show/edit','show/del'),
+		'bind'  => array('show.add','show.edit','show.del'),
 	),
-	'show/add' => array(
+	'show.add' => array(
 		'desc'  => '添加图片',
 		'login' => true,
 		'show'  => false,
 	),
-	'show/edit' => array(
+	'show.edit' => array(
 		'desc'  => '编辑图片',
 		'login' => true,
 		'show'  => false,
 	),
-	'show/del' => array(
+	'show.del' => array(
 		'desc'  => '删除图片',
 		'login' => true,
 		'show'  => false,
 	),
-	'contact/index' => array(
+	'contact.index' => array(
 		'desc'  => '联系',
 		'login' => false,
 		'show'  => false,
 	),
-	'contact/save' => array(
+	'contact.save' => array(
 		'desc'  => '修改联系',
 		'login' => true,
 		'show'  => true,
@@ -81,12 +81,12 @@ return array
 	
 	
 	'teachers'  => '师资力量',
-	'teachers/index' => array(
+	'teachers.index' => array(
 		'desc'  => '师资力量',
 		'login' => false,
 		'show'  => false,
 	),
-	'teachers/save' => array(
+	'teachers.save' => array(
 		'desc'  => '修改',
 		'login' => true,
 		'show'  => true,
@@ -94,39 +94,39 @@ return array
 	
 	
 	'news'      => '机构动态',
-	'news/list' => array(
+	'news.list' => array(
 		'desc'  => '机构动态',
 		'login' => false,
 		'show'  => false,
 	),
-	'news/add' => array(
+	'news.add' => array(
 		'desc'  => '添加',
 		'login' => true,
 		'show'  => true,
-		'bind'  => array('news/save'),
+		'bind'  => array('news.save'),
 	),
-	'news/edit' => array(
+	'news.edit' => array(
 		'desc'  => '修改',
 		'login' => true,
 		'show'  => true,
-		'bind'  => array('news/save'),
+		'bind'  => array('news.save'),
 	),
-	'news/save' => array(
+	'news.save' => array(
 		'desc'  => '保存',
 		'login' => true,
 		'show'  => false,
 	),
-	'news/del' => array(
+	'news.del' => array(
 		'desc'  => '删除',
 		'login' => true,
 		'show'  => true,
 	),
-	'news/publish' => array(
+	'news.publish' => array(
 		'desc'  => '发布',
 		'login' => true,
 		'show'  => true,
 	),
-	'news/cancel' => array(
+	'news.cancel' => array(
 		'desc'  => '取消发布',
 		'login' => true,
 		'show'  => true,
@@ -134,39 +134,39 @@ return array
 	
 	
 	'dailynews' => '每日讯息',
-	'dailynews/list' => array(
+	'dailynews.list' => array(
 		'desc'  => '每日讯息',
 		'login' => false,
 		'show'  => false,
 	),
-	'dailynews/add' => array(
+	'dailynews.add' => array(
 		'desc'  => '添加',
 		'login' => true,
 		'show'  => true,
-		'bind'  => array('dailynews/save'),
+		'bind'  => array('dailynews.save'),
 	),
-	'dailynews/edit' => array(
+	'dailynews.edit' => array(
 		'desc'  => '修改',
 		'login' => true,
 		'show'  => true,
-		'bind'  => array('dailynews/save'),
+		'bind'  => array('dailynews.save'),
 	),
-	'dailynews/save' => array(
+	'dailynews.save' => array(
 		'desc'  => '保存',
 		'login' => true,
 		'show'  => false,
 	),
-	'dailynews/del' => array(
+	'dailynews.del' => array(
 		'desc'  => '删除',
 		'login' => true,
 		'show'  => true,
 	),
-	'dailynews/publish' => array(
+	'dailynews.publish' => array(
 		'desc'  => '发布',
 		'login' => true,
 		'show'  => true,
 	),
-	'dailynews/cancel' => array(
+	'dailynews.cancel' => array(
 		'desc'  => '取消发布',
 		'login' => true,
 		'show'  => true,
@@ -174,39 +174,39 @@ return array
 	
 	
 	'article'   => '知识分享',
-	'article/list' => array(
+	'article.list' => array(
 		'desc'  => '知识分享',
 		'login' => false,
 		'show'  => false,
 	),
-	'article/add' => array(
+	'article.add' => array(
 		'desc'  => '添加',
 		'login' => true,
 		'show'  => true,
-		'bind'  => array('article/save'),
+		'bind'  => array('article.save'),
 	),
-	'article/edit' => array(
+	'article.edit' => array(
 		'desc'  => '修改',
 		'login' => true,
 		'show'  => true,
-		'bind'  => array('article/save'),
+		'bind'  => array('article.save'),
 	),
-	'article/save' => array(
+	'article.save' => array(
 		'desc'  => '保存',
 		'login' => true,
 		'show'  => false,
 	),
-	'article/del' => array(
+	'article.del' => array(
 		'desc'  => '删除',
 		'login' => true,
 		'show'  => true,
 	),
-	'article/publish' => array(
+	'article.publish' => array(
 		'desc'  => '发布',
 		'login' => true,
 		'show'  => true,
 	),
-	'article/cancel' => array(
+	'article.cancel' => array(
 		'desc'  => '取消发布',
 		'login' => true,
 		'show'  => true,
@@ -214,63 +214,115 @@ return array
 	
 	
 	'class'      => '课程类别',
-	'class/list' => array(
+	'class.list' => array(
 		'desc'  => '课程类别',
 		'login' => false,
 		'show'  => false,
 	),
-	'class/add' => array(
+	'class.add' => array(
 		'desc'  => '添加',
 		'login' => true,
 		'show'  => true,
-		'bind'  => array('class/save'),
+		'bind'  => array('class.save'),
 	),
-	'class/edit' => array(
+	'class.edit' => array(
 		'desc'  => '修改',
 		'login' => true,
 		'show'  => true,
-		'bind'  => array('class/save'),
+		'bind'  => array('class.save'),
 	),
-	'class/save' => array(
+	'class.save' => array(
 		'desc'  => '保存',
 		'login' => true,
 		'show'  => false,
 	),
-	'class/save_detail' => array(
+	'class.save_detail' => array(
 		'desc'  => '修改类别信息',
 		'login' => true,
 		'show'  => true,
 	),
-	'class/del' => array(
+	'class.del' => array(
 		'desc'  => '删除',
 		'login' => true,
 		'show'  => true,
 	),
 	
 	'course'      => '课程班别',
-	'course/list' => array(
+	'course.list' => array(
 		'desc'  => '班别',
 		'login' => false,
 		'show'  => false,
 	),
-	'course/add' => array(
+	'course.add' => array(
 		'desc'  => '添加',
 		'login' => true,
 		'show'  => true,
-		'bind'  => array('course/save'),
+		'bind'  => array('course.save'),
 	),
-	'course/edit' => array(
+	'course.edit' => array(
 		'desc'  => '修改',
 		'login' => true,
 		'show'  => true,
-		'bind'  => array('course/save'),
+		'bind'  => array('course.save'),
 	),
-	'course/save' => array(
+	'course.save' => array(
 		'desc'  => '保存',
 		'login' => true,
 		'show'  => false,
 	),
-	'course/del' => array(
+	'course.del' => array(
+		'desc'  => '删除',
+		'login' => true,
+		'show'  => true,
+	),
+	
+	'feedback'      => '反馈管理',
+	'feedback.list' => array(
+		'desc'  => '列表',
+		'login' => false,
+		'show'  => false,
+	),
+	'feedback.reply' => array(
+		'desc'  => '回复',
+		'login' => true,
+		'show'  => true,
+		'bind'  => array('feedback.save'),
+	),
+	'feedback.save' => array(
+		'desc'  => '保存',
+		'login' => true,
+		'show'  => false,
+	),
+	'feedback.del' => array(
+		'desc'  => '删除',
+		'login' => true,
+		'show'  => true,
+	),
+	
+	'comment'      => '老师评语',
+	'comment.list' => array(
+		'desc'  => '列表',
+		'login' => false,
+		'show'  => false,
+	),
+	'comment.add' => array(
+		'desc'  => '添加',
+		'login' => true,
+		'show'  => true,
+		'bind'  => array('comment.save'),
+	),
+	'comment.edit' => array(
+		'desc'  => '修改',
+		'login' => true,
+		'show'  => true,
+		'bind'  => array('comment.save'),
+	),
+	'comment.save' => array(
+		'desc'  => '保存',
+		'login' => true,
+		'show'  => false,
+	),
+	'comment.del' => array(
 		'desc'  => '删除',
 		'login' => true,
 		'show'  => true,
@@ -278,29 +330,29 @@ return array
 	
 	
 	'entity'      => '分机构',
-	'entity/list' => array(
+	'entity.list' => array(
 		'desc'  => '分机构',
 		'login' => false,
 		'show'  => false,
 	),
-	'entity/add' => array(
+	'entity.add' => array(
 		'desc'  => '添加',
 		'login' => true,
 		'show'  => true,
-		'bind'  => array('entity/save'),
+		'bind'  => array('entity.save'),
 	),
-	'entity/edit' => array(
+	'entity.edit' => array(
 		'desc'  => '修改',
 		'login' => true,
 		'show'  => true,
-		'bind'  => array('entity/save'),
+		'bind'  => array('entity.save'),
 	),
-	'entity/save' => array(
+	'entity.save' => array(
 		'desc'  => '保存',
 		'login' => true,
 		'show'  => false,
 	),
-	'entity/del' => array(
+	'entity.del' => array(
 		'desc'  => '删除',
 		'login' => true,
 		'show'  => true,
@@ -308,29 +360,29 @@ return array
 	
 	
 	'school'      => '学校',
-	'school/list' => array(
+	'school.list' => array(
 		'desc'  => '学校列表',
 		'login' => false,
 		'show'  => false,
 	),
-	'school/add' => array(
+	'school.add' => array(
 		'desc'  => '添加',
 		'login' => true,
 		'show'  => true,
-		'bind'  => array('school/save'),
+		'bind'  => array('school.save'),
 	),
-	'school/edit' => array(
+	'school.edit' => array(
 		'desc'  => '修改',
 		'login' => true,
 		'show'  => true,
-		'bind'  => array('school/save'),
+		'bind'  => array('school.save'),
 	),
-	'school/save' => array(
+	'school.save' => array(
 		'desc'  => '保存',
 		'login' => true,
 		'show'  => false,
 	),
-	'school/del' => array(
+	'school.del' => array(
 		'desc'  => '删除',
 		'login' => true,
 		'show'  => true,
@@ -338,29 +390,29 @@ return array
 	
 	
 	'grade'      => '年级',
-	'grade/list' => array(
+	'grade.list' => array(
 		'desc'  => '年级列表',
 		'login' => false,
 		'show'  => false,
 	),
-	'grade/add' => array(
+	'grade.add' => array(
 		'desc'  => '添加',
 		'login' => true,
 		'show'  => true,
-		'bind'  => array('grade/save'),
+		'bind'  => array('grade.save'),
 	),
-	'grade/edit' => array(
+	'grade.edit' => array(
 		'desc'  => '修改',
 		'login' => true,
 		'show'  => true,
-		'bind'  => array('grade/save'),
+		'bind'  => array('grade.save'),
 	),
-	'grade/save' => array(
+	'grade.save' => array(
 		'desc'  => '保存',
 		'login' => true,
 		'show'  => false,
 	),
-	'grade/del' => array(
+	'grade.del' => array(
 		'desc'  => '删除',
 		'login' => true,
 		'show'  => true,
@@ -368,49 +420,49 @@ return array
 	
 	
 	'student'      => '学生',
-	'student/list' => array(
+	'student.list' => array(
 		'desc'  => '学生列表',
 		'login' => false,
 		'show'  => false,
 	),
-	'student/select' => array(
+	'student.select' => array(
 		'desc'  => '选择学生',
 		'login' => false,
 		'show'  => false,
 	),
-	'student/search' => array(
+	'student.search' => array(
 		'desc'  => '查找学生',
 		'login' => false,
 		'show'  => false,
 	),
-	'student/add' => array(
+	'student.add' => array(
 		'desc'  => '添加',
 		'login' => true,
 		'show'  => true,
-		'bind'  => array('student/save'),
+		'bind'  => array('student.save'),
 	),
-	'student/edit' => array(
+	'student.edit' => array(
 		'desc'  => '修改',
 		'login' => true,
 		'show'  => true,
-		'bind'  => array('student/save'),
+		'bind'  => array('student.save'),
 	),
-	'student/save' => array(
+	'student.save' => array(
 		'desc'  => '保存',
 		'login' => true,
 		'show'  => false,
 	),
-	'student/del' => array(
+	'student.del' => array(
 		'desc'  => '删除',
 		'login' => true,
 		'show'  => true,
 	),
-	'student/notify' => array(
+	'student.notify' => array(
 		'desc'  => '通知',
 		'login' => true,
 		'show'  => true,
 	),
-	'student/sms' => array(
+	'student.sms' => array(
 		'desc'  => '发短信',
 		'login' => true,
 		'show'  => true,
@@ -418,23 +470,23 @@ return array
 	
 	
 	'guest'      => '申请列表',
-	'guest/list' => array(
+	'guest.list' => array(
 		'desc'  => '申请列表',
 		'login' => false,
 		'show'  => false,
 	),
-	'guest/audit' => array(
+	'guest.audit' => array(
 		'desc'  => '审核',
 		'login' => true,
 		'show'  => true,
-		'bind'  => array('guest/save'),
+		'bind'  => array('guest.save'),
 	),
-	'guest/save' => array(
+	'guest.save' => array(
 		'desc'  => '审核',
 		'login' => true,
 		'show'  => false,
 	),
-	'guest/del' => array(
+	'guest.del' => array(
 		'desc'  => '删除',
 		'login' => true,
 		'show'  => true,
@@ -442,39 +494,39 @@ return array
 	
 	
 	'task'      => '学生作业',
-	'task/list' => array(
+	'task.list' => array(
 		'desc'  => '作业列表',
 		'login' => false,
 		'show'  => false,
 	),
-	'task/add' => array(
+	'task.add' => array(
 		'desc'  => '添加',
 		'login' => true,
 		'show'  => true,
-		'bind'  => array('task/save'),
+		'bind'  => array('task.save'),
 	),
-	'task/edit' => array(
+	'task.edit' => array(
 		'desc'  => '修改',
 		'login' => true,
 		'show'  => true,
-		'bind'  => array('task/save'),
+		'bind'  => array('task.save'),
 	),
-	'task/save' => array(
+	'task.save' => array(
 		'desc'  => '保存',
 		'login' => true,
 		'show'  => false,
 	),
-	'task/del' => array(
+	'task.del' => array(
 		'desc'  => '删除',
 		'login' => true,
 		'show'  => true,
 	),
-	'task/publish' => array(
+	'task.publish' => array(
 		'desc'  => '发布',
 		'login' => true,
 		'show'  => true,
 	),
-	'task/cancel' => array(
+	'task.cancel' => array(
 		'desc'  => '取消发布',
 		'login' => true,
 		'show'  => true,
@@ -482,39 +534,39 @@ return array
 	
 	
 	'works'      => '学生作品',
-	'works/list' => array(
+	'works.list' => array(
 		'desc'  => '作品列表',
 		'login' => false,
 		'show'  => false,
 	),
-	'works/add' => array(
+	'works.add' => array(
 		'desc'  => '添加',
 		'login' => true,
 		'show'  => true,
-		'bind'  => array('works/save'),
+		'bind'  => array('works.save'),
 	),
-	'works/edit' => array(
+	'works.edit' => array(
 		'desc'  => '修改',
 		'login' => true,
 		'show'  => true,
-		'bind'  => array('works/save'),
+		'bind'  => array('works.save'),
 	),
-	'works/save' => array(
+	'works.save' => array(
 		'desc'  => '保存',
 		'login' => true,
 		'show'  => false,
 	),
-	'works/del' => array(
+	'works.del' => array(
 		'desc'  => '删除',
 		'login' => true,
 		'show'  => true,
 	),
-	'works/publish' => array(
+	'works.publish' => array(
 		'desc'  => '发布',
 		'login' => true,
 		'show'  => true,
 	),
-	'works/cancel' => array(
+	'works.cancel' => array(
 		'desc'  => '取消发布',
 		'login' => true,
 		'show'  => true,
@@ -522,39 +574,39 @@ return array
 	
 	
 	'top'      => '菁英榜',
-	'top/list' => array(
+	'top.list' => array(
 		'desc'  => '菁英榜',
 		'login' => false,
 		'show'  => false,
 	),
-	'top/add' => array(
+	'top.add' => array(
 		'desc'  => '添加',
 		'login' => true,
 		'show'  => true,
-		'bind'  => array('top/save', 'top/del_student'),
+		'bind'  => array('top.save', 'top.del_student'),
 	),
-	'top/edit' => array(
+	'top.edit' => array(
 		'desc'  => '修改',
 		'login' => true,
 		'show'  => true,
-		'bind'  => array('top/save', 'top/del_student'),
+		'bind'  => array('top.save', 'top.del_student'),
 	),
-	'top/save' => array(
+	'top.save' => array(
 		'desc'  => '保存',
 		'login' => true,
 		'show'  => false,
 	),
-	'top/del' => array(
+	'top.del' => array(
 		'desc'  => '删除',
 		'login' => true,
 		'show'  => true,
 	),
-	'top/publish' => array(
+	'top.publish' => array(
 		'desc'  => '发布',
 		'login' => true,
 		'show'  => true,
 	),
-	'top/cancel' => array(
+	'top.cancel' => array(
 		'desc'  => '取消发布',
 		'login' => true,
 		'show'  => true,
@@ -562,39 +614,39 @@ return array
 	
 	
 	'report'      => '学生成绩',
-	'report/list' => array(
+	'report.list' => array(
 		'desc'  => '学生成绩',
 		'login' => false,
 		'show'  => false,
 	),
-	'report/add' => array(
+	'report.add' => array(
 		'desc'  => '添加',
 		'login' => true,
 		'show'  => true,
-		'bind'  => array('report/save'),
+		'bind'  => array('report.save'),
 	),
-	'report/edit' => array(
+	'report.edit' => array(
 		'desc'  => '修改',
 		'login' => true,
 		'show'  => true,
-		'bind'  => array('report/save'),
+		'bind'  => array('report.save'),
 	),
-	'report/save' => array(
+	'report.save' => array(
 		'desc'  => '保存',
 		'login' => true,
 		'show'  => false,
 	),
-	'report/del' => array(
+	'report.del' => array(
 		'desc'  => '删除',
 		'login' => true,
 		'show'  => true,
 	),
-	'report/publish' => array(
+	'report.publish' => array(
 		'desc'  => '发布',
 		'login' => true,
 		'show'  => true,
 	),
-	'report/cancel' => array(
+	'report.cancel' => array(
 		'desc'  => '取消发布',
 		'login' => true,
 		'show'  => true,
@@ -602,28 +654,28 @@ return array
 	
 	
 	'signup'      => '报名管理',
-	'signup/list' => array(
+	'signup.list' => array(
 		'desc'  => '报名管理',
 		'login' => false,
 		'show'  => false,
 	),
-	'signup/publish' => array(
+	'signup.publish' => array(
 		'desc'  => '发布',
 		'login' => true,
 		'show'  => true,
 	),
-	'signup/cancel' => array(
+	'signup.cancel' => array(
 		'desc'  => '取消',
 		'login' => true,
 		'show'  => true,
 	),
-	'signup/explain' => array(
+	'signup.explain' => array(
 		'desc'  => '修改内容',
 		'login' => true,
 		'show'  => true,
-		'bind'  => array('report/save'),
+		'bind'  => array('report.save'),
 	),
-	'signup/save' => array(
+	'signup.save' => array(
 		'desc'  => '详情',
 		'login' => true,
 		'show'  => false,
@@ -631,32 +683,37 @@ return array
 	
 	
 	'user'      => '用户权限',
-	'user/list' => array(
+	'user.list' => array(
 		'desc'  => '用户列表',
 		'login' => false,
 		'show'  => false,
 	),
-	'user/add' => array(
+	'user.add' => array(
 		'desc'  => '添加',
 		'login' => true,
 		'show'  => true,
-		'bind'  => array('user/save'),
+		'bind'  => array('user.save'),
 	),
-	'user/edit' => array(
+	'user.edit' => array(
 		'desc'  => '修改',
 		'login' => true,
 		'show'  => true,
-		'bind'  => array('user/save'),
+		'bind'  => array('user.save'),
 	),
-	'user/save' => array(
+	'user.save' => array(
 		'desc'  => '保存',
 		'login' => true,
 		'show'  => false,
 	),
-	'user/del' => array(
+	'user.del' => array(
 		'desc'  => '删除',
 		'login' => true,
 		'show'  => true,
+	),
+	'user.deny' => array(
+		'desc'  => '权限限制',
+		'login' => false,
+		'show'  => false,
 	),
 	
 );
