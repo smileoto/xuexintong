@@ -41,8 +41,8 @@ class Controller_User extends Controller_Base {
 			HTTP::redirect('user/list');
 		}
 		
-		$result = DB::select('content')->from('user_rights')->where('user_id', '=', $id)->execute()->as_array();
-		$user_rights = json_encode($result, true);
+		$result = DB::select('content')->from('user_rights')->where('user_id', '=', $id)->execute();
+		$user_rights = json_encode($result->get('content'), true);
 		
 		$actions = include_once(APPPATH.'config/action.php');
 		$page = View::factory('user/edit')

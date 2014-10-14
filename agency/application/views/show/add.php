@@ -85,7 +85,7 @@
 					'timestamp' : '<?php echo $timestamp;?>',
 					'token'     : '<?php echo md5("unique_salt" . $timestamp);?>'
 				},
-				'swf'      : 'http://www.gdjxsh.com/200/uploadify.swf',
+				'swf'      : '<?PHP echo URL::base()?>swf/uploadify.swf',
 				'uploader' : '<?PHP echo URL::base()?>uploadify.php',
 				onUploadSuccess : function(file, data, response) {
 					var img = upload_dir + '/' + file.name;

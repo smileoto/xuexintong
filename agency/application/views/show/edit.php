@@ -29,7 +29,7 @@
 					<?php echo $html_head_content?>
 				</div>
 				<div class="content">
-					<div class="sidebar" id="sidebar">						
+					<div class="sidebar" id="sidebar">
 						<?php echo $html_left_content?>
 					</div>
 					<div class="content-box">
@@ -90,9 +90,9 @@
 			$('#file_upload').uploadify({
 				'formData'     : {
 					'timestamp' : '<?php echo $timestamp;?>',
-					'token'     : '<?php echo md5('unique_salt' . $timestamp);?>'
+					'token'     : '<?php echo md5("unique_salt" . $timestamp);?>'
 				},
-				'swf'      : 'http://www.gdjxsh.com/200/uploadify.swf',
+				'swf'      : '<?PHP echo URL::base()?>swf/uploadify.swf',
 				'uploader' : '<?PHP echo URL::base("http",false)?>uploadify.php;jsessionid=<?php echo $session_id?>',
 				onUploadSuccess : function(file, data, response) {
 					var img = upload_dir + '/' + file.name;
