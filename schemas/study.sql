@@ -14,7 +14,7 @@ CREATE TABLE tasks
 	created_at  DATETIME NOT NULL DEFAULT 0,
 	modified_at DATETIME NOT NULL DEFAULT 0,
 	title       VARCHAR(255) NOT NULL DEFAULT '',
-	date_str    VARCHAR(255) NOT NULL DEFAULT 0,
+	date_str    VARCHAR(50)  NOT NULL DEFAULT '',
 	content text,
 	KEY agency_id(agency_id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -43,6 +43,7 @@ CREATE TABLE works
 	status      INT NOT NULL DEFAULT 0,
 	agency_id   INT NOT NULL DEFAULT 0,
 	student_id  INT NOT NULL DEFAULT 0,
+	read_count  INT NOT NULL DEFAULT 0,
 	created_by  INT NOT NULL DEFAULT 0,
 	modified_by INT NOT NULL DEFAULT 0,
 	created_at  DATETIME NOT NULL DEFAULT 0,

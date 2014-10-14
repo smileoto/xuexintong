@@ -14,7 +14,7 @@ class Controller_Top extends Controller_Auth {
 				->limit(1)
 				->execute();
 			
-			$items = $items->count() ? $items->as_array() : array('id'=>0);
+			$items = $items->count() ? $items->as_array() : array(array('id'=>0));
 			$item  = $items[0];
 			
 			$students = DB::select('tops_students.*','students.*',array('schools.name', 'school'),array('grades.name', 'grade'))

@@ -13,7 +13,7 @@ class Controller_Works extends Controller_Auth {
 				->on('students.id', '=', 'students_courses.student_id')
 				->join('courses')
 				->on('students_courses.course_id', '=', 'courses.id')
-				->where('works.agency_id', '=', $this->agency->get('agency_id'))
+				->where('works.agency_id', '=', $this->auth->agency_id)
 				->where('works.status', '=', STATUS_NORMAL)
 				->order_by('works.id', 'DESC')
 				->offset($this->pagenav->page)
@@ -22,8 +22,8 @@ class Controller_Works extends Controller_Auth {
 				->as_array();
 			
 			$page = View::factory('works/list')
-				->set('item', $items)
-				->set('page', $this->pagenav->page);
+				->set('items', $items)
+				->set('page',  $this->pagenav->page);
 			$this->output($page);
 			
 		} catch (Database_Exception $e) {
@@ -44,7 +44,7 @@ class Controller_Works extends Controller_Auth {
 				->on('students.school_id', '=', 'schools.id')
 				->join('grades',  'LEFT')
 				->on('students.grade_id', '=', 'grades.id')
-				->where('works.agency_id', '=', $this->agency->get('agency_id'))
+				->where('works.agency_id', '=', $this->auth->agency_id)
 				->where('works.id', '=',  $id)
 				->limit(1)
 				->execute()
@@ -52,10 +52,17 @@ class Controller_Works extends Controller_Auth {
 			if ( empty($items) ) {
 				HTTP::redirect('works/list');
 			}
+		
+			DB::update('works')
+				->set( array( 'read_count' => $items[0]['read_count']+1 ) )
+				->where('agency_id', '=', $this->auth->agency_id)
+				->where('id', '=', $id)
+				->execute();
 			
 			$page = View::factory('works/detail')
 				->set('item', $items[0]);
 			$this->output($page);
+			
 		} catch (Database_Exception $e) {
 			$this->response->body($e->getMessage());
 		}
