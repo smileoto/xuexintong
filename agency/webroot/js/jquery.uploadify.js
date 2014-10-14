@@ -103,8 +103,8 @@ Released under the MIT License <http://www.opensource.org/licenses/mit-license.p
 					auto            : true,               // Automatically upload files when added to the queue
 					buttonClass     : '',                 // A class name to add to the browse button DOM object
 					buttonCursor    : 'hand',             // The cursor to use with the browse button
-					buttonImage     : null,               // (String or null) The path to an image to use for the Flash browse button if not using CSS to style the button
-					buttonText      : '浏览文件',     // The text to use for the browse button
+					buttonImage     : selectfiles.png,               // (String or null) The path to an image to use for the Flash browse button if not using CSS to style the button
+					buttonText      : 'SELECT FILES0000',     // The text to use for the browse button
 					checkExisting   : false,              // The path to a server-side script that checks for existing files on the server
 					debug           : false,              // Turn on swfUpload debugging mode
 					fileObjName     : 'Filedata',         // The name of the file object to use in your server-side script
