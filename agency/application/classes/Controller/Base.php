@@ -49,6 +49,10 @@ class Controller_Base extends Controller {
 		if ( $this->auth->role_id == AGENCY_ADMIN or $this->request->controller() == 'Session' ) {
 			return true;
 		}
+		
+		if ( $this->check_user_permission() ) {
+			return true;
+		}
 
 		if ( $this->request->is_ajax() ) {
 			$this->ajax_result['ret'] = ERR_NOT_LOGIN;
@@ -64,6 +68,37 @@ class Controller_Base extends Controller {
 				echo 'permission deny';exit;
 			}
 		}
+	}
+	
+	public function check_user_permission()
+	{
+		$ctl = $this->request->controller();
+		$act = $this->request->action();
+		$key = strtolower($ctl.'/'.$act);
+		
+		if ( empty($this->auth->user_id) ) {
+			$actions = include_once(APPPATH.'config/action.php');
+			if ( !isset($actions[$key] ) {
+				return false;
+			}
+			return $actions[$key]['login'] ? false : true;
+		}
+		
+		$rights = DB::select('content')
+			->from('user_rights')
+			->where('user_id', '=', $this->auth->user_id)
+			->limit(1)
+			->execute();
+		if ( $rights->count() ) {
+			return false;
+		}
+		
+		$allow = json_encode($rights->get('content'), true); 
+		if ( !isset($allow[$key] ) {
+			return false;
+		}
+		
+		return $allow[$key]['allow'];
 	}
 	
 	public function generate_left_menu()
@@ -96,26 +131,6 @@ class Controller_Base extends Controller {
 		$page->set('xheditor_config', $xheditor);
 		$page->render();
 		$this->response->body($page);
-	}
-	
-	public function save_to_bcs($filepath)
-	{
-		require_once APPPATH.'../lib/bcs/bcs.class.php';
-		
-		$baiduBCS = new BaiduBCS ( BCS_AK, BCS_SK, BCS_HOST );
-		$ext = strtolower(pathinfo($filepath, PATHINFO_EXTENSION));
-		$object =  '/images/'.date('Ymd').'_'. uniqid().'.'.$ext;
-		$response = @$baiduBCS->create_object( BCS_BUCKET, $object, $filepath );
-		$url = '';
-		if ( $response->isOK() ) {
-			$opt = array ();
-			$opt["time"] = time() + 3600;
-			$url = $baiduBCS->generate_get_object_url( BCS_BUCKET, $object, $opt );
-		}
-		
-		@unlink($filepath);
-		
-		return $url;
 	}
 	
 	public function entities() 

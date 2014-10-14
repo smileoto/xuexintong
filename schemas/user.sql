@@ -131,4 +131,11 @@ CREATE TABLE student_valid
 	UNIQUE code(code)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE user_rights
+(
+	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	user_id  INT NOT NULL DEFAULT 0,
+	content  TEXT
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 INSERT INTO users(agency_id,role_id,username,password) VALUES(1, 4, 'admin', 'e10adc3949ba59abbe56e057f20f883e');

@@ -20,7 +20,7 @@ class Controller_User extends Controller_Base {
 	
 	public function action_add()
 	{
-		$actions = include(APPPATH.'config/action.php')
+		$actions = include_once(APPPATH.'config/action.php');
 		$page = View::factory('user/add')
 			->set('actions', $actions);
 		$this->output($page, 'users');
@@ -41,16 +41,13 @@ class Controller_User extends Controller_Base {
 			HTTP::redirect('user/list');
 		}
 		
-		$result = DB::select('name')->from('users_actions')->where('user_id', '=', $id)->execute()->as_array();
-		$users_actions = array();
-		foreach ($result as $v) {
-			$users_actions[$v['name']] = $v['allow'];
-		}
+		$result = DB::select('content')->from('user_rights')->where('user_id', '=', $id)->execute()->as_array();
+		$user_rights = json_encode($result, true);
 		
-		$actions = include(APPPATH.'config/action.php')
+		$actions = include_once(APPPATH.'config/action.php');
 		$page = View::factory('user/edit')
 			->set('item', $items[0])
-			->set('users_actions', $users_actions)
+			->set('user_rights', $user_rights)
 			->set('actions', $actions);
 		$this->output($page, 'users');
 	}
@@ -83,7 +80,7 @@ class Controller_User extends Controller_Base {
 		$data['modified_at'] = date('Y-m-d');
 		$data['modified_by'] = $this->auth->user_id;
 		
-		$users_actions = $this->request->post('users_actions');
+		$user_rights = $this->request->post('user_rights');
 		
 		$id  = intval($this->request->post('id'));
 		try {
@@ -102,20 +99,18 @@ class Controller_User extends Controller_Base {
 					->execute();
 			}
 			
-			DB::delete('users_actions')
+			if ( empty($user_rights) ) {
+				$user_rights = array();
+			}
+			
+			$rows = DB::update('user_rights')
+				->set( array( 'content' => json_encode($user_rights) ) )
 				->where('user_id', '=', $id)
 				->execute();
-			
-			if ( $users_actions ) {
-				$data = array('user_id' => $user_id, 'name' => '', 'allow' => 0);
-				$insert = DB::insert('users_actions', array_keys($data));
-				foreach ( $users_actions as $name ) {
-					$data['user_id'] = $user_id;
-					$data['name']    = $name;
-					$data['allow']   = 1;
-					$insert->values($data);
-				}
-				$insert->execute();
+			if ( empty($rows) ) {
+				DB::insert('user_rights', array('user_id', 'content'))
+					->values( array( 'user_id' => $id, 'content' => json_encode($user_rights) ) )
+					->execute();
 			}
 			
 			HTTP::redirect('/user/list/');
@@ -131,10 +126,12 @@ class Controller_User extends Controller_Base {
 		
 		try {
 			$data = array();
-			$data['status']   = STATUS_DELETED;
+			$data['status']      = STATUS_DELETED;
 			$data['modified_at'] = date('Y-m-d H:i:s');
 			DB::update('users')
 				->set($data)
+				->where('agency_id', '=', $this->auth->agency_id)
+				->where('user_id', '=', $id)
 				->execute();
 			HTTP::redirect('/user/list/');
 		} catch (Database_Exception $e) {
