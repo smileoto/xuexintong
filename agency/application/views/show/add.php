@@ -40,35 +40,33 @@
 								<a class="active" href="#">展示-添加</a>
 								<a href="<?php echo URL::base(NULL, TRUE)?>contact">联系</a>
 							</div>
-							
-							<form method="post" id="data-form" action="<?php echo URL::base(NULL, true)?>show/save/">
-								<input type="hidden" name="url" id="img_url" value="" />
-								
-								<ul>
-									<li>
-										<div class="con-name">
-											标题：
-										</div>
-										<div class="con-info">
-											<input type="text" name="title" id="title"/>
-										</div>
-									</li>
-                                    <li style="height:30xp; line-height:30px; height:30px">图片上传：</li>
-                                    <li style="background:#dddddd; width:500px; padding:10px;border:1px dashed #a5a5a5; margin-top:-30px; margin-left:80px;">
-										<form id="form_file_upload">
-                                            <div id="queue"></div>
-											<input id="file_upload" name="file_upload" type="file" multiple="true">
-										</form>
-                                		<div id="img_container" style="float:left;width:100%"></div>
-                                    </li>
-                                    <li>
-										<div class="btn-box">
-											<button style="margin-left: 10%;margin-top: 50px;float: left;" id="btnSubmit">确定提交</button>
-										</div>
-                                    </li>
-								</ul>
-								
-							</form>
+
+							<ul>
+								<li>
+									<form method="post" id="data-form" action="<?php echo URL::base(NULL, true)?>show/save/">
+									<input type="hidden" name="url" id="img_url" value="" />
+									<div class="con-name">
+										标题：
+									</div>
+									<div class="con-info">
+										<input type="text" name="title" id="title"/>
+									</div>
+									</form>
+								</li>
+                                <li style="height:30xp; line-height:30px; height:30px">图片上传：</li>
+                                <li style="background:#dddddd; width:500px; padding:10px;border:1px dashed #a5a5a5; margin-top:-30px; margin-left:80px;">
+									<form>
+                                        <div id="queue"></div>
+										<input id="file_upload" name="file_upload" type="file" multiple="true">
+									</form>
+                            		<div id="img_container" style="float:left;width:100%"></div>
+                                </li>
+                                <li>
+									<div class="btn-box">
+										<button style="margin-left: 10%;margin-top: 50px;float: left;" id="btnSubmit">确定提交</button>
+									</div>
+                                </li>
+							</ul>
 								
 						</div>
 					</div>
@@ -98,7 +96,6 @@
 			});
 		
 			$('#btnSubmit').click(function () {
-				$('#form_file_upload').remove();
 				$('#data-form').submit();
 			});
 		});

@@ -40,23 +40,23 @@
 								<a class="active" href="#">展示-添加</a>
 								<a href="<?php echo URL::base(NULL, TRUE)?>contact">联系</a>
 							</div>
-							
-							<form method="post" id="data-form" action="<?php echo URL::base(NULL, true)?>show/save/">
-								<input type="hidden" name="id"  value="<?php echo $item['id']?>" >
-								<input type="hidden" name="url" id="img_url" value="<?php echo $item['url']?>" />
-								
+	
 								<ul>
 									<li>
+										<form method="post" id="data-form" action="<?php echo URL::base(NULL, true)?>show/save/">
+										<input type="hidden" name="id"  value="<?php echo $item['id']?>" >
+										<input type="hidden" name="url" id="img_url" value="<?php echo $item['url']?>" />
 										<div class="con-name">
 											标题：
 										</div>
 										<div class="con-info">
 											<input type="text" name="title" id="title" value="<?php echo $item['title']?>"/>
 										</div>
+										</form>
 									</li>
                                     <li style="height:30xp; line-height:30px; height:30px">图片上传：</li>
                                     <li style="background:#dddddd; width:500px; padding:10px;border:1px dashed #a5a5a5; margin-top:-30px; margin-left:80px;">
-										<form id="form_file_upload">
+										<form>
                                             <div id="queue"></div>
 											<input id="file_upload" name="file_upload" type="file" multiple="true">
 										</form>
@@ -75,7 +75,6 @@
                                     </li>
 								</ul>
 								
-							</form>
 								
 						</div>
 					</div>
@@ -102,7 +101,6 @@
 			});
 		
 			$('#btnSubmit').click(function () {
-				$('#form_file_upload').remove();
 				$('#data-form').submit();
 			});
 		});
