@@ -5,11 +5,13 @@ Copyright (c) 2012 Reactive Apps, Ronnie Garcia
 Released under the MIT License <http://www.opensource.org/licenses/mit-license.php> 
 */
 
+$sid = strval($_GET['sid']);
+session_id($sid);
 session_start();
 
 // Define a destination
 $targetFolder = $_SESSION['upload_dir']; // Relative to the root
-echo $targetFolder;exit;
+
 $verifyToken = md5('unique_salt' . $_POST['timestamp']);
 
 if (!empty($_FILES) && $_POST['token'] == $verifyToken) {

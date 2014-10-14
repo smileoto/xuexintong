@@ -20,6 +20,12 @@ return array
 	),
 	*/
 	
+	'upload.index' => array(
+		'desc'  => '上传图片',
+		'login' => false,
+		'show'  => false,
+	),
+	
 	'agency'    => '机构介绍',
 	'agency.index' => array(
 		'desc'  => '机构信息',

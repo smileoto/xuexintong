@@ -84,7 +84,7 @@
 					'token'     : '<?php echo md5("unique_salt" . $timestamp);?>'
 				},
 				'swf'      : '<?PHP echo URL::base()?>swf/uploadify.swf',
-				'uploader' : '<?PHP echo URL::base()?>uploadify.php',
+				'uploader' : '<?PHP echo URL::base()?>uploadify.php?sid=<?php echo $session_id?>',
 				onError : function (errorType) {
 					alert('The error was: ' + errorType);
 				},

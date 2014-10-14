@@ -111,7 +111,7 @@
 					'token'     : '<?php echo md5("unique_salt" . $timestamp);?>'
 				},
 				'swf'      : '<?PHP echo URL::base()?>swf/uploadify.swf',
-				'uploader' : '<?PHP echo URL::base("http",false)?>uploadify.php;jsessionid=<?php echo $session_id?>',
+				'uploader' : '<?PHP echo URL::base()?>uploadify.php?sid=<?php echo $session_id?>',
 				'onUploadSuccess' : function(file, data, response) {
 					var img = upload_dir + '/' + file.name;
 					$('#img_container').html('<img src="' + img + '" width="150">');
