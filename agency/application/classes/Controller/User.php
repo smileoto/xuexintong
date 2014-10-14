@@ -55,42 +55,64 @@ class Controller_User extends Controller_Base {
 	public function action_save()
 	{
 		$data = array();
-		$data['username'] = strval($this->request->post('username'));
-		
-		$items = DB::select('*')
-			->from('users')
-			->where('agency_id', '=', $this->auth->agency_id)
-			->where('username', '=', $data['username'])
-			->limit(1)
-			->execute()
-			->as_array();
-		if ( count($items) ) {
-			$this->ajax_result['ret'] = ERR_DB_INSERT;
-			$this->ajax_result['msg'] = '用户名重复';
-			return;
-		}
-		
+		$data['username'] = $this->request->post('username');
 		$data['password'] = md5(strval($this->request->post('password')));
 		$data['realname'] = strval($this->request->post('realname'));
 		$data['nickname'] = strval($this->request->post('nickname'));
 		$data['mobile']   = strval($this->request->post('mobile'));
-		$data['mail']     = strval($this->request->post('mail'));
+		$data['email']    = strval($this->request->post('email'));
 		$data['remark']   = strval($this->request->post('remark'));
 		
 		$data['modified_at'] = date('Y-m-d');
 		$data['modified_by'] = $this->auth->user_id;
 		
-		$user_rights = $this->request->post('user_rights');
+		$user_rights = array();
+		$rights = $this->request->post('user_rights');
+		$actions = include_once(APPPATH.'config/action.php');
+		foreach ($rights as $key) {
+			if ( !isset($actions[$key]) ) {
+				continue;
+			}
+			
+			if ( isset($actions[$key]['bind']) ) {
+				foreach ($actions[$key]['bind'] as $act) {
+					$user_rights[$act] = 1;
+				}
+			} else {
+				$user_rights[$key] = 1;
+			}
+		}
 		
 		$id  = intval($this->request->post('id'));
 		try {
 			if ( $id ) {
+				$items = DB::select('id')
+					->from('users')
+					->where('agency_id', '=', $this->auth->agency_id)
+					->where('username',  '=', $data['username'])
+					->where('id', '<>', $id)
+					->limit(1)
+					->execute();
+				if ( $items->count() ) {
+					HTTP::redirect('/user/edit/?id='.$id);
+				}
+			
 				DB::update('users')
 					->set($data)
 					->where('agency_id', '=', $this->auth->agency_id)
 					->where('id', '=', $id)
 					->execute();
 			} else {
+				$items = DB::select('id')
+					->from('users')
+					->where('agency_id', '=', $this->auth->agency_id)
+					->where('username', '=', $data['username'])
+					->limit(1)
+					->execute();
+				if ( $items->count() ) {
+					HTTP::redirect('/user/add/');
+				}
+			
 				$data['created_at'] = date('Y-m-d');
 				$data['created_by'] = $this->auth->user_id;
 				$data['agency_id']  = $this->auth->agency_id;

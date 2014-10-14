@@ -1,6 +1,8 @@
 <?php
 return array
 (
+	/*
+	'session'   => '登录',
 	'session/index' => array(
 		'desc'  => '登录',
 		'login' => false,
@@ -16,14 +18,16 @@ return array
 		'login' => false,
 		'show'  => false,
 	),
+	*/
 	
+	'agency'    => '机构介绍',
 	'agency/index' => array(
 		'desc'  => '机构信息',
 		'login' => false,
 		'show'  => false,
 	),
 	'agency/save' => array(
-		'desc'  => '修改',
+		'desc'  => '修改信息',
 		'login' => true,
 		'show'  => true,
 	),
@@ -34,7 +38,7 @@ return array
 		'show'  => false,
 	),
 	'introduction/save' => array(
-		'desc'  => '修改',
+		'desc'  => '修改简介',
 		'login' => true,
 		'show'  => true,
 	),
@@ -44,9 +48,25 @@ return array
 		'show'  => false,
 	),
 	'show/save' => array(
-		'desc'  => '修改',
+		'desc'  => '修改展示',
 		'login' => true,
 		'show'  => true,
+		'bind'  => array('show/add','show/edit','show/del'),
+	),
+	'show/add' => array(
+		'desc'  => '添加图片',
+		'login' => true,
+		'show'  => false,
+	),
+	'show/edit' => array(
+		'desc'  => '编辑图片',
+		'login' => true,
+		'show'  => false,
+	),
+	'show/del' => array(
+		'desc'  => '删除图片',
+		'login' => true,
+		'show'  => false,
 	),
 	'contact/index' => array(
 		'desc'  => '联系',
@@ -54,10 +74,13 @@ return array
 		'show'  => false,
 	),
 	'contact/save' => array(
-		'desc'  => '修改',
+		'desc'  => '修改联系',
 		'login' => true,
 		'show'  => true,
 	),
+	
+	
+	'teachers'  => '师资力量',
 	'teachers/index' => array(
 		'desc'  => '师资力量',
 		'login' => false,
@@ -68,7 +91,9 @@ return array
 		'login' => true,
 		'show'  => true,
 	),
-		
+	
+	
+	'news'      => '机构动态',
 	'news/list' => array(
 		'desc'  => '机构动态',
 		'login' => false,
@@ -106,7 +131,9 @@ return array
 		'login' => true,
 		'show'  => true,
 	),
-		
+	
+	
+	'dailynews' => '每日讯息',
 	'dailynews/list' => array(
 		'desc'  => '每日讯息',
 		'login' => false,
@@ -144,7 +171,9 @@ return array
 		'login' => true,
 		'show'  => true,
 	),
-		
+	
+	
+	'article'   => '知识分享',
 	'article/list' => array(
 		'desc'  => '知识分享',
 		'login' => false,
@@ -182,7 +211,9 @@ return array
 		'login' => true,
 		'show'  => true,
 	),
-		
+	
+	
+	'class'      => '课程类别',
 	'class/list' => array(
 		'desc'  => '课程类别',
 		'login' => false,
@@ -215,9 +246,10 @@ return array
 		'login' => true,
 		'show'  => true,
 	),
-		
+	
+	'course'      => '课程班别',
 	'course/list' => array(
-		'desc'  => '课程',
+		'desc'  => '班别',
 		'login' => false,
 		'show'  => false,
 	),
@@ -243,7 +275,9 @@ return array
 		'login' => true,
 		'show'  => true,
 	),
-		
+	
+	
+	'entity'      => '分机构',
 	'entity/list' => array(
 		'desc'  => '分机构',
 		'login' => false,
@@ -271,9 +305,11 @@ return array
 		'login' => true,
 		'show'  => true,
 	),
-		
+	
+	
+	'school'      => '学校',
 	'school/list' => array(
-		'desc'  => '学校',
+		'desc'  => '学校列表',
 		'login' => false,
 		'show'  => false,
 	),
@@ -299,9 +335,11 @@ return array
 		'login' => true,
 		'show'  => true,
 	),
-		
+	
+	
+	'grade'      => '年级',
 	'grade/list' => array(
-		'desc'  => '年级',
+		'desc'  => '年级列表',
 		'login' => false,
 		'show'  => false,
 	),
@@ -327,9 +365,11 @@ return array
 		'login' => true,
 		'show'  => true,
 	),
-		
+	
+	
+	'student'      => '学生',
 	'student/list' => array(
-		'desc'  => '学生',
+		'desc'  => '学生列表',
 		'login' => false,
 		'show'  => false,
 	),
@@ -375,7 +415,9 @@ return array
 		'login' => true,
 		'show'  => true,
 	),
-		
+	
+	
+	'guest'      => '申请列表',
 	'guest/list' => array(
 		'desc'  => '申请列表',
 		'login' => false,
@@ -397,7 +439,9 @@ return array
 		'login' => true,
 		'show'  => true,
 	),
-		
+	
+	
+	'task'      => '学生作业',
 	'task/list' => array(
 		'desc'  => '作业列表',
 		'login' => false,
@@ -435,7 +479,9 @@ return array
 		'login' => true,
 		'show'  => true,
 	),
-		
+	
+	
+	'works'      => '学生作品',
 	'works/list' => array(
 		'desc'  => '作品列表',
 		'login' => false,
@@ -473,7 +519,9 @@ return array
 		'login' => true,
 		'show'  => true,
 	),
-		
+	
+	
+	'top'      => '菁英榜',
 	'top/list' => array(
 		'desc'  => '菁英榜',
 		'login' => false,
@@ -511,7 +559,9 @@ return array
 		'login' => true,
 		'show'  => true,
 	),
-		
+	
+	
+	'report'      => '学生成绩',
 	'report/list' => array(
 		'desc'  => '学生成绩',
 		'login' => false,
@@ -549,7 +599,9 @@ return array
 		'login' => true,
 		'show'  => true,
 	),
-		
+	
+	
+	'signup'      => '报名管理',
 	'signup/list' => array(
 		'desc'  => '报名管理',
 		'login' => false,
@@ -566,7 +618,7 @@ return array
 		'show'  => true,
 	),
 	'signup/explain' => array(
-		'desc'  => '详情',
+		'desc'  => '修改内容',
 		'login' => true,
 		'show'  => true,
 		'bind'  => array('report/save'),
@@ -576,7 +628,9 @@ return array
 		'login' => true,
 		'show'  => false,
 	),
-		
+	
+	
+	'user'      => '用户权限',
 	'user/list' => array(
 		'desc'  => '用户列表',
 		'login' => false,
