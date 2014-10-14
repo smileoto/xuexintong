@@ -354,12 +354,12 @@ return array
 	'top/add' => array(
 		'desc'  => '发布',
 		'login' => true,
-		'bind'  => array('top/save'),
+		'bind'  => array('top/save', 'top/del_student'),
 	),
 	'top/edit' => array(
 		'desc'  => '修改',
 		'login' => true,
-		'bind'  => array('top/save'),
+		'bind'  => array('top/save', 'top/del_student'),
 	),
 	'top/save' => array(
 		'desc'  => '保存',

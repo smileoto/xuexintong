@@ -125,45 +125,20 @@ class Controller_Top extends Controller_Base {
 	public function action_save()
 	{
 		$data = array();
-		$data['title']     = $this->request->post('title');
+		$data['title']     = strval($this->request->post('title'));
 		$data['begin_str'] = strval($this->request->post('begin'));
 		$data['end_str']   = strval($this->request->post('end'));
 		
 		$data['modified_at'] = date('Y-m-d H:i:s');
 		$data['modified_by'] = $this->auth->user_id;
 		
-		$cnt = 0;
-		$tops_students = array();
-		foreach ( $_POST['id'] as $id ) {
-			if ( !isset($tops_students[$cnt]) ) {
-				$tops_students[$cnt] = array(
-					'student_id' => 0, 
-					'avatar' => '', 
-					'reason' => ''
-				);
-			}
-			$tops_students[$cnt]['student_id'] = $id;
-			$cnt++;
-		}
+		$student_id = intval($this->request->post('student_id'));
+		$avatar = strval($this->request->post('avatar'));
+		$reason = $this->request->post('reason');
 		
-		$cnt = 0;
-		foreach ( $_POST['reason'] as $reason ) {
-			$tops_students[$cnt]['reason'] = $reason;
-			$cnt++;
-		}
-		
-		$cnt = 0;
-		foreach ( $_POST['avatar'] as $avatar ) {
-			$tops_students[$cnt]['avatar'] = $avatar;
-			$cnt++;
-		}
-		
-		$id = intval($this->request->post('top_id'));
+		$new = false;
+		$id = intval($this->request->post('id'));
 		try {
-			DB::delete('tops_students')
-				->where('top_id', '=', $id)
-				->execute();
-				
 			if ( $id ) {
 				DB::update('tops')
 					->set($data)
@@ -177,21 +152,34 @@ class Controller_Top extends Controller_Base {
 				list($id, $rows) = DB::insert('tops', array_keys($data))
 					->values($data)
 					->execute();
+				$new = true;
 			}
 				
-			if ( $tops_students ) {
-				$d = array('top_id' => $id, 'student_id' => 0, 'avatar' => '', 'reason' => '');
-				$insert = DB::insert('tops_students', array_keys($d));
-				foreach ($tops_students as $v) {
-					$d['student_id'] = $v['student_id'];
-					$d['avatar']     = $v['avatar'];
-					$d['reason']     = $v['reason'];
-					$insert->values($d);
+			if ( $student_id ) {
+				$rows = DB::select('top_id')
+					->from('tops_students')
+					->where('top_id', '=', $id)
+					->where('student_id', '=', $student_id)
+					->limit(1)
+					->execute();
+				if ( $rows->count() == 0 ) {
+					$data = array(
+						'student_id' => $student_id, 
+						'top_id' => $id, 
+						'avatar' => $avatar, 
+						'reason' => $reason
+					);
+					DB::insert('tops_students', array_keys($data))
+						->values($data)
+						->execute();
 				}
-				$insert->execute();
 			}
 			
-			HTTP::redirect('/top/list/');
+			if ( $new ) {
+				HTTP::redirect('/top/edit/?id='.$id);
+			} else {
+				HTTP::redirect('/top/list/');
+			}
 			
 		} catch (Database_Exception $e) {
 			$this->response->body( $e->getMessage() );
@@ -213,46 +201,31 @@ class Controller_Top extends Controller_Base {
 			$this->response->body( $e->getMessage() );
 		}
 	}
-	
-	protected function save_avatar(&$file, &$msg)
+		
+	public function action_del_student()
 	{
-		if ( empty($_FILES) ) {
-			$msg = '没上传文件';
-			return false;
+		$top_id     = intval($this->request->query('top_id'));
+		$student_id = intval($this->request->query('student_id'));
+		
+		$items = DB::select('id')
+			->from('tops')
+			->where('agency_id', '=', $this->auth->agency_id)
+			->where('id', '=', $top_id)
+			->limit(1)
+			->execute()
+			->as_array();
+		if ( empty($items) ) {
+			HTTP::redirect('/top/list/');
 		}
-
-		Upload::$default_directory = APPPATH.'../htdocs/upload/avatar_'.date('Ymd').'/'; //默认保存文件夹
-		Upload::$remove_spaces     = true;  //上传文件删除空格
 		
-		@mkdir(Upload::$default_directory, 0777);
-		
-		if( !Upload::valid( $file ) ) {
-			$msg = '非法图片';
-			return false;
-		}
-		
-		if( Upload::not_empty($file) ) {
-			if ( Upload::size($file, "1M") ) {
-				if ( Upload::type($file, array('jpg', 'png', 'gif')) ) {
-					$filepath = Upload::save($file, NULL, NULL, 777);
-					if( $filepath ) {
-						return $this->save_to_bcs($filepath);
-					} else {
-						$msg = '保存失败';
-						return false;
-					}
-				} else {
-					$msg = '图片类型不支持';
-					return false;
-				}
-			} else {
-				$msg = '图片大于1M';
-				return false;
-			}
-		} else {
-			$msg = '无效文件';
-			return false;
+		try {
+			DB::delete('tops_students')
+				->where('top_id',    '=', $top_id)
+				->where('student_id','=',$student_id)
+				->execute();
+			HTTP::redirect('/top/edit/?id='.$top_id);
+		} catch (Database_Exception $e) {
+			$this->response->body( $e->getMessage() );
 		}
 	}
-
 }

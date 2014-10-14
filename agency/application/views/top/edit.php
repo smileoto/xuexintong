@@ -6,7 +6,6 @@
 		<title>菁英榜</title>
 		<link rel="stylesheet" type="text/css" href="<?php echo URL::base()?>css/base.css" />
 		<link rel="stylesheet" type="text/css" href="<?php echo URL::base()?>css/ago.css" />
-        <link rel="stylesheet" href="<?PHP echo URL::base()?>css/jquery.windows.css" media="all">
 		<!--[if gte IE 9]>
 		  <style type="text/css">
 		    .gradient {
@@ -14,11 +13,14 @@
 		    }
 		  </style>
 		<![endif]-->
+       <script type="text/javascript" src="<?php echo URL::base()?>js/jquery-1.4.4.min.js"></script>
+       <script src="<?php echo URL::base()?>js/jquery.uploadify.min.js" type="text/javascript"></script>
+       <link rel="stylesheet" type="text/css" href="<?php echo URL::base()?>css/uploadify.css">
 	</head>
 
 	<body>
 		<div class="all">
-			<div class="main" id="main">
+			<div class="main" id="main" style="float:left">
 				<div class="header" id="header">
 					<?php echo $html_head_content?>
 				</div>
@@ -27,54 +29,99 @@
 						<?php echo $html_left_content?>
 					</div>
 					<div class="content-box">
-												
-						<form method="post" id="data-form" action="<?php echo URL::base(NULL, true)?>top/save/">
-						<input type="hidden" name="top_id" value="<?php echo $item['id']?>">
-						
-						<div class="content-inner">
+						<div class="content-inner" style="float:left">
 							<div class="navbar-top">
-								<a href="<?php echo URL::base(NULL, TRUE),'top/list/'?>">菁英榜</a>
-								<a class="active" >编辑榜单</a>
+								<a href="elite.html">菁英榜</a><a class="active" >添加榜单</a>
 							</div>
-							<div class="elite-left">
-								<div class="input-box input-box-title">
-									<span>榜单标题：</span>
-									<input type="text" id="title" value="<?php echo $item['title']?>" />
-								</div>
-								<?php $cnt = 1;?>
-								<?php foreach ( $tops_students as $v ) : ?>
-								<div class="input-box">
-									<span>学生姓名：</span>
-									<input type="text" readonly="readonly"  id="realname-<?php echo $cnt?>"   value="<?php echo $v['realname']?>" />
-									<input type="hidden" name="id[]" id="student_id-<?php echo $cnt?>" value="<?php echo $v['id']?>" />
-									<a class="btn btn-primary btn-large theme-login" href="javascript:;" onclick="select_student(<?php echo $cnt?>)">选择学生<a>
-								</div>
-								<div class="scan-box">
-									<span>学生头像：</span>
-									<input type="text" readonly="readonly" name="avatar[]" id="avatar-<?php echo $cnt?>" value="<?php $v['avatar']?>" />
-								</div>
-								<div class="input-box input-box-title">
-									<span>上榜理由：</span>
-									<input type="text" class="title-elite" name="reason[]" id="reason-<?php echo $cnt?>" value="<?php echo $v['reason']?>" />
-								</div>
-								<?php $cnt++;?>
-								<?php endforeach;?>
-								<div class="btn-box" id="posStudents">
-									<button style="margin-left: 70px;margin-top: 10px;" id="btnAddStudent">增加学生</button>
-									<button style="margin-left: 70px;margin-top: 10px;" id="btnSubmit">确认提交</button>
-								</div>
-							</div>						
+							
+							<form method="post" id="data-form" action="<?php echo URL::base(NULL, true)?>top/save/">
+								<input type="hidden" id="top_id"     name="id" value="<?php echo $item['id']?>">
+								<input type="hidden" id="img_url"    name="avatar">
+								<input type="hidden" id="student_id" name="student_id">
+								<ul>
+                            		<li>
+                                    	<div class="con-name">
+											评榜时间：
+										</div>
+										<input type="date" name="begin" value="<?php echo $item['begin_str']?>" /> 
+										&nbsp;&nbsp;至&nbsp;&nbsp;
+										<input type="date" name="end"   value="<?php echo $item['end_str']?>" />
+                                    </li>
+									
+									<?php foreach ($students as $v) : ?>
+                            		<li>
+                                    	<div class="con-name">
+											<a href="#" title="删除学生" onclick="del_top_student(<?php echo $v['id']?>)">
+												<?php echo $v['realname']?>
+											</a>
+										</div>
+										<div class="con-info">
+											<?php echo $v['reason']?>
+										</div>
+                                    </li>
+									<?php endforeach?>
+									
+                            		<li>
+                                    	<div class="con-name">
+											学生姓名：
+										</div>
+										<div class="con-info">
+											<input type="text" size="10" maxlength="10" name="realname" id="realname" /> 
+											<a href="#" onclick="select_student()">选择学生</a>
+										</div>
+                                    </li>
+                                    <li style="height:30xp; line-height:30px; height:30px">学生头像：</li>
+                                    <li style="background:#dddddd; width:500px; padding:10px;border:1px dashed #a5a5a5; margin-top:-30px; margin-left:80px;">
+										<form id="form_file_upload">
+											<div id="queue"></div>
+											<input id="file_upload" name="file_upload" type="file" multiple="true">
+										</form>
+										<div id="img_container"></div>
+                                    </li>
+                                    <li>
+                                    	<div class="con-name">
+											上榜理由：
+										</div>
+										<div class="con-info">
+											<textarea name="" rows="9" style="width: 500px;" name="reason"></textarea>
+                                        </div>
+                                    </li>
+								</ul>
+							
+							</form>
+                            
+							<div class="btn-box" style="float:left">
+								<button style="margin-left: 70px;margin-top: 10px;" id="btnSubmit">确认提交</button>
+							</div>
 						</div>
-						</form>
-						
 					</div>
 				</div>
 			</div>
 		</div>
+        
+		<script type="text/javascript" charset="utf-8">
+		<?php $timestamp = time();?>
+		$(function() {
+			$('#file_upload').uploadify({
+				'formData'     : {
+					'timestamp' : '<?php echo $timestamp;?>',
+					'token'     : '<?php echo md5('unique_salt' . $timestamp);?>'
+				},
+				'swf'      : '<?PHP echo URL::base()?>swf/uploadify.swf',
+				'uploader' : '<?PHP echo URL::base("http",false)?>uploadify.php;jsessionid=<?php echo $session_id?>',
+				'onUploadSuccess' : function(file, data, response) {
+					var img = upload_url + '/' + file.name;
+					$('#img_container').html('<img src="' + img + '" width="150">');
+					$('#img_url').val(img);
+				}
+			});
 		
-		<div class="theme-popover" style="font-size:0.8em;" id="cntSelector"></div>
-		<div class="theme-popover-mask"></div> 
-		
+			$('#btnSubmit').click(function () {
+				$('#form_file_upload').remove();
+				$('#data-form').submit();
+			});
+		});
+		</script>
 	</body>
 
 </html>
@@ -83,12 +130,8 @@
 		document.getElementById("sidebar").style.minHeight = document.getElementById("main").clientHeight - document.getElementById("header").clientHeight - 3 + 'px';
 	}
 </script>
-<script type="text/javascript" charset="utf-8" src="<?php echo URL::base()?>js/jquery-2.1.1.min.js"></script>
 <script type="text/javascript" charset="utf-8">
-var g_current_group = 1;
-function select_student(group) {
-	g_current_group = group;
-	
+function select_student() {	
 	var url = '<?php echo URL::base(NULL, TRUE)?>student/select/?size=4';
 	$.get(url, {}, function (html) {
 		$('#cntSelector').html(html);
@@ -102,37 +145,18 @@ function select_for_audit(student_id) {
 	$.post(url, {student_id:student_id}, function (jsonStr) {
 		var students = jQuery.parseJSON(jsonStr);
 		$.each(students, function (k, v) {	
-			$('#student_id-' + g_current_group).val(v.id);
-			$('#realname-'   + g_current_group).val(v.realname + ' (' + v.birthday + ')');
+			$('#student_id').val(v.id);
+			$('#realname').val(v.realname);
 		});
 		$('#cntSelector').hide();
 	});
 }
-
-$(function(){
-	var cnt = '<?php echo $cnt?>';
-	$('#btnAddStudent').click(function () {
-		cnt++;
-		var html = '';
-		html += '<div class="input-box">';
-		html += '	<span>学生姓名：</span>';
-		html += '	<input type="text" readonly="readonly" id="realname-' + cnt + '" />';
-		html += '	<input type="hidden" name="id[]" id="student_id-' + cnt + '" value="" />';
-		html += '	<a class="btn btn-primary btn-large theme-login" onclick="select_student(' + cnt + ')">选择学生<a>';
-		html += '</div>';
-		html += '<div class="scan-box">';
-		html += '	<span>学生头像：</span>';
-		html += '	<input type="text" readonly="readonly" name="avatar[]" id="avatar-' + cnt + '" />';
-		html += '</div>';
-		html += '<div class="input-box input-box-title">';
-		html += '	<span>上榜理由：</span>';
-		html += '	<input class="title-elite" type="text" name="reason[]" id="reason-' + cnt + '" />';
-		html += '</div>';
-		$(html).insertBefore('#posStudents');
-	});
-	
-	$('#btnSubmit').click(function () {
-		$('#data-form').submit();
-	});
-});
+function del_top_student(student_id)
+{
+	if ( confirm('确定删除？') ) {
+		var url = '<?php echo URL::base(NULL, TRUE)?>top/del_student/?';
+		var top_id = $('#top_id').val();
+		window.location.href = url + 'top_id=' + top_id + '&student_id=' + student_id;
+	}
+}
 </script>
