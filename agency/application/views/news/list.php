@@ -57,6 +57,11 @@
 									<td><?php echo $v['username']?></td>
 									<td>
 										<a href="<?php echo URL::base(NULL, TRUE)?>news/edit/?id=<?php echo $v['id']?>">编辑</a>
+										<?php if ($v['status'] == STATUS_NORMAL) : ?>
+										<a href="<?php echo URL::base(NULL, TRUE)?>news/publish/?id=<?php echo $v['id']?>">发布</a>
+										<?php elseif ($v['status'] == STATUS_ENABLED) : ?>
+										<a href="<?php echo URL::base(NULL, TRUE)?>news/cancel/?id=<?php echo $v['id']?>">取消</a>
+										<?php endif?>
 										<a href="<?php echo URL::base(NULL, TRUE)?>news/del/?id=<?php echo $v['id']?>">删除</a>
 									</td>
 								</tr>

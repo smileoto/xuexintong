@@ -38,7 +38,7 @@
 								<a class="active" href="#">发布作业</a>
 							</div>
 							<div style="margin-top: 20px;">
-								<span>日期：</span><input type="date" name="" id="date" />
+								<span>日期：</span><input type="date" name="date_str" id="date" />
 								
 								<span>分机构：</span>
 								<select name="entity_id" id="class">

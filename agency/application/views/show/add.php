@@ -29,7 +29,7 @@
 					<?php echo $html_head_content?>
 				</div>
 				<div class="content">
-					<div class="sidebar" id="sidebar">						
+					<div class="sidebar" id="sidebar">
 						<?php echo $html_left_content?>
 					</div>
 					<div class="content-box">
@@ -75,7 +75,7 @@
 				</div>
 			</div>
 		</div>
-                	<script type="text/javascript">
+        <script type="text/javascript">
 		<?php $timestamp = time();?>
 		$(function() {
 			$('#file_upload').uploadify({
@@ -84,7 +84,12 @@
 					'token'     : '<?php echo md5('unique_salt' . $timestamp);?>'
 				},
 				'swf'      : '<?PHP echo URL::base()?>swf/uploadify.swf',
-				'uploader' : '<?PHP echo URL::base("http",false)?>uploadify.php;jsessionid=<?php echo $session_id?>'
+				'uploader' : '<?PHP echo URL::base("http",false)?>uploadify.php;jsessionid=<?php echo $session_id?>',
+				onUploadSuccess : function(file, data, response) {
+					var img = upload_url + '/' + file.name;
+					$('#img_container').html('<img src="' + img + '" width="150">');
+					$('#img_url').val(img);
+				}
 			});
 		
 			$('#btnSubmit').click(function () {

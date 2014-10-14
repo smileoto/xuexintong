@@ -116,7 +116,7 @@ function select_for_audit(student_id) {
 	$.post(url, {student_id:student_id}, function (jsonStr) {
 		var students = jQuery.parseJSON(jsonStr);
 		$.each(students, function (k, v) {
-			$('#student').val(v.realname + ' (' + v.birthday + ')');
+			$('#student').val(v.realname);
 			$('#student_id').val(v.id);
 		});
 		$('#cntSelector').hide();

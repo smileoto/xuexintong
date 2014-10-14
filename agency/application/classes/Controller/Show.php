@@ -62,6 +62,8 @@ class Controller_Show extends Controller_Base {
 		$data['modified_at'] = date('Y-m-d H:i:s');
 		$data['modified_by'] = $this->auth->user_id;
 		
+		echo '<pre>';print_r($data);echo '</pre>';exit;
+		
 		$id = intval( $addr = $this->request->post('id') );
 		try {
 			if ( $id ) {

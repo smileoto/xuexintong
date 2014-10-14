@@ -83,14 +83,17 @@ class Controller_Top extends Controller_Base {
 		$page = View::factory('top/add')
 			->set('schools',  $this->schools())
 			->set('grades',   $this->grades())
-			->set('courses',  $this->courses());
+			->set('courses',  $this->courses())
+			->set('session_id', Session::instance()->id())
+			->set('upload_dir', $upload_dir);
 
 		$this->output($page, 'top');
 	}
 	
 	public function action_edit()
 	{
-		Session::instance()->set('upload_dir', 'avatar');
+		$upload_dir = $this->get_upload_dir('news');
+		Session::instance()->set('upload_dir', $upload_dir);
 		
 		$id = intval($this->request->query('id'));
 	
@@ -117,7 +120,9 @@ class Controller_Top extends Controller_Base {
 			->set('tops_students', $tops_students)
 			->set('schools',  $this->schools())
 			->set('grades',   $this->grades())
-			->set('courses',  $this->courses());
+			->set('courses',  $this->courses())
+			->set('session_id', Session::instance()->id())
+			->set('upload_dir', $upload_dir);
 
 		$this->output($page, 'top');
 	}

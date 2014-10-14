@@ -6,6 +6,7 @@
 		<title>菁英榜</title>
 		<link rel="stylesheet" type="text/css" href="<?php echo URL::base()?>css/base.css" />
 		<link rel="stylesheet" type="text/css" href="<?php echo URL::base()?>css/ago.css" />
+        <link rel="stylesheet" href="<?PHP echo URL::base()?>css/jquery.windows.css" media="all">
 		<!--[if gte IE 9]>
 		  <style type="text/css">
 		    .gradient {
@@ -13,9 +14,9 @@
 		    }
 		  </style>
 		<![endif]-->
-       <script type="text/javascript" src="<?php echo URL::base()?>js/jquery-1.4.4.min.js"></script>
-       <script src="<?php echo URL::base()?>js/jquery.uploadify.min.js" type="text/javascript"></script>
-       <link rel="stylesheet" type="text/css" href="<?php echo URL::base()?>css/uploadify.css">
+        <script type="text/javascript" src="<?php echo URL::base()?>js/jquery-1.4.4.min.js"></script>
+        <script src="<?php echo URL::base()?>js/jquery.uploadify.min.js" type="text/javascript"></script>
+        <link rel="stylesheet" type="text/css" href="<?php echo URL::base()?>css/uploadify.css">
 	</head>
 
 	<body>
@@ -31,7 +32,8 @@
 					<div class="content-box">
 						<div class="content-inner" style="float:left">
 							<div class="navbar-top">
-								<a href="elite.html">菁英榜</a><a class="active" >添加榜单</a>
+								<a href="<?php echo URL::base(NULL, TRUE)?>top/list/">菁英榜</a>
+								<a class="active" >添加榜单</a>
 							</div>
 							
 							<form method="post" id="data-form" action="<?php echo URL::base(NULL, true)?>top/save/">
@@ -68,7 +70,7 @@
 											上榜理由：
 										</div>
 										<div class="con-info">
-											<textarea name="" rows="9" style="width: 500px;" name="reason"></textarea>
+											<textarea rows="9" style="width: 500px;" name="reason"></textarea>
                                         </div>
                                     </li>
 								</ul>
@@ -83,6 +85,9 @@
 				</div>
 			</div>
 		</div>
+		
+		<div class="theme-popover" style="font-size:0.8em;" id="cntSelector"></div>
+		<div class="theme-popover-mask"></div> 
         
 		<script type="text/javascript" charset="utf-8">
 		<?php $timestamp = time();?>

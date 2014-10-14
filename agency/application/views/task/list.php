@@ -86,12 +86,17 @@
 								<?php foreach($items as $v) : ?>
 								<tr>
 									<td><?php echo $v['id']?></td>
-									<td><?php echo $v['date_t']?></td>
+									<td><?php echo $v['date_str']?></td>
 									<td><?php echo $v['school']?></td>
 									<td><?php echo $v['grade']?></td>
 									<td><?php echo $v['class'],'-',$v['course']?></td>
 									<td>
 										<a href="<?php echo URL::base(NULL, TRUE)?>task/edit/?id=<?php echo $v['id']?>">编辑</a>
+										<?php if ($v['status'] == STATUS_NORMAL) : ?>
+										<a href="<?php echo URL::base(NULL, TRUE)?>task/publish/?id=<?php echo $v['id']?>">发布</a>
+										<?php elseif ($v['status'] == STATUS_ENABLED) : ?>
+										<a href="<?php echo URL::base(NULL, TRUE)?>task/cancel/?id=<?php echo $v['id']?>">取消</a>
+										<?php endif?>
 										<a href="<?php echo URL::base(NULL, TRUE)?>task/del/?id=<?php echo $v['id']?>">删除</a>
 									</td>
 								</tr>

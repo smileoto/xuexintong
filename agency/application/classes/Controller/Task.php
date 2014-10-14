@@ -16,7 +16,7 @@ class Controller_task extends Controller_Base {
 				->from('tasks')
 				->where('agency_id', '=', $this->auth->agency_id)
 				->where('status', '>', STATUS_DELETED);
-			$queyrList  = DB::select('tasks.id','tasks.status','tasks.title','tasks.date_t',array('entities.name', 'entity'),array('schools.name', 'school'),array('grades.name', 'grade'),array('classes.name', 'class'),array('courses.name', 'course'))
+			$queyrList  = DB::select('tasks.id','tasks.status','tasks.title','tasks.date_str',array('entities.name', 'entity'),array('schools.name', 'school'),array('grades.name', 'grade'),array('classes.name', 'class'),array('courses.name', 'course'))
 				->from('tasks')
 				->where('tasks.agency_id', '=', $this->auth->agency_id)
 				->join('entities', 'LEFT')
@@ -47,8 +47,8 @@ class Controller_task extends Controller_Base {
 				$queyrList->where('tasks.course_id',  '=', $class);
 			}
 			if ( $date ) {
-				$queryCount->where('tasks.date_t', '=', $date);
-				$queyrList->where('tasks.date_t',  '=', $date);
+				$queryCount->where('tasks.date_str', '=', $date);
+				$queyrList->where('tasks.date_str',  '=', $date);
 			}
 			
 			$cnt   = $queryCount->execute();
@@ -121,7 +121,7 @@ class Controller_task extends Controller_Base {
 	public function action_save()
 	{
 		$data = array();
-		$data['date_t']    = intval($this->request->post('date'));
+		$data['date_str']  = $this->request->post('date_str');
 		$data['title']     = $this->request->post('title');
 		$data['entity_id'] = intval($this->request->post('entity_id'));
 		$data['school_id'] = intval($this->request->post('school_id'));

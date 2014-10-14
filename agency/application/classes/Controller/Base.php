@@ -78,7 +78,7 @@ class Controller_Base extends Controller {
 		
 		if ( empty($this->auth->user_id) ) {
 			$actions = include_once(APPPATH.'config/action.php');
-			if ( !isset($actions[$key] ) {
+			if ( !isset($actions[$key]) ) {
 				return false;
 			}
 			return $actions[$key]['login'] ? false : true;
@@ -94,7 +94,7 @@ class Controller_Base extends Controller {
 		}
 		
 		$allow = json_encode($rights->get('content'), true); 
-		if ( !isset($allow[$key] ) {
+		if ( !isset($allow[$key]) ) {
 			return false;
 		}
 		

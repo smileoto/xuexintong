@@ -123,8 +123,11 @@ class Controller_Comment extends Controller_Base {
 		$data['student_id'] = intval($this->request->post('student_id'));
 		$data['content']    = $this->request->post('content');
 		
-		$data['modified_at'] = $this->auth->user_id;
-		$data['modified_by'] = date('Y-m-d H:i:s');
+		$data['begin_str']  = $this->request->post('begin_str');
+		$data['end_str']    = $this->request->post('end_str');
+		
+		$data['modified_by'] = $this->auth->user_id;
+		$data['modified_at'] = date('Y-m-d H:i:s');
 		
 		$id = intval($this->request->post('id'));
 		try {
@@ -135,9 +138,9 @@ class Controller_Comment extends Controller_Base {
 					->where('id', '=', $id)
 					->execute();
 			} else {
-				$data['created_at'] = date('Y-m-d H:i:s');
 				$data['agency_id']  = $this->auth->agency_id;
 				$data['created_by'] = $this->auth->user_id;
+				$data['created_at'] = date('Y-m-d H:i:s');
 				list($id, $rows) = DB::insert('comments', array_keys($data))
 					->values($data)
 					->execute();

@@ -30,7 +30,7 @@ class Controller_Report extends Controller_Base {
 				->join('classes', 'LEFT')
 				->on('courses.class_id', '=', 'classes.id')
 				->where('reports.agency_id', '=', $this->auth->agency_id)
-				->where('reports.status', '>', STATUS_ENABLED);
+				->where('reports.status', '>', STATUS_DELETED);
 			$queyrList  = DB::select('reports.id','reports.status','reports.modified_at','students.realname',array('schools.name', 'school'),array('grades.name', 'grade'),array('courses.name', 'course'),array('classes.name', 'class'))
 				->from('reports')
 				->join('students')
@@ -48,7 +48,7 @@ class Controller_Report extends Controller_Base {
 				->join('classes', 'LEFT')
 				->on('courses.class_id', '=', 'classes.id')
 				->where('reports.agency_id', '=', $this->auth->agency_id)
-				->where('reports.status',    '>', STATUS_ENABLED);
+				->where('reports.status',    '>', STATUS_DELETED);
 			
 			if ( $realname ) {
 				$queryCount->where('students.realname', 'like', '%'.$realname.'%');
