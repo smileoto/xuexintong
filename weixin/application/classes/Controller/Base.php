@@ -41,8 +41,9 @@ class Controller_Base extends Controller {
 		$this->auth->school_id   = intval( Session::instance()->get('school_id') );
 		$this->auth->grade_id    = strval( Session::instance()->get('grade_id') );
 		
-		$this->auth->agency_id = 1; // for test
-		$this->auth->wx_openid = 'zhangys'; // for test
+		$this->auth->agency_id  = 1; // for test
+		$this->auth->wx_openid  = 'zhangys'; // for test
+		$this->auth->student_id = 1; // for test
 		
 		$this->init_agency();
 		if ( $this->request->action() != 'wx_login' and empty($this->auth->wx_openid) ) {
@@ -63,8 +64,8 @@ class Controller_Base extends Controller {
 			switch ( $this->request->controller() ) {
 				case 'Feedback':
 				case 'Comment':
-				case 'task':
-				case 'report': HTTP::redirect('/student/deny/');
+				case 'Task':
+				case 'Report': HTTP::redirect('/student/deny/');
 				default:return;
 			}
 		}
