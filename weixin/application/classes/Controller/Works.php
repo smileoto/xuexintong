@@ -2,7 +2,7 @@
 
 class Controller_Works extends Controller_Auth {
 	
-	public function action_list() 
+	public function action_index() 
 	{
 		try {
 			$items = DB::select('works.*',array('students.realname', 'student'),array('courses.name', 'class'))

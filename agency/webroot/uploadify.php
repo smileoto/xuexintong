@@ -5,16 +5,17 @@ Copyright (c) 2012 Reactive Apps, Ronnie Garcia
 Released under the MIT License <http://www.opensource.org/licenses/mit-license.php> 
 */
 
-session_start();
+//session_start();
 
 // Define a destination
-$targetFolder = $_SESSION['upload_dir']; // Relative to the root
+//$targetFolder = $_SESSION['upload_dir']; // Relative to the root
 
 $verifyToken = md5('unique_salt' . $_POST['timestamp']);
 
 if (!empty($_FILES) && $_POST['token'] == $verifyToken) {
 	$tempFile = $_FILES['Filedata']['tmp_name'];
-	$targetPath = __DIR__ . $targetFolder;
+	//$targetPath = __DIR__ . $targetFolder;
+	$targetPath = '/alidata/www/xuexintong/agency/webroot/files';
 	$targetFile = rtrim($targetPath,'/') . '/' . $_FILES['Filedata']['name'];
 	
 	// Validate the file type
