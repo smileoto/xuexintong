@@ -59,7 +59,7 @@
                                             <div id="queue"></div>
 											<input id="file_upload" name="file_upload" type="file" multiple="true">
 										</form>
-                                		<div id="img_container"></div>
+                                		<div id="img_container" style="float:left;width:100%"></div>
                                     </li>
                                     <li>
 										<div class="btn-box">
@@ -87,6 +87,9 @@
 				},
 				'swf'      : '<?PHP echo URL::base()?>swf/uploadify.swf',
 				'uploader' : '<?PHP echo URL::base()?>uploadify.php',
+				onError : function (errorType) {
+					alert('The error was: ' + errorType);
+				},
 				onUploadSuccess : function(file, data, response) {
 					var img = upload_dir + '/' + file.name;
 					$('#img_container').html('<img src="' + img + '" width="150">');

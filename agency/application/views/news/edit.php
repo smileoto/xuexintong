@@ -67,7 +67,7 @@
 										<div id="queue"></div>
 										<input id="file_upload" name="file_upload" type="file" multiple="true">
 									</form>
-									<div id="img_container">
+									<div id="img_container" style="float:left;width:100%">
 									<?php 
 									if ( $item['img'] ) {
 										echo '<img src="',$item['img'],'" width="150">';

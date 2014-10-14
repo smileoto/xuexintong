@@ -4,7 +4,7 @@
 
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<title>简介</title>
+		<title>展示</title>
 		<link rel="stylesheet" type="text/css" href="<?PHP echo URL::base()?>css/base.css" />
 		<link rel="stylesheet" type="text/css" href="<?PHP echo URL::base()?>css/ago.css" />
 		<!--[if gte IE 9]>
