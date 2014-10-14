@@ -10,7 +10,7 @@ class Controller_Article extends Controller_Base
 				->join('users')
 				->on('articles.created_by', '=', 'users.id')
 				->where('articles.agency_id', '=', $this->auth->agency_id)
-				->where('articles.status', '=', STATUS_NORMAL)
+				->where('articles.status', '=', STATUS_ENABLED)
 				->offset($this->pagenav->offset)
 				->limit($this->pagenav->size)
 				->order_by('articles.id', 'DESC')

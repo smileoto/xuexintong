@@ -13,14 +13,14 @@ class Controller_Article extends Controller_Base {
 				->join('users')
 				->on('articles.created_by', '=', 'users.id')
 				->where('articles.agency_id', '=', $this->auth->agency_id)
-				->where('articles.status', '=', STATUS_NORMAL);
+				->where('articles.status', '>', STATUS_DELETED);
 			
-			$queryItems = DB::select('articles.id','articles.title','articles.created_at','articles.modified_at','users.username')
+			$queryItems = DB::select('articles.id','articles.status','articles.title','articles.created_at','articles.modified_at','users.username')
 				->from('articles')
 				->join('users')
 				->on('articles.created_by', '=', 'users.id')
 				->where('articles.agency_id', '=', $this->auth->agency_id)
-				->where('articles.status', '=', STATUS_NORMAL);
+				->where('articles.status', '>', STATUS_DELETED);
 				
 			if ( $title ) {
 				$queryCount->where('articles.title', 'like', '%'.$title.'%');
@@ -85,6 +85,8 @@ class Controller_Article extends Controller_Base {
 		$data['modified_by'] = $this->auth->user_id;
 		$data['modified_at'] = date('Y-m-d H:i:s');
 		
+		$data['status'] = STATUS_NORMAL;
+		
 		$id = intval($this->request->post('id'));
 		try {
 			if ( $id ) {
@@ -119,6 +121,38 @@ class Controller_Article extends Controller_Base {
 		try {
 			DB::update('articles')
 				->set( array('status'=>STATUS_DELETED, 'modified_at'=>date('Y-m-d H:i:s')) )
+				->where('agency_id', '=', $this->auth->agency_id)
+				->where('id','=',$id)
+				->execute();
+			HTTP::redirect('/article/list/');
+		} catch (Database_Exception $e) {
+			$this->response->body( $e->getMessage() );
+		}
+	}
+	
+	public function action_publish()
+	{
+		$id = intval($this->request->query('id'));
+		
+		try {
+			DB::update('articles')
+				->set( array('status'=>STATUS_ENABLED, 'modified_at'=>date('Y-m-d H:i:s')) )
+				->where('agency_id', '=', $this->auth->agency_id)
+				->where('id','=',$id)
+				->execute();
+			HTTP::redirect('/article/list/');
+		} catch (Database_Exception $e) {
+			$this->response->body( $e->getMessage() );
+		}
+	}
+	
+	public function action_cancel()
+	{
+		$id = intval($this->request->query('id'));
+		
+		try {
+			DB::update('articles')
+				->set( array('status'=>STATUS_NORMAL, 'modified_at'=>date('Y-m-d H:i:s')) )
 				->where('agency_id', '=', $this->auth->agency_id)
 				->where('id','=',$id)
 				->execute();

@@ -13,7 +13,7 @@ class Controller_Task extends Controller_Base {
 				->on('tasks.course_id', '=', 'courses.id')
 				->where('students_courses.student_id', '=', $this->auth->student_id)
 				->where('tasks.agency_id', '=', $this->auth->agency_id)
-				->where('tasks.status', '=', STATUS_NORMAL)
+				->where('tasks.status', '=', STATUS_ENABLED)
 				->order_by('tasks.id', 'DESC')
 				->offset($this->pagenav->page)
 				->limit(1)

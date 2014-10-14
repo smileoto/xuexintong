@@ -15,8 +15,8 @@ class Controller_task extends Controller_Base {
 			$queryCount = DB::select($expr)
 				->from('tasks')
 				->where('agency_id', '=', $this->auth->agency_id)
-				->where('status', '=', STATUS_NORMAL);
-			$queyrList  = DB::select('tasks.id','tasks.title','tasks.date_t',array('entities.name', 'entity'),array('schools.name', 'school'),array('grades.name', 'grade'),array('classes.name', 'class'),array('courses.name', 'course'))
+				->where('status', '>', STATUS_DELETED);
+			$queyrList  = DB::select('tasks.id','tasks.status','tasks.title','tasks.date_t',array('entities.name', 'entity'),array('schools.name', 'school'),array('grades.name', 'grade'),array('classes.name', 'class'),array('courses.name', 'course'))
 				->from('tasks')
 				->where('tasks.agency_id', '=', $this->auth->agency_id)
 				->join('entities', 'LEFT')
@@ -56,7 +56,7 @@ class Controller_task extends Controller_Base {
 			
 			$items = $queyrList
 				->where('tasks.agency_id', '=', $this->auth->agency_id)
-				->where('tasks.status', '=', STATUS_NORMAL)
+				->where('tasks.status', '>', STATUS_DELETED)
 				->order_by('tasks.id', 'DESC')
 				->offset($this->pagenav->offset)
 				->limit($this->pagenav->size)
@@ -133,6 +133,8 @@ class Controller_task extends Controller_Base {
 		$data['modified_at']  = date('Y-m-d H:i:s');
 		$data['modified_by']  = $this->auth->user_id;
 		
+		$data['status'] = STATUS_NORMAL;
+		
 		$content = $this->request->post('content');
 		
 		$id = intval($this->request->post('id'));
@@ -166,6 +168,38 @@ class Controller_task extends Controller_Base {
 		try {
 			DB::update('tasks')
 				->set( array('status'=>STATUS_DELETED, 'modified_at'=>date('Y-m-d H:i:s')) )
+				->where('agency_id', '=', $this->auth->agency_id)
+				->where('id','=',$id)
+				->execute();
+			HTTP::redirect('/task/list/');
+		} catch (Database_Exception $e) {
+			$this->response->body( $e->getMessage() );
+		}
+	}
+	
+	public function action_publish()
+	{
+		$id = intval($this->request->query('id'));
+		
+		try {
+			DB::update('tasks')
+				->set( array('status'=>STATUS_ENABLED, 'modified_at'=>date('Y-m-d H:i:s')) )
+				->where('agency_id', '=', $this->auth->agency_id)
+				->where('id','=',$id)
+				->execute();
+			HTTP::redirect('/task/list/');
+		} catch (Database_Exception $e) {
+			$this->response->body( $e->getMessage() );
+		}
+	}
+	
+	public function action_cancel()
+	{
+		$id = intval($this->request->query('id'));
+		
+		try {
+			DB::update('tasks')
+				->set( array('status'=>STATUS_NORMAL, 'modified_at'=>date('Y-m-d H:i:s')) )
 				->where('agency_id', '=', $this->auth->agency_id)
 				->where('id','=',$id)
 				->execute();

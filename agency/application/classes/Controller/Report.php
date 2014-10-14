@@ -30,8 +30,8 @@ class Controller_Report extends Controller_Base {
 				->join('classes', 'LEFT')
 				->on('courses.class_id', '=', 'classes.id')
 				->where('reports.agency_id', '=', $this->auth->agency_id)
-				->where('reports.status', '=', STATUS_NORMAL);
-			$queyrList  = DB::select('reports.id','reports.modified_at','students.realname',array('schools.name', 'school'),array('grades.name', 'grade'),array('courses.name', 'course'),array('classes.name', 'class'))
+				->where('reports.status', '>', STATUS_ENABLED);
+			$queyrList  = DB::select('reports.id','reports.status','reports.modified_at','students.realname',array('schools.name', 'school'),array('grades.name', 'grade'),array('courses.name', 'course'),array('classes.name', 'class'))
 				->from('reports')
 				->join('students')
 				->on('reports.student_id', '=', 'students.id')
@@ -48,7 +48,7 @@ class Controller_Report extends Controller_Base {
 				->join('classes', 'LEFT')
 				->on('courses.class_id', '=', 'classes.id')
 				->where('reports.agency_id', '=', $this->auth->agency_id)
-				->where('reports.status',    '=', STATUS_NORMAL);
+				->where('reports.status',    '>', STATUS_ENABLED);
 			
 			if ( $realname ) {
 				$queryCount->where('students.realname', 'like', '%'.$realname.'%');
@@ -151,6 +151,8 @@ class Controller_Report extends Controller_Base {
 		$data['modified_at'] = date('Y-m-d H:i:s');
 		$data['modified_by'] = $this->auth->user_id;
 		
+		$data['status'] = STATUS_NORMAL;
+		
 		$id = intval($this->request->post('id'));
 		try {
 			if ( $id ) {
@@ -179,14 +181,44 @@ class Controller_Report extends Controller_Base {
 	public function action_del()
 	{
 		$id = intval($this->request->query('id'));
-		
-		$data = array();
-		$data['modified_at'] = date('Y-m-d H:i:s');
-		$data['status']      = STATUS_DELETED;
-		
+				
 		try {
 			$rows = DB::update('reports')
-				->set($data)
+				->set( array('status'=>STATUS_DELETED, 'modified_at'=>date('Y-m-d H:i:s')) )
+				->where('agency_id', '=', $this->auth->agency_id)
+				->where('id','=',$id)
+				->execute();
+			HTTP::redirect('/report/list/');
+		} catch (Database_Exception $e) {
+			$this->response->body( $e->getMessage() );
+		}
+	}
+	
+	public function action_publish()
+	{
+		$id = intval($this->request->query('id'));
+		
+		try {
+			DB::update('reports')
+				->set( array('status'=>STATUS_ENABLED, 'modified_at'=>date('Y-m-d H:i:s')) )
+				->where('agency_id', '=', $this->auth->agency_id)
+				->where('id','=',$id)
+				->execute();
+			HTTP::redirect('/report/list/');
+		} catch (Database_Exception $e) {
+			$this->response->body( $e->getMessage() );
+		}
+	}
+	
+	public function action_cancel()
+	{
+		$id = intval($this->request->query('id'));
+		
+		try {
+			DB::update('reports')
+				->set( array('status'=>STATUS_NORMAL, 'modified_at'=>date('Y-m-d H:i:s')) )
+				->where('agency_id', '=', $this->auth->agency_id)
+				->where('id','=',$id)
 				->execute();
 			HTTP::redirect('/report/list/');
 		} catch (Database_Exception $e) {

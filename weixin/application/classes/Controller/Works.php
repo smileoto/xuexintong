@@ -14,7 +14,7 @@ class Controller_Works extends Controller_Auth {
 				->join('courses')
 				->on('students_courses.course_id', '=', 'courses.id')
 				->where('works.agency_id', '=', $this->auth->agency_id)
-				->where('works.status', '=', STATUS_NORMAL)
+				->where('works.status', '=', STATUS_ENABLED)
 				->order_by('works.id', 'DESC')
 				->offset($this->pagenav->page)
 				->limit($this->pagenav->size)

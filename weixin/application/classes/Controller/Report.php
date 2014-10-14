@@ -18,14 +18,14 @@ class Controller_Report extends Controller_Base {
 				->on('reports.student_id', '=', 'students.id')
 				->where('reports.agency_id', '=', $this->auth->agency_id)
 				->where('reports.student_id', '=', $this->auth->student_id)
-				->where('reports.status', '=', STATUS_NORMAL);
+				->where('reports.status', '=', STATUS_ENABLED);
 			$queryItems = DB::select('*')
 				->from('reports')
 				->join('students')
 				->on('reports.student_id', '=', 'students.id')
 				->where('reports.agency_id', '=', $this->auth->agency_id)
 				->where('reports.student_id', '=', $this->auth->student_id)
-				->where('reports.status', '=', STATUS_NORMAL);
+				->where('reports.status', '=', STATUS_ENABLED);
 			
 			if ( $school ) {
 				$queryCount->where('students.school_id', '=', $school);

@@ -10,7 +10,7 @@ class Controller_Dailynews extends Controller_Base
 				->join('users')
 				->on('daily_news.created_by', '=', 'users.id')
 				->where('daily_news.agency_id', '=', $this->auth->agency_id)
-				->where('daily_news.status', '=', STATUS_NORMAL)
+				->where('daily_news.status', '=', STATUS_ENABLED)
 				->offset($this->pagenav->offset)
 				->limit($this->pagenav->size)
 				->order_by('id', 'DESC')

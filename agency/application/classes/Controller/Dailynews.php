@@ -13,14 +13,14 @@ class Controller_Dailynews extends Controller_Base {
 				->join('users')
 				->on('daily_news.created_by', '=', 'users.id')
 				->where('daily_news.agency_id', '=', $this->auth->agency_id)
-				->where('daily_news.status', '=', STATUS_NORMAL);
+				->where('daily_news.status', '>', STATUS_DELETED);
 			
-			$queryList = DB::select('daily_news.id','daily_news.title','daily_news.created_at','daily_news.modified_at','users.username')
+			$queryList = DB::select('daily_news.id','daily_news.status','daily_news.title','daily_news.created_at','daily_news.modified_at','users.username')
 				->from('daily_news')
 				->join('users')
 				->on('daily_news.created_by', '=', 'users.id')
 				->where('daily_news.agency_id', '=', $this->auth->agency_id)
-				->where('daily_news.status', '=', STATUS_NORMAL);
+				->where('daily_news.status', '>', STATUS_DELETED);
 				
 			if ( $title ) {
 				$queryCount->where('daily_news.title', 'like', '%'.$title.'%');
@@ -85,6 +85,8 @@ class Controller_Dailynews extends Controller_Base {
 		$data['modified_by'] = $this->auth->user_id;
 		$data['modified_at'] = date('Y-m-d H:i:s');
 		
+		$data['status'] = STATUS_NORMAL;
+		
 		$id = intval($this->request->post('id'));
 		try {
 			if ( $id ) {
@@ -126,5 +128,37 @@ class Controller_Dailynews extends Controller_Base {
 			$this->response->body( $e->getMessage() );
 		}
 	}
+	
+	public function action_publish()
+	{
+		$id = intval($this->request->query('id'));
+		
+		try {
+			DB::update('daily_news')
+				->set( array('status'=>STATUS_ENABLED, 'modified_at'=>date('Y-m-d H:i:s')) )
+				->where('agency_id', '=', $this->auth->agency_id)
+				->where('id','=',$id)
+				->execute();
+			HTTP::redirect('/dailynews/list/');
+		} catch (Database_Exception $e) {
+			$this->response->body( $e->getMessage() );
+		}
+	}
+	
+	public function action_cancel()
+	{
+		$id = intval($this->request->query('id'));
+		
+		try {
+			DB::update('daily_news')
+				->set( array('status'=>STATUS_NORMAL, 'modified_at'=>date('Y-m-d H:i:s')) )
+				->where('agency_id', '=', $this->auth->agency_id)
+				->where('id','=',$id)
+				->execute();
+			HTTP::redirect('/dailynews/list/');
+		} catch (Database_Exception $e) {
+			$this->response->body( $e->getMessage() );
+		}
+	}
 
-} // End Article
+} // End Dailynews

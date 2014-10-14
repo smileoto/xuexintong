@@ -13,12 +13,12 @@ class Controller_Top extends Controller_Base {
 		$queryCount = DB::select($expr)
 			->from('tops')
 			->where('agency_id', '=', $this->auth->agency_id)
-			->where('status', '=', STATUS_NORMAL);
+			->where('status', '>', STATUS_DELETED);
 			
 		$queyrList = DB::select('*')
 			->from('tops')
 			->where('agency_id', '=', $this->auth->agency_id)
-			->where('status', '=', STATUS_NORMAL);
+			->where('status', '>', STATUS_DELETED);
 			
 		if ( $entity ) {
 			$queryCount->where('entity_id', '=', $school);
@@ -132,6 +132,8 @@ class Controller_Top extends Controller_Base {
 		$data['modified_at'] = date('Y-m-d H:i:s');
 		$data['modified_by'] = $this->auth->user_id;
 		
+		$data['status'] = STATUS_NORMAL;
+		
 		$student_id = intval($this->request->post('student_id'));
 		$avatar = strval($this->request->post('avatar'));
 		$reason = $this->request->post('reason');
@@ -192,7 +194,7 @@ class Controller_Top extends Controller_Base {
 		
 		try {
 			DB::update('tops')
-				->set( array('status'=>STATUS_DELETED, 'modify_t'=>NULL) )
+				->set( array('status'=>STATUS_DELETED, 'modified_at'=>date('Y-m-d H:i:s')) )
 				->where('agency_id', '=', $this->auth->agency_id)
 				->where('id','=',$id)
 				->execute();
@@ -228,4 +230,37 @@ class Controller_Top extends Controller_Base {
 			$this->response->body( $e->getMessage() );
 		}
 	}
+	
+	public function action_publish()
+	{
+		$id = intval($this->request->query('id'));
+		
+		try {
+			DB::update('tops')
+				->set( array('status'=>STATUS_ENABLED, 'modified_at'=>date('Y-m-d H:i:s')) )
+				->where('agency_id', '=', $this->auth->agency_id)
+				->where('id','=',$id)
+				->execute();
+			HTTP::redirect('/top/list/');
+		} catch (Database_Exception $e) {
+			$this->response->body( $e->getMessage() );
+		}
+	}
+	
+	public function action_cancel()
+	{
+		$id = intval($this->request->query('id'));
+		
+		try {
+			DB::update('tops')
+				->set( array('status'=>STATUS_NORMAL, 'modified_at'=>date('Y-m-d H:i:s')) )
+				->where('agency_id', '=', $this->auth->agency_id)
+				->where('id','=',$id)
+				->execute();
+			HTTP::redirect('/top/list/');
+		} catch (Database_Exception $e) {
+			$this->response->body( $e->getMessage() );
+		}
+	}
+	
 }

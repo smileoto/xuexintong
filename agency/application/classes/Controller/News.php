@@ -13,14 +13,14 @@ class Controller_News extends Controller_Base {
 				->join('users')
 				->on('news.created_by', '=', 'users.id')
 				->where('news.agency_id', '=', $this->auth->agency_id)
-				->where('news.status', '=', STATUS_NORMAL);
+				->where('news.status', '>', STATUS_DELETED);
 			
-			$queryList = DB::select('news.id','news.title','news.created_at','news.modified_at','users.username')
+			$queryList = DB::select('news.id','news.status','news.title','news.created_at','news.modified_at','users.username')
 				->from('news')
 				->join('users')
 				->on('news.created_by', '=', 'users.id')
 				->where('news.agency_id', '=', $this->auth->agency_id)
-				->where('news.status', '=', STATUS_NORMAL);
+				->where('news.status', '>', STATUS_DELETED);
 				
 			if ( $title ) {
 				$queryCount->where('news.title', 'like', '%'.$title.'%');
@@ -94,6 +94,8 @@ class Controller_News extends Controller_Base {
 		$data['modified_by'] = $this->auth->user_id;
 		$data['modified_at'] = date('Y-m-d H:i:s');
 		
+		$data['status'] = STATUS_NORMAL;
+		
 		$id = intval($this->request->post('id'));
 		try {
 			if ( $id ) {				
@@ -127,6 +129,38 @@ class Controller_News extends Controller_Base {
 		try {
 			DB::update('news')
 				->set( array('status'=>STATUS_DELETED, 'modified_at'=>date('Y-m-d H:i:s')) )
+				->where('agency_id', '=', $this->auth->agency_id)
+				->where('id','=',$id)
+				->execute();
+			HTTP::redirect('/news/list/');
+		} catch (Database_Exception $e) {
+			$this->response->body( $e->getMessage() );
+		}
+	}
+	
+	public function action_publish()
+	{
+		$id = intval($this->request->query('id'));
+		
+		try {
+			DB::update('news')
+				->set( array('status'=>STATUS_ENABLED, 'modified_at'=>date('Y-m-d H:i:s')) )
+				->where('agency_id', '=', $this->auth->agency_id)
+				->where('id','=',$id)
+				->execute();
+			HTTP::redirect('/news/list/');
+		} catch (Database_Exception $e) {
+			$this->response->body( $e->getMessage() );
+		}
+	}
+	
+	public function action_cancel()
+	{
+		$id = intval($this->request->query('id'));
+		
+		try {
+			DB::update('news')
+				->set( array('status'=>STATUS_NORMAL, 'modified_at'=>date('Y-m-d H:i:s')) )
 				->where('agency_id', '=', $this->auth->agency_id)
 				->where('id','=',$id)
 				->execute();

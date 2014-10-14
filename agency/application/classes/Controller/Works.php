@@ -21,8 +21,8 @@ class Controller_Works extends Controller_Base {
 				->join('users')
 				->on('works.modified_by', '=', 'users.id')
 				->where('works.agency_id', '=', $this->auth->agency_id)
-				->where('works.status', '=', STATUS_NORMAL);
-			$query = DB::select('works.id', 'works.student_id', 'works.created_at', 'works.modified_at', 'works.title', array('schools.name', 'school'), array('grades.name', 'grade'), 'students.realname', array('users.realname', 'editor'))
+				->where('works.status', '>', STATUS_DELETED);
+			$query = DB::select('works.id', 'works.status', 'works.student_id', 'works.created_at', 'works.modified_at', 'works.title', array('schools.name', 'school'), array('grades.name', 'grade'), 'students.realname', array('users.realname', 'editor'))
 				->from('works')
 				->join('students')
 				->on('works.student_id', '=', 'students.id')
@@ -33,7 +33,7 @@ class Controller_Works extends Controller_Base {
 				->join('grades', 'LEFT')
 				->on('students.grade_id', '=', 'grades.id')
 				->where('works.agency_id', '=', $this->auth->agency_id)
-				->where('works.status', '=', STATUS_NORMAL);
+				->where('works.status', '>', STATUS_DELETED);
 			if ( $realname ) {
 				$queryCount->where('students.realname', 'like', '%'.$realname.'%');
 				$query->where('students.realname', 'like', '%'.$realname.'%');
@@ -118,6 +118,8 @@ class Controller_Works extends Controller_Base {
 		$data['modified_at']  = date('Y-m-d H:i:s');
 		$data['modified_by']  = $this->auth->user_id;
 		
+		$data['status'] = STATUS_NORMAL;
+		
 		$id = intval($this->request->query('id'));
 		try {
 			if ( $id ) {
@@ -149,6 +151,38 @@ class Controller_Works extends Controller_Base {
 		try {
 			DB::update('works')
 				->set( array('status'=>STATUS_DELETED, 'modified_at'=>date('Y-m-d H:i:s')) )
+				->where('agency_id', '=', $this->auth->agency_id)
+				->where('id','=',$id)
+				->execute();
+			HTTP::redirect('/works/list/');
+		} catch (Database_Exception $e) {
+			$this->response->body( $e->getMessage() );
+		}
+	}
+	
+	public function action_publish()
+	{
+		$id = intval($this->request->query('id'));
+		
+		try {
+			DB::update('works')
+				->set( array('status'=>STATUS_ENABLED, 'modified_at'=>date('Y-m-d H:i:s')) )
+				->where('agency_id', '=', $this->auth->agency_id)
+				->where('id','=',$id)
+				->execute();
+			HTTP::redirect('/works/list/');
+		} catch (Database_Exception $e) {
+			$this->response->body( $e->getMessage() );
+		}
+	}
+	
+	public function action_cancel()
+	{
+		$id = intval($this->request->query('id'));
+		
+		try {
+			DB::update('works')
+				->set( array('status'=>STATUS_NORMAL, 'modified_at'=>date('Y-m-d H:i:s')) )
 				->where('agency_id', '=', $this->auth->agency_id)
 				->where('id','=',$id)
 				->execute();

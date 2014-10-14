@@ -8,7 +8,7 @@ class Controller_Top extends Controller_Auth {
 			$items = DB::select('tops.*')
 				->from('tops')
 				->where('tops.agency_id', '=',  $this->agency->get('agency_id'))
-				->where('tops.status', '=', STATUS_NORMAL)
+				->where('tops.status', '=', STATUS_ENABLED)
 				->order_by('tops.id', 'DESC')
 				->offset($this->pagenav->page)
 				->limit(1)
