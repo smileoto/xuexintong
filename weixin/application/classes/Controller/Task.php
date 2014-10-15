@@ -22,7 +22,7 @@ class Controller_Task extends Controller_Base {
 			
 			$items = $items->count() ? $items->as_array() : array(array('id'=>0, 'content'=>'', 'date_str'=>'', 'class'=>''));
 			
-			$schools = DB::select('schoolsname')
+			$schools = DB::select('schools.name')
 				->from('schools')
 				->join('students')
 				->on('students.school_id', '=', 'schools.id')
@@ -30,7 +30,7 @@ class Controller_Task extends Controller_Base {
 				->where('students.id', '=', $this->auth->student_id)
 				->limit(1)
 				->execute();
-			$grades = DB::select('schoolsname')
+			$grades = DB::select('grades.name')
 				->from('grades')
 				->join('students')
 				->on('students.grade_id', '=', 'grades.id')
