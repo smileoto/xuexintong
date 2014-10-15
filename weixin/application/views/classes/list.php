@@ -83,7 +83,7 @@
 $(function () {
 	$('#entity').change(function () {
 		var id = $(this).val();
-		window.location.href = window.location.href + '?entity_id=' + id;
+		window.location.href = '<?php echo URL::base(NULL, TRUE)?>class?entity_id=' + id;
 	});
 });
 </script>
