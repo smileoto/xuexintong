@@ -70,7 +70,7 @@ class Controller_Feedback extends Controller_Base {
 			->on('feedback_reply.created_by', '=', 'users.id')
 			->join('students', 'LEFT')
 			->on('feedback_reply.student_id', '=', 'students.id')
-			->where('feedback_id', '=', $feedback_id)
+			->where('feedback_id', '=', $id)
 			->execute()
 			->as_array();
 		

@@ -190,6 +190,15 @@
 										</span>
 										<textarea rows="9" style="width: 477px;" name="remark" id="remark"><?php echo $item['remark']?></textarea>
 									</li>
+									<li style="width: 100%;">
+										<span class="m-name">
+											验证码：
+										</span>
+										<input style="width: 477px;" type="text" value="<?php echo $code?>" />
+										<a href="<?php echo URL::base(NULL, TRUE),'student/notify/?id=',$item['id']?>" target="_blank">
+											重新发送
+										</a>
+									</li>
 								</ul>
 							</div>
 							<div class="btn-box" style="float: left;margin-top: 0px;height: 50px;"  >

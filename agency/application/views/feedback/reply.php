@@ -69,6 +69,7 @@
 										回复：
 									</span>
 									<form method="post" id="data-form" action="<?php echo URL::base(NULL, true)?>feedback/save/">
+									<input type="hidden" name="student_id" value="<?php echo $item['student_id']?>">
 									<input type="hidden" name="feedback_id" value="<?php echo $item['id']?>">
 									<textarea name="content" id="content" style="width: 477px;resize: none;" rows="6"></textarea>
 									</form>

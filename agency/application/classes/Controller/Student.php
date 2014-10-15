@@ -153,6 +153,12 @@ class Controller_Student extends Controller_Base {
 			HTTP::redirect('/student/list/');
 		}
 		
+		$code = DB::select('*')
+			->from('student_valid')
+			->where('student_id', '=', $id)
+			->limit(1)
+			->execute();
+		
 		$viewname = 'student/edit';
 		if ( $items[0]['signup_by'] == 3 ) {
 			$viewname .= '_adult';
@@ -160,6 +166,7 @@ class Controller_Student extends Controller_Base {
 		
 		$page = View::factory($viewname)
 			->set('item',    $items[0])
+			->set('code',    $code->get('code'))
 			->set('schools', $this->schools())
 			->set('grades',  $this->grades())
 			->set('courses', $this->courses())

@@ -89,7 +89,7 @@ class Controller_Feedback extends Controller_Base {
 	
 	public function action_reply()
 	{
-		$id = $this->request->query('feedback_id');
+		$id = $this->request->query('id');
 					
 		$items = DB::select('feedbacks.*', array('students.realname', 'student'), array('students.id', 'student_id'))
 			->from('feedbacks')
@@ -123,10 +123,11 @@ class Controller_Feedback extends Controller_Base {
 		
 	public function action_save()
 	{
-		$feedback_id = $this->request->post('feedback_id');
+		$feedback_id = intval($this->request->post('feedback_id'));
 		
 		$data = array();
 		$data['feedback_id'] = $feedback_id;
+		$data['student_id']  = intval($this->request->post('student_id'));
 		$data['created_at']  = date('Y-m-d H:i:s');
 		$data['created_by']  = $this->auth->user_id;
 		$data['content']     = $this->request->post('content');
