@@ -16,7 +16,7 @@ class Controller_Comment extends Controller_Base {
 			->execute()
 			->as_array();
 			
-		$page = View::factory('comment/list')
+		$page = View::factory('comment')
 			->set('items', $items);
 			
 		$this->output($page);
@@ -36,7 +36,7 @@ class Controller_Comment extends Controller_Base {
 			->execute()
 			->as_array();
 		if ( count($items) == 0 ) {
-			HTTP::redirect('/comment/list/');
+			HTTP::redirect('/comment');
 		}
 		
 		$page = View::factory('comment/reply')

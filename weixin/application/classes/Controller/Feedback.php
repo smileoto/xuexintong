@@ -41,7 +41,7 @@ class Controller_Feedback extends Controller_Base {
 			DB::insert('feedbacks', array_keys($data))
 				->values($data)
 				->execute();	
-			HTTP::redirect('/feedback/list');
+			HTTP::redirect('/feedback');
 		} catch ( Database_Exception $e ) {
 			$this->response->body( $e->getMessage() );
 		}
@@ -61,7 +61,7 @@ class Controller_Feedback extends Controller_Base {
 			->execute()
 			->as_array();
 		if ( count($items) == 0 ) {
-			HTTP::redirect('/feedback/list/');
+			HTTP::redirect('/feedback');
 		}
 		
 		$reply_list = DB::select('feedback_reply.id','feedback_reply.created_at','feedback_reply.content',array('users.realname', 'teacher'),array('students.realname','student'))
