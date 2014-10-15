@@ -5,6 +5,7 @@ class Controller_Task extends Controller_Base {
 	public function action_index()
 	{		
 		try {
+			$offset = ($this->pagenav->page > 0) ? ($this->pagenav->page - 1) : 0;
 			$items = DB::select('tasks.id','tasks.title','tasks.date_str',array('courses.name', 'class'))
 				->from('tasks')
 				->join('students_courses')
@@ -15,7 +16,7 @@ class Controller_Task extends Controller_Base {
 				->where('tasks.agency_id', '=', $this->auth->agency_id)
 				->where('tasks.status', '=', STATUS_ENABLED)
 				->order_by('tasks.id', 'DESC')
-				->offset($this->pagenav->page)
+				->offset($offset)
 				->limit(1)
 				->execute();
 			

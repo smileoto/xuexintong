@@ -4,13 +4,14 @@ class Controller_Top extends Controller_Base {
 
 	public function action_index()
 	{		
-		try {		
+		try {
+			$offset = ($this->pagenav->page > 0) ? ($this->pagenav->page - 1) : 0;
 			$items = DB::select('tops.*')
 				->from('tops')
 				->where('tops.agency_id', '=',  $this->auth->agency_id)
 				->where('tops.status', '=', STATUS_ENABLED)
 				->order_by('tops.id', 'DESC')
-				->offset($this->pagenav->page)
+				->offset($offset)
 				->limit(1)
 				->execute();
 			
