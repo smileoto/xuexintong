@@ -120,13 +120,13 @@ class Controller_Works extends Controller_Base {
 		
 		$data['status'] = STATUS_NORMAL;
 		
-		$id = intval($this->request->query('id'));
+		$id = intval($this->request->post('id'));
 		try {
 			if ( $id ) {
-				DB::update('works')
+				$rows = DB::update('works')
 					->set($data)
 					->where('agency_id', '=', $this->auth->agency_id)
-					->where('id', '=', $works_id)
+					->where('id', '=', $id)
 					->execute();
 			} else {
 				$data['created_at'] = date('Y-m-d H:i:s');

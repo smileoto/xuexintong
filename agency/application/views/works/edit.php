@@ -33,6 +33,7 @@
 					
 						<form method="post" id="data-form" action="<?php echo URL::base(NULL, true)?>works/save/">
 						<input type="hidden" name="id" value="<?php echo $item['id']?>">
+						<input type="hidden" name="student_id" value="<?php echo $item['student_id']?>">
 						<div class="content-inner">
 							<div class="navbar-top">
 								<a href="<?php echo URL::base(NULL, TRUE)?>works/list/">学生作品</a>
@@ -53,7 +54,7 @@
 									标题：
 									</div>
 									<div class="con-info"><i>(字数必须在16个字符内)</i>
-									<input type="text" class="data-field" id="title" value="<?php echo $item['title']?>" />
+									<input type="text" name="title" id="title" value="<?php echo $item['title']?>" />
 									</div>
                                 </li>
                                 <li>
@@ -61,12 +62,12 @@
 									老师点评：
 									</div>
 									<div class="con-info">
-									<textarea cols="50" rows="5" class="data-field" id="comment"><?php echo $item['remark']?></textarea>
+									<textarea cols="50" rows="5" name="comment" id="comment"><?php echo $item['remark']?></textarea>
 									</div>
                                 </li>
                                 <li>
                                 	<div class="table-cell">
-									<textarea name="content"  class="data-field <?php echo $xheditor_config?>" id="content"><?php echo $item['content']?></textarea>
+									<textarea name="content" class="<?php echo $xheditor_config?>" id="content"><?php echo $item['content']?></textarea>
 									</div>
                                 </li>
                                 <li>

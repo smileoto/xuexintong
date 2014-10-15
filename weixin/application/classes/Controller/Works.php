@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class Controller_Works extends Controller_Auth {
+class Controller_Works extends Controller_Base {
 	
 	public function action_index() 
 	{
@@ -52,7 +52,7 @@ class Controller_Works extends Controller_Auth {
 			if ( empty($items) ) {
 				HTTP::redirect('works/list');
 			}
-		
+
 			DB::update('works')
 				->set( array( 'read_count' => $items[0]['read_count']+1 ) )
 				->where('agency_id', '=', $this->auth->agency_id)

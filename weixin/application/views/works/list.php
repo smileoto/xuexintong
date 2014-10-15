@@ -21,7 +21,7 @@
 		            <div class="mui-slider-item" style="display: none;">
 		            </div>
 		            <div class="mui-slider-item">
-		                <a href="works-detail.html">
+		                <a href="#">
 		                    <img src="images/shuijiao.jpg">
 		                    <p class="mui-slider-title">想要一间这样的木屋，静静的喝咖啡</p>
 		                </a>
@@ -47,7 +47,7 @@
 							</div>
 						</a>
 					</li>
-					<?php endfor?>
+					<?php endforeach?>
 				</ul>
 			</div>
 			<?php endif?>
