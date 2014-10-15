@@ -103,7 +103,7 @@ $(function(){
 	
 	$('#btnSearchStudent_Pop').click(function(){
 		// todo: check params
-		var url = '<?php echo URL::base(NULL, TRUE)?>student/search/?size=4';
+		var url = '<?php echo URL::base(NULL, TRUE)?>student/select/?size=4';
 		$('.search-field').each(function(){
 			var key = $(this).attr('id');
 			var val = $(this).val();
@@ -124,6 +124,9 @@ $(function(){
 		self.attr('link', href);
 		self.click(function(){
 			var url = $(this).attr('link');
+			if ( url == '#' ) {
+				return false;
+			}
 			$.get(url, {}, function (html) {
 				$('#cntSelector').html(html);
 				$('.theme-popover-mask').fadeIn(100);
@@ -131,6 +134,9 @@ $(function(){
 			});
 		});
 	});
+	
+	$('#pagenav_goto').remove();
+	$('#btnGotoPage').remove();
 });
 </script>
 		
