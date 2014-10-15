@@ -71,6 +71,8 @@ class Controller_Show extends Controller_Base {
 			if ( $id ) {
 				$rows = DB::update('images')
 					->set($data)
+					->where('agency_id', '=', $this->auth->agency_id)
+					->where('id', '=', $id)
 					->execute();
 			} else {
 				$data['created_at'] = date('Y-m-d H:i:s');
