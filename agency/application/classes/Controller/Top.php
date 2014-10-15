@@ -130,7 +130,6 @@ class Controller_Top extends Controller_Base {
 	public function action_save()
 	{
 		$data = array();
-		$data['title']     = strval($this->request->post('title'));
 		$data['begin_str'] = strval($this->request->post('begin'));
 		$data['end_str']   = strval($this->request->post('end'));
 		
