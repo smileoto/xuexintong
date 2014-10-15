@@ -63,6 +63,12 @@
 										<?php echo $v['reason']?>
 									</div>
                                 </li>
+                                <li style="height:30xp; line-height:30px; height:30px">学生头像：</li>
+                                <li style="background:#dddddd; width:500px; padding:10px;border:1px dashed #a5a5a5; margin-top:-30px; margin-left:80px;">
+									<div style="float:left;width:100%">
+									<?php if ($v['avatar']) echo '<img src="',$v['avatar'],'" width="150">'?>
+									</div>
+                                </li>
 								<?php endforeach?>
 								
                         		<li>

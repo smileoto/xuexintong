@@ -46,7 +46,7 @@
 					展示
 
 				</a>
-				<a href="<?PHP echo URL::base(NULL, TRUE)?>agency/contacts/" class="mui-control-item">
+				<a href="<?PHP echo URL::base(NULL, TRUE)?>agency/contact/" class="mui-control-item">
 
 					联系
 
