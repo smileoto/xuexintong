@@ -19,18 +19,18 @@
 				<div class="title-img">
 					<img src="<?PHP echo URL::base()?>images/jingying.jpg" alt="" />
 				</div>
-				<p><?php echo $item['begin_t'],' 到 ',$item['end_t']?></p>
+				<p><?php echo $item['begin_str'],' 到 ',$item['end_str']?></p>
 			</div>
 			<div class="mui-content-padded">
 				<ul class="mui-pager">
 					<li class="mui-previous">
-						<a href="<?php echo URL::base(NULL, TRUE),'top?cur=',$page + 1?>">
+						<a href="<?php echo URL::base(NULL, TRUE),'top?page=',$page + 1?>">
 							<span class="mui-icon mui-icon-left-nav"></span>
 							上一周榜单
 						</a>
 					</li>
 					<li class="mui-next">
-						<a href="<?php echo URL::base(NULL, TRUE),'top?cur=',$page - 1?>">
+						<a href="<?php echo URL::base(NULL, TRUE),'top?page=',$page - 1?>">
 							下一周榜单 <span class="mui-icon mui-icon-right-nav"></span>
 						</a>
 					</li>
