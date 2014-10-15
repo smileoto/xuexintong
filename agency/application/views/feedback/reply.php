@@ -28,7 +28,7 @@
 					<div class="content-box">
 						<div class="content-inner">
 							<div class="navbar-top">
-								<a href="<?php echo URL::base(NULL, TRUE)?>feedback/topics/?from=student">反馈列表</a>
+								<a href="<?php echo URL::base(NULL, TRUE)?>feedback/list/">反馈列表</a>
 								<a class="active">回复反馈</a>
 							</div>
 						<div class="accountSettings-box">

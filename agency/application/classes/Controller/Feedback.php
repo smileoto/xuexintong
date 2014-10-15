@@ -89,7 +89,7 @@ class Controller_Feedback extends Controller_Base {
 	
 	public function action_reply()
 	{
-		$id = $this->request->query('id');
+		$id = $this->request->query('feedback_id');
 					
 		$items = DB::select('feedbacks.*', array('students.realname', 'student'), array('students.id', 'student_id'))
 			->from('feedbacks')
