@@ -14,7 +14,7 @@ class Controller_Top extends Controller_Base {
 				->limit(1)
 				->execute();
 			
-			$items = $items->count() ? $items->as_array() : array(array('id'=>0));
+			$items = $items->count() ? $items->as_array() : array(array('id' => 0, 'begin_str' => '--', 'end_str' => '--' ));
 			$item  = $items[0];
 			
 			$students = DB::select('tops_students.*','students.*',array('schools.name', 'school'),array('grades.name', 'grade'))
