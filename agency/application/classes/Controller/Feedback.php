@@ -108,7 +108,7 @@ class Controller_Feedback extends Controller_Base {
 			->join('students')
 			->on('feedback_reply.student_id', '=', 'students.id')
 			->join('users')
-			->on('feedback_reply.teacher_id', '=', 'users.id')
+			->on('feedback_reply.created_by', '=', 'users.id')
 			->where('users.agency_id', '=', $this->auth->agency_id)
 			->where('feedback_id', '=', $id)
 			->execute()
