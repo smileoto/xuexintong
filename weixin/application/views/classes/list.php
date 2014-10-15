@@ -79,3 +79,11 @@
 </html>
 <script src="<?PHP echo URL::base()?>js/jquery-1.4.4.min.js" type="text/javascript" charset="utf-8"></script>
 <script src="<?PHP echo URL::base()?>js/setheight.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" charset="utf-8">
+$(function () {
+	$('#entity').change(function () {
+		var id = $(this).val();
+		window.location.href = window.location.href + '?entity_id=' + id;
+	});
+});
+</script>

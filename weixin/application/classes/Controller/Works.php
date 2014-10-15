@@ -16,7 +16,7 @@ class Controller_Works extends Controller_Auth {
 				->where('works.agency_id', '=', $this->auth->agency_id)
 				->where('works.status', '=', STATUS_ENABLED)
 				->order_by('works.id', 'DESC')
-				->offset($this->pagenav->page)
+				->offset($this->pagenav->offset)
 				->limit($this->pagenav->size)
 				->execute()
 				->as_array();
