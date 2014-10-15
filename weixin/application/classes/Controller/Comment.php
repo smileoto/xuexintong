@@ -1,13 +1,14 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class Controller_Feedback extends Controller_Base {
+class Controller_Comment extends Controller_Base {
 	
-	public function action_list()
+	public function action_index()
 	{
-		$items = DB::select('id', 'title', 'created_at')
+		$items = DB::select('*')
 			->from('comments')
 			->where('agency_id',  '=', $this->agency->get('id'))
 			->where('student_id', '=', $this->auth->student_id)
+			->order_by('id', 'DESC')
 			->offset($this->pagenav->offset)
 			->limit($this->pagenav->size)
 			->execute()

@@ -2,12 +2,13 @@
 
 class Controller_Feedback extends Controller_Base {
 	
-	public function action_list()
+	public function action_index()
 	{
 		$items = DB::select('id', 'title', 'created_at', 'reply')
 			->from('feedbacks')
 			->where('agency_id',  '=', $this->agency->get('id'))
 			->where('created_by', '=', $this->auth->student_id)
+			->order_by('id', 'DESC')
 			->offset($this->pagenav->offset)
 			->limit($this->pagenav->size)
 			->execute()
@@ -74,7 +75,7 @@ class Controller_Feedback extends Controller_Base {
 			->as_array();
 		
 		$page = View::factory('feedback/reply')
-			->set('items', $items[0])
+			->set('item', $items[0])
 			->set('reply_list', $reply_list);
 			
 		$this->output($page);
