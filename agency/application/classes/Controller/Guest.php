@@ -197,7 +197,7 @@ class Controller_Guest extends Controller_Base {
 				->execute();
 			
 			$data['status'] = GUEST_STATUS_ENABLED;
-			$data['student_id'] = $student_id;
+			//$data['student_id'] = $student_id;
 			$rows = DB::update('guests')
 				->set($data)
 				->where('agency_id', '=', $this->auth->agency_id)
@@ -230,8 +230,8 @@ class Controller_Guest extends Controller_Base {
 				$insert->execute();
 			}
 			
-			//HTTP::redirect('/student/notify/?id='.$student_id);
-			HTTP::redirect('/student/list/');
+			HTTP::redirect('/student/notify/?id='.$student_id);
+			//HTTP::redirect('/student/list/');
 			
 		} catch (Database_Exception $e) {
 			$this->response->body( $e->getMessage() );
