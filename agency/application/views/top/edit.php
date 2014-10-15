@@ -121,6 +121,7 @@
 		<?php $timestamp = time();?>
 		$(function() {
 			var upload_dir = '<?php echo $upload_dir?>';
+			var base_url = '<?php echo URL::base("http", false)?>';
 			
 			$('#file_upload').uploadify({
 				'formData'     : {
@@ -130,7 +131,7 @@
 				'swf'      : '<?PHP echo URL::base()?>swf/uploadify.swf',
 				'uploader' : '<?PHP echo URL::base()?>uploadify.php?sid=<?php echo $session_id?>',
 				'onUploadSuccess' : function(file, data, response) {
-					var img = upload_dir + '/' + file.name;
+					var img = base_url + upload_dir + '/' + file.name;
 					$('#img_container').html('<img src="' + img + '" width="150">');
 					$('#img_url').val(img);
 				}
