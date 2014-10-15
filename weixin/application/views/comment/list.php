@@ -22,8 +22,8 @@
 					<?php foreach ( $items as $v ) : ?>
 					<li>
 						<div class="editer">
-							<span><?php echo $v['teacher']?></span>
-							<p><?php echo $v['modified_by']?></p>
+							<span><?php echo $v['realname']?></span>
+							<p><?php echo $v['modified_at']?></p>
 						</div>
 						<div class="comm-con">
 							<?php echo $v['content']?>

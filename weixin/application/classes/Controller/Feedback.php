@@ -38,7 +38,7 @@ class Controller_Feedback extends Controller_Base {
 		$data['created_at'] = date('Y-m-d H:i:s');
 		
 		try {
-			DB::insert('feedback', array_keys($data))
+			DB::insert('feedbacks', array_keys($data))
 				->values($data)
 				->execute();	
 			HTTP::redirect('/feedback/list');
@@ -52,7 +52,7 @@ class Controller_Feedback extends Controller_Base {
 		$id = $this->request->query('id');
 		
 		$items = DB::select('feedbacks.*', 'students.realname')
-			->from('feedback')
+			->from('feedbacks')
 			->join('students')
 			->on('feedbacks.created_by', '=', 'students.id')
 			->where('feedbacks.agency_id', '=', $this->agency->get('id'))
