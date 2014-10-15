@@ -143,6 +143,10 @@ class Controller_Top extends Controller_Base {
 		$avatar = strval($this->request->post('avatar'));
 		$reason = $this->request->post('reason');
 		
+		if ( $avatar ) {
+			$avatar = URL::base('http', NULL) . $avatar;
+		}
+		
 		$new = false;
 		$id = intval($this->request->post('id'));
 		try {

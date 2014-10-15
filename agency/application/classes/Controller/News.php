@@ -96,6 +96,10 @@ class Controller_News extends Controller_Base {
 		
 		$data['status'] = STATUS_NORMAL;
 		
+		if ( $data['img'] ) {
+			$data['img'] = URL::base('http', NULL) . $data['img'];
+		}
+		
 		$id = intval($this->request->post('id'));
 		try {
 			if ( $id ) {				
